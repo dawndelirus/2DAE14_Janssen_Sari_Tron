@@ -1,4 +1,5 @@
 #pragma once
+#include "Transform.h"
 #include <memory>
 #include <vector>
 
@@ -13,7 +14,10 @@ namespace dae
 		void Render() const;
 
 		GameObject();
+		GameObject(float x, float y, float z);
+		GameObject(int x, int y, int z);
 		~GameObject() = default;
+
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
@@ -55,18 +59,35 @@ namespace dae
 			}
 		}
 
-		void SetParent(std::weak_ptr<GameObject> pParent);
+		/// <param name="pParent">If pParent is null, current parent will be unset and no new parent will be added</param>
+		void SetParent(std::weak_ptr<GameObject> parent, bool keepWorldPosition);
 		std::weak_ptr<GameObject> GetParent() const;
-		void RemoveParent();
 
 		size_t GetChildCount() const;
 		std::shared_ptr<GameObject> GetChildAt(size_t index) const;
-		void RemoveChild(size_t index);
-		void AddChild(std::shared_ptr<GameObject> child);
+
+		const glm::vec3& GetLocalPosition() const;
+		void SetLocalPosition(const glm::vec3& position);
+		void SetLocalPosition(float x, float y, float z);
+
+		const glm::vec3& GetWorldPosition();
+		void SetWorldPosition(const glm::vec3& position);
+		void SetWorldPosition(float x, float y, float z);
 
 	private:
+		void RemoveParent();
+		void AddChild(std::shared_ptr<GameObject> child);
+		void RemoveChildAt(size_t index);
+		std::shared_ptr<GameObject> GetThisGameObjectFromParent(std::weak_ptr<GameObject> parent);
+
+		void UpdateWorldPosition();
+
 		std::vector<std::shared_ptr<BaseComponent>> m_ComponentVec;
 		std::vector<std::shared_ptr<GameObject>> m_ChildrenVec;
 		std::weak_ptr<GameObject> m_Parent;
+
+		dae::Transform m_LocalTransform;
+		dae::Transform m_WorldTransform;
+		bool m_IsTransformDirty;
 	};
 }

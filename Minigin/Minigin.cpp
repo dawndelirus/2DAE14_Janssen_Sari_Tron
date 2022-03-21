@@ -65,31 +65,23 @@ void dae::Minigin::LoadGame() const
 	auto soBg = std::make_shared<GameObject>();
 	auto textureBg = std::make_shared<Texture2DComponent>(soBg, "background.jpg");
 	soBg->AddComponent(textureBg);
-	auto transformBg = std::make_shared<TransformComponent>(soBg, 0.f, 0.f);
-	soBg->AddComponent(transformBg);
 	scene.Add(soBg);
 
-	auto soLogo = std::make_shared<GameObject>();
+	auto soLogo = std::make_shared<GameObject>(216, 180);
 	auto textureLogo = std::make_shared<Texture2DComponent>(soLogo, "logo.png");
 	soLogo->AddComponent(textureLogo);
-	auto transformLogo = std::make_shared<TransformComponent>(soLogo, 216, 180);
-	soLogo->AddComponent(transformLogo);
 	scene.Add(soLogo);
 
 
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 
-	auto soAssignment = std::make_shared<GameObject>();
-	auto transformAssignment = std::make_shared<dae::TransformComponent>(soAssignment, 80, 20);
-	soAssignment->AddComponent(transformAssignment);
+	auto soAssignment = std::make_shared<GameObject>(80, 20);
 	auto textAssignment = std::make_shared<dae::TextComponent>(soAssignment, "Programming 4 Assignment", font, glm::vec3(255.f, 255.f, 255.f));
 	soAssignment->AddComponent(textAssignment);
 	scene.Add(soAssignment);
 
 
 	auto soFPS = std::make_shared<GameObject>();
-	auto transformFPS = std::make_shared<dae::TransformComponent>(soFPS, 0,0);
-	soFPS->AddComponent(transformFPS);
 	auto textFPS = std::make_shared<dae::TextComponent>(soFPS, "0", font, glm::vec3(255.f, 255.f, 255.f));
 	soFPS->AddComponent(textFPS);
 	auto FPS = std::make_shared<dae::FPSComponent>(soFPS, textFPS);
