@@ -1,0 +1,9 @@
+#pragma once
+#include "TransformComponent.h"
+#include "TextComponent.h"
+#include "Texture2DComponent.h"
+#include "FPSComponent.h"
+#include "ImGuiComponent.h"
+#include "PlotIntComponent.h"
+#include "PeterPepperComponent.h"
+#include "HealthComponent.h"

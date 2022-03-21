@@ -8,12 +8,7 @@
 #include "Scene.h"
 #include "Time.h"
 
-#include "TransformComponent.h"
-#include "TextComponent.h"
-#include "Texture2DComponent.h"
-#include "FPSComponent.h"
-#include "ImGuiComponent.h"
-#include "PlotIntComponent.h"
+#include "ComponentIncludes.h"
 
 using namespace std;
 
@@ -72,7 +67,6 @@ void dae::Minigin::LoadGame() const
 	soLogo->AddComponent(textureLogo);
 	scene.Add(soLogo);
 
-
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 
 	auto soAssignment = std::make_shared<GameObject>(80, 20);
@@ -88,14 +82,9 @@ void dae::Minigin::LoadGame() const
 	soFPS->AddComponent(FPS);
 	scene.Add(soFPS);
 
-	auto soIMGUI = std::make_shared<GameObject>();
-	auto plotToInt = std::make_shared<dae::PlotIntComponent>(soIMGUI);
-	soIMGUI->AddComponent(plotToInt);
-	auto plotToGO = std::make_shared<dae::PlotGameObjectComponent>(soIMGUI);
-	soIMGUI->AddComponent(plotToGO);
-	auto ImGui = std::make_shared<dae::ImGuiComponent>(soIMGUI, plotToInt, plotToGO, m_Window);
-	soIMGUI->AddComponent(ImGui);
-	scene.Add(soIMGUI);
+	auto peterPepper = std::make_shared<GameObject>();
+	peterPepper->AddComponent(std::make_shared<PeterPepperComponent>(peterPepper));
+	peterPepper->AddComponent(std::make_shared<HealthComponent>(peterPepper, 5));
 }
 
 void dae::Minigin::Cleanup()
