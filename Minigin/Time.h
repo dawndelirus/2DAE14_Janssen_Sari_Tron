@@ -5,13 +5,14 @@
 class Time final : public dae::Singleton<Time>
 {
 public:
-	Time() = default;
-	~Time() = default;
+	static float GetDeltaTime()
+	{
+		return m_DeltaTime;
+	}
 
-	float GetDeltaTime() const;
 	void SetDeltaTime(float deltaTime);
 
 private:
-	float m_DeltaTime = 0.f;
+	static float m_DeltaTime;
 };
 

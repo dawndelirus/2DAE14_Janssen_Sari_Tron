@@ -22,6 +22,9 @@
     <Filter Include="imgui">
       <UniqueIdentifier>{2c2d6fd2-6e39-4069-82d6-4bffe313ff6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Helpers">
+      <UniqueIdentifier>{07a5f600-d7a6-4b86-921c-011ffabd0164}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MiniginPCH.h">
@@ -129,6 +132,12 @@
     <ClInclude Include="ComponentIncludes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="XBox360Controller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InputHelpers.h">
+      <Filter>Header Files\Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -226,6 +235,9 @@
     </ClCompile>
     <ClCompile Include="HealthComponent.cpp">
       <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="XBox360Controller.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

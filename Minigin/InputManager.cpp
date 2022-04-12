@@ -4,8 +4,12 @@
 
 bool dae::InputManager::ProcessInput()
 {
-	ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
-	XInputGetState(0, &m_CurrentState);
+	//for (size_t i{}; i < m_Controllers.size(); ++i)
+	//{
+	//	m_Controllers[i]->Update();
+	//}
+
+	m_Controller->Update();
 
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
@@ -18,25 +22,54 @@ bool dae::InputManager::ProcessInput()
 		if (e.type == SDL_MOUSEBUTTONDOWN) {
 			
 		}
+		
 		ImGui_ImplSDL2_ProcessEvent(&e);
 	}
 
 	return true;
 }
 
-bool dae::InputManager::IsPressed(ControllerButton button) const
+void dae::InputManager::AddInput(InputAction action)
 {
-	switch (button)
-	{
-	case ControllerButton::ButtonA:
-		return m_CurrentState.Gamepad.wButtons & XINPUT_GAMEPAD_A;
-	case ControllerButton::ButtonB:
-		return m_CurrentState.Gamepad.wButtons & XINPUT_GAMEPAD_B;
-	case ControllerButton::ButtonX:
-		return m_CurrentState.Gamepad.wButtons & XINPUT_GAMEPAD_X;
-	case ControllerButton::ButtonY:
-		return m_CurrentState.Gamepad.wButtons & XINPUT_GAMEPAD_Y;
-	default: return false;
-	}
+	//if (action.playerIndex >= m_Controllers.size())
+	//{
+	//	m_Controllers.emplace(std::make_pair(action.playerIndex, std::make_unique<XBox360Controller>(action.playerIndex)));
+	//}
+	//m_Controllers[action.playerIndex]->AddInput(action.controllerButtonCode, action.command, action.buttonState);
+
+	m_Controller->AddInput(action.controllerButtonCode, action.command, action.buttonState, action.playerIndex);
 }
 
+//void dae::InputManager::RemoveInput(int actionId)
+//{
+//	for (auto& actions : m_InputActions)
+//	{
+//		if (actions.first != actionId)
+//		{
+//			continue;
+//		}
+//		m_Controller->RemoveInput(actions.second.actionID);
+//		m_InputActions.erase(actionId);
+//	}
+//}
+
+bool dae::InputManager::IsControllerButton(ButtonState state, ControllerButton button, int playerIndex)
+{
+	switch (state)
+	{
+	case dae::ButtonState::pressed:
+		return m_Controller->IsPressed(button, playerIndex);
+		//m_Controllers.at(playerIndex)->IsPressed(button);
+		break;
+	case dae::ButtonState::downThisFrame:
+		return m_Controller->IsDownThisFrame(button, playerIndex);
+		//m_Controllers.at(playerIndex)->IsDownThisFrame(button);
+		break;
+	case dae::ButtonState::releasedThisFrame:
+		return m_Controller->IsReleasedThisFrame(button, playerIndex);
+		//m_Controllers.at(playerIndex)->IsReleasedThisFrame(button);
+		break;
+	}
+
+	return false;
+}

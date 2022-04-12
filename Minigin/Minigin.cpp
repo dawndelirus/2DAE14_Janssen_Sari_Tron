@@ -55,21 +55,21 @@ void dae::Minigin::Initialize()
  */
 void dae::Minigin::LoadGame() const
 {
-	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
+	Scene& scene = SceneManager::GetInstance().CreateScene("Demo");
 
 	auto soBg = std::make_shared<GameObject>();
 	auto textureBg = std::make_shared<Texture2DComponent>(soBg, "background.jpg");
 	soBg->AddComponent(textureBg);
 	scene.Add(soBg);
 
-	auto soLogo = std::make_shared<GameObject>(216, 180);
+	auto soLogo = std::make_shared<GameObject>(216.f, 180.f, 0.f);
 	auto textureLogo = std::make_shared<Texture2DComponent>(soLogo, "logo.png");
 	soLogo->AddComponent(textureLogo);
 	scene.Add(soLogo);
 
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 
-	auto soAssignment = std::make_shared<GameObject>(80, 20);
+	auto soAssignment = std::make_shared<GameObject>(80, 20, 0);
 	auto textAssignment = std::make_shared<dae::TextComponent>(soAssignment, "Programming 4 Assignment", font, glm::vec3(255.f, 255.f, 255.f));
 	soAssignment->AddComponent(textAssignment);
 	scene.Add(soAssignment);
@@ -82,9 +82,9 @@ void dae::Minigin::LoadGame() const
 	soFPS->AddComponent(FPS);
 	scene.Add(soFPS);
 
-	auto peterPepper = std::make_shared<GameObject>();
-	peterPepper->AddComponent(std::make_shared<PeterPepperComponent>(peterPepper));
-	peterPepper->AddComponent(std::make_shared<HealthComponent>(peterPepper, 5));
+	//auto peterPepper = std::make_shared<GameObject>();
+	//peterPepper->AddComponent(std::make_shared<PeterPepperComponent>(peterPepper));
+	//peterPepper->AddComponent(std::make_shared<HealthComponent>(peterPepper, 5));
 }
 
 void dae::Minigin::Cleanup()

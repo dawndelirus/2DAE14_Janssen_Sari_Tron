@@ -16,7 +16,7 @@ void Scene::Add(const std::shared_ptr<GameObject>& object)
 }
 
 // ===========
-// TODO: Check if object needs to be deleted
+// TODO: SCENE: Check if object needs to be deleted
 // Update all objects
 // Remove object from list
 // Delete object 

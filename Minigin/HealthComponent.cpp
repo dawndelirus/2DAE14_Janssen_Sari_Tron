@@ -40,4 +40,5 @@ int HealthComponent::GetCurrentHealth() const
 
 void HealthComponent::Die()
 {
+	std::cout << "AAAh I died!";
 }
