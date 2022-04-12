@@ -103,14 +103,14 @@ public:
 	}
 
 private:
-	std::array<XINPUT_STATE, XUSER_MAX_COUNT> m_CurrentState;
-	std::array<XINPUT_STATE, XUSER_MAX_COUNT> m_PreviousState;
+	std::array<XINPUT_STATE, XUSER_MAX_COUNT> m_CurrentState{};
+	std::array<XINPUT_STATE, XUSER_MAX_COUNT> m_PreviousState{};
 
-	std::array<WORD, XUSER_MAX_COUNT> m_ButtonsPressedThisFrame;
-	std::array<WORD, XUSER_MAX_COUNT> m_ButtonsReleasedThisFrame;
+	std::array<WORD, XUSER_MAX_COUNT> m_ButtonsPressedThisFrame{};
+	std::array<WORD, XUSER_MAX_COUNT> m_ButtonsReleasedThisFrame{};
 
-	std::vector<int> m_ControllerIdx;
-	std::vector<bool> m_IsControllerConnected;
+	std::vector<int> m_ControllerIdx{};
+	std::vector<bool> m_IsControllerConnected{};
 	float m_TotalTime{ 1.f };
 	float m_CurrentTime{};
 
@@ -214,9 +214,19 @@ void XBox360Controller::AddInput(ControllerButton button, std::shared_ptr<Comman
 	}
 }
 
-//void XBox360Controller::RemoveInput(int actionId)
-//{
-//	
-//
-//	//m_CommandsWhenDown
-//}
+void dae::XBox360Controller::RemoveInput(ControllerButton button, ButtonState state, int playerIndex)
+{
+	switch (state)
+	{
+	case ButtonState::pressed:
+		m_CommandsPressed.erase(std::make_pair(playerIndex, button));
+		break;
+	case ButtonState::downThisFrame:
+		m_CommandsDown.erase(std::make_pair(playerIndex, button));
+		break;
+	case ButtonState::releasedThisFrame:
+		m_CommandsReleased.erase(std::make_pair(playerIndex, button));
+		break;
+	}
+}
+

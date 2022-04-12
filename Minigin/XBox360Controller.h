@@ -15,7 +15,7 @@ namespace dae
 
 		void Update();
 		void AddInput(ControllerButton button, std::shared_ptr<Command> command, ButtonState state, int playerIndex);
-		//void RemoveInput(XBox360ControllerButton button, ButtonState state);
+		void RemoveInput(ControllerButton button, ButtonState state, int playerIndex);
 
 		bool IsPressed(ControllerButton button, int playerIndex) const;
 		bool IsDownThisFrame(ControllerButton button, int playerIndex) const;

@@ -31,7 +31,6 @@ namespace dae
 
 	struct InputAction
 	{
-		int actionID{ -1 };
 		int playerIndex{ 0 };
 		ButtonState buttonState{ ButtonState::pressed };
 		std::shared_ptr<Command> command;
