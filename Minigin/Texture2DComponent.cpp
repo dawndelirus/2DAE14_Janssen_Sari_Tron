@@ -15,7 +15,7 @@ dae::Texture2DComponent::Texture2DComponent(std::shared_ptr<GameObject> gameObje
 
 void dae::Texture2DComponent::Render() const
 {
-	auto position = m_SceneObject.lock()->GetWorldPosition();
+	auto position = GetGameObject()->GetWorldPosition();
 	dae::Renderer::GetInstance().RenderTexture(*m_Texture, position.x, position.y);
 }
 

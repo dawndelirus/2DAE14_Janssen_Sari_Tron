@@ -8,7 +8,7 @@ namespace dae
 	{
 	public:
 		BaseComponent(std::weak_ptr<GameObject> sceneObject)
-			: m_SceneObject(sceneObject) {}
+			: m_GameObject(sceneObject) {}
 		BaseComponent() = default;
 		virtual ~BaseComponent() = default;
 
@@ -21,7 +21,13 @@ namespace dae
 		virtual void Render() const = 0;
 
 	protected:
-		std::weak_ptr<GameObject> m_SceneObject;
+		std::shared_ptr<GameObject> GetGameObject() const
+		{
+			return m_GameObject.lock();
+		}
+
+	private:
+		std::weak_ptr<GameObject> m_GameObject;
 	};
 }
 

@@ -5,3 +5,11 @@ PeterPepperComponent::PeterPepperComponent(std::shared_ptr<dae::GameObject> game
 	: BaseComponent(gameObject)
 {
 }
+
+void PeterPepperComponent::Update()
+{
+}
+
+void PeterPepperComponent::Render() const
+{
+}

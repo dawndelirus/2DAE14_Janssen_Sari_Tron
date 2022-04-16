@@ -7,3 +7,6 @@
 #include "PlotIntComponent.h"
 #include "PeterPepperComponent.h"
 #include "HealthComponent.h"
+#include "TakeDamageCommand.h"
+#include "HealthComponent.h"
+#include "HealthDisplayComponent.h"

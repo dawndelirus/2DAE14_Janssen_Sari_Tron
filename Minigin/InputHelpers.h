@@ -31,6 +31,13 @@ namespace dae
 
 	struct InputAction
 	{
+		InputAction(int idx, ButtonState state, std::shared_ptr<Command> command, ControllerButton button)
+			: playerIndex{idx}
+			, buttonState{state}
+			, command{command}
+			, controllerButtonCode{button}
+		{}
+
 		int playerIndex{ 0 };
 		ButtonState buttonState{ ButtonState::pressed };
 		std::shared_ptr<Command> command;

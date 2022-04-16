@@ -170,7 +170,7 @@ void XBox360Controller::Update()
 {
 	m_pImpl->Update();
 
-	for (auto& command : m_CommandsDown)
+	for (auto& command : m_CommandsPressed)
 	{
 		const PlayerButton& playerButton = command.first;
 		if (IsPressed(playerButton.second, playerButton.first))

@@ -75,16 +75,33 @@ void dae::Minigin::LoadGame() const
 	scene.Add(soAssignment);
 
 
-	auto soFPS = std::make_shared<GameObject>();
-	auto textFPS = std::make_shared<dae::TextComponent>(soFPS, "0", font, glm::vec3(255.f, 255.f, 255.f));
-	soFPS->AddComponent(textFPS);
-	auto FPS = std::make_shared<dae::FPSComponent>(soFPS, textFPS);
-	soFPS->AddComponent(FPS);
-	scene.Add(soFPS);
+	//auto soFPS = std::make_shared<GameObject>();
+	//auto textFPS = std::make_shared<dae::TextComponent>(soFPS, "0", font, glm::vec3(255.f, 255.f, 255.f));
+	//soFPS->AddComponent(textFPS);
+	//auto FPS = std::make_shared<dae::FPSComponent>(soFPS, textFPS);
+	//soFPS->AddComponent(FPS);
+	//scene.Add(soFPS);
 
-	//auto peterPepper = std::make_shared<GameObject>();
-	//peterPepper->AddComponent(std::make_shared<PeterPepperComponent>(peterPepper));
-	//peterPepper->AddComponent(std::make_shared<HealthComponent>(peterPepper, 5));
+	auto peterPepper = std::make_shared<GameObject>();
+	peterPepper->AddComponent(std::make_shared<PeterPepperComponent>(peterPepper));
+	auto healthComp = std::make_shared<HealthComponent>(peterPepper, 5);
+	peterPepper->AddComponent(healthComp);
+
+	auto& input = InputManager::GetInstance();
+	auto command = std::make_shared<TakeDamageCommand>(peterPepper);
+	input.AddInput(InputAction(0, ButtonState::downThisFrame, command, dae::ControllerButton::ButtonA));
+
+
+	auto goHealth = std::make_shared<GameObject>();
+	auto textHaelth = std::make_shared<dae::TextComponent>(goHealth, "0", font, glm::vec3(255.f, 255.f, 255.f));
+	goHealth->AddComponent(textHaelth);
+	auto healthDisplay = std::make_shared<HealthDisplayComponent>(peterPepper, textHaelth);
+	goHealth->AddComponent(healthDisplay);
+
+	healthComp->AddObserver(healthDisplay);
+
+	scene.Add(goHealth);
+
 }
 
 void dae::Minigin::Cleanup()

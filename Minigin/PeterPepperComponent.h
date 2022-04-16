@@ -1,14 +1,18 @@
 #pragma once
 #include "BaseComponent.h"
-#include "GameObject.h"
+#include "Subject.h"
 
-class PeterPepperComponent : public dae::BaseComponent
+class PeterPepperComponent final : public dae::BaseComponent
 {
 public:
 	PeterPepperComponent(std::shared_ptr<dae::GameObject> gameObject);
 	~PeterPepperComponent() = default;
 
-private:
+	virtual void Update();
+	virtual void Render() const;
 
+
+
+private:
 };
 
