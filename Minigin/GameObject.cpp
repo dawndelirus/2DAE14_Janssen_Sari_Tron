@@ -5,17 +5,22 @@
 using namespace dae;
 
 GameObject::GameObject(float x, float y, float z)
-	: m_ComponentVec{}
-	, m_ChildrenVec{}
-	, m_Parent{}
-	, m_LocalTransform{x, y, z}
-	, m_WorldTransform(x, y, z)
-	, m_IsTransformDirty{false}
+	: GameObject(glm::vec3(x, y, z))
 {
 }
 
 GameObject::GameObject(int x, int y, int z)
 	: GameObject(static_cast<float>(x), static_cast<float>(y), static_cast<float>(z))
+{
+}
+
+dae::GameObject::GameObject(const glm::vec3& pos)
+	: m_ComponentVec{}
+	, m_ChildrenVec{}
+	, m_Parent{}
+	, m_LocalTransform{ pos }
+	, m_WorldTransform{ pos }
+	, m_IsTransformDirty{ false }
 {
 }
 

@@ -10,7 +10,6 @@ public:
 
 	int GetCurrentHealth() const;
 	void TakeDamage(int amount);
-	void Heal(int amount);
 
 	virtual void Update() {};
 	virtual void Render() const {};

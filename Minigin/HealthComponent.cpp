@@ -19,23 +19,11 @@ void HealthComponent::TakeDamage(int amount)
 			m_CurrentHealth = 0;
 			Die();
 		}
-
-		std::cout << m_CurrentHealth << "\n";
-		Notify(GetGameObject(), Event::ActorTakeDamage);
-	}
-}
-
-void HealthComponent::Heal(int amount)
-{
-	if (amount >= 0 && m_CurrentHealth != m_MaxHealth)
-	{
-		m_CurrentHealth += amount;
-		if (m_CurrentHealth > m_MaxHealth)
+		else
 		{
-			m_CurrentHealth = m_MaxHealth;
-			Notify(GetGameObject(), Event::ActorTakeDamage);
 			std::cout << m_CurrentHealth << "\n";
 		}
+		Notify(GetGameObject(), Event::PlayerDied);
 	}
 }
 
@@ -46,6 +34,5 @@ int HealthComponent::GetCurrentHealth() const
 
 void HealthComponent::Die()
 {
-	std::cout << "AAAh I died!";
-	Notify(GetGameObject(), Event::ActorDied);
+	std::cout << "AAAh I died!\n";
 }

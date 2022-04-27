@@ -16,6 +16,7 @@ namespace dae
 		GameObject();
 		GameObject(float x, float y, float z);
 		GameObject(int x, int y, int z);
+		GameObject(const glm::vec3& pos);
 		~GameObject() = default;
 
 		GameObject(const GameObject& other) = delete;
@@ -24,12 +25,13 @@ namespace dae
 		GameObject& operator=(GameObject&& other) = delete;
 
 		template <typename T> 
-		void AddComponent(std::shared_ptr<T> pComponent)
+		std::shared_ptr<T> AddComponent(std::shared_ptr<T> pComponent)
 		{
 			if (GetComponent<T>() == nullptr)
 			{
 				m_ComponentVec.push_back(pComponent);
 			}
+			return pComponent;
 		}
 
 		template <typename T> 

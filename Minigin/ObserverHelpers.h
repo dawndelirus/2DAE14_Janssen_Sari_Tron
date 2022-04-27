@@ -2,8 +2,7 @@
 
 enum class Event
 {
-	ActorDied,
-	ActorTakeDamage,
+	PlayerDied,
 	SubjectDeleted,
 
 };
