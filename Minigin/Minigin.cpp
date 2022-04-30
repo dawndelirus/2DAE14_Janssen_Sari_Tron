@@ -80,16 +80,16 @@ void dae::Minigin::LoadGame() const
 	//soFPS->AddComponent(FPS);
 	//scene.Add(soFPS);
 	
-	CreatePlayer(scene, glm::vec3(0.f, 70.f, 0.f), glm::vec3(640.f / 3.f, 480.f / 2.f, 0.f), 0);
-	CreatePlayer(scene, glm::vec3(450.f, 70.f, 0.f), glm::vec3(640.f / 3.f * 2.f, 480.f / 2.f, 0.f), 1);
+	CreatePlayer(scene, 0.f, 640.f / 3.f, 0);
+	CreatePlayer(scene, 450.f, 640.f / 3.f * 2.f, 1);
 }
 
-void dae::Minigin::CreatePlayer(Scene& scene, const glm::vec3& healtPos, const glm::vec3& peterPos, int playerId) const
+void dae::Minigin::CreatePlayer(Scene& scene, float healtPosX, float peterPosX, int playerId) const
 {
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
 	
 	// Peter
-	auto peterObject = std::make_shared<GameObject>(peterPos);
+	auto peterObject = std::make_shared<GameObject>(glm::vec3(peterPosX, 480.f / 2.f, 0.f));
 	peterObject->AddComponent(std::make_shared<PeterPepperComponent>(peterObject));
 	auto peterHealthComp = peterObject->AddComponent(std::make_shared<HealthComponent>(peterObject, 3));
 	peterObject->AddComponent(std::make_shared<dae::Texture2DComponent>(peterObject, "PP_Idle.png"));
@@ -100,7 +100,7 @@ void dae::Minigin::CreatePlayer(Scene& scene, const glm::vec3& healtPos, const g
 	input.AddInput(InputAction(playerId, ButtonState::downThisFrame, damageCommand, dae::ControllerButton::ButtonA));
 
 	// Health
-	auto healthObject = std::make_shared<GameObject>(healtPos);
+	auto healthObject = std::make_shared<GameObject>(glm::vec3(healtPosX, 70.f, 0.f));
 	auto healthTextComp = std::make_shared<dae::TextComponent>(healthObject, "0", font, glm::vec3(255.f, 255.f, 255.f));
 	healthObject->AddComponent(healthTextComp);
 	auto healthDisplayComp = std::make_shared<HealthDisplayComponent>(healthObject, healthTextComp, peterHealthComp);
