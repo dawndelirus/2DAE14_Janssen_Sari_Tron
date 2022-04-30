@@ -1,5 +1,7 @@
 #pragma once
 #include "Singleton.h"
+#include <SDL.h>
+#undef main
 
 namespace dae
 {
@@ -9,7 +11,7 @@ namespace dae
 	 */
 	class Renderer final : public Singleton<Renderer>
 	{
-		SDL_Renderer* m_Renderer{};
+		SDL_Renderer* m_Renderer{}; // TODO: RENDERER: pimple sdl?
 		SDL_Window* m_Window{};
 		SDL_Color m_clearColor{};	
 	public:

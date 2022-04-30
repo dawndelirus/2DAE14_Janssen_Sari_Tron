@@ -41,7 +41,7 @@ namespace dae
 			{
 				if (typeid(*pComponentInVec) == typeid(T))
 				{
-					return static_pointer_cast<T>(pComponentInVec);
+					return std::static_pointer_cast<T>(pComponentInVec);
 				}
 			}
 			return nullptr;

@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+#include <functional>
 
 struct SDL_Window;
 namespace dae
@@ -10,9 +11,8 @@ namespace dae
 		void Initialize();
 		void LoadGame() const;
 		void Cleanup();
-		void Run();
+		void Run(std::function<void()> loadGame);
 	private:
-		void CreatePlayer(Scene& scene, float healtPosX, float peterPosX, int playerId) const;
 		static const int MsPerFrame = 16; //16 for 60 fps, 33 for 30 fps
 		SDL_Window* m_pWindow{};
 	};

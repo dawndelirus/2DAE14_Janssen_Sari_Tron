@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{67bfeb60-e3cc-4bd9-b315-97a4eb54f767}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Command">
+      <UniqueIdentifier>{11636ba2-397c-475c-9c76-5eb1b90d3877}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BurgerTime.cpp">
@@ -21,10 +27,40 @@
     <ClCompile Include="BurgerTimePCH.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FPSComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthDisplayComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="PeterPepperComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="TakeDamageCommand.cpp">
+      <Filter>Command</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerTimePCH.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FPSComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PeterPepperComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthDisplayComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TakeDamageCommand.h">
+      <Filter>Command</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

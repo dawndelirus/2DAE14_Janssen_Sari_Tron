@@ -66,7 +66,7 @@
     <ClInclude Include="Minigin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Time.h">
+    <ClInclude Include="Clock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TextComponent.h">
@@ -79,9 +79,6 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Texture2DComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="FPSComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui-1.87\imconfig.h">
@@ -120,12 +117,6 @@
     <ClInclude Include="PlotGameObjectComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="PeterPepperComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="HealthComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="ComponentIncludes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -138,19 +129,13 @@
     <ClInclude Include="ObserverHelpers.h">
       <Filter>Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="Subject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Command.h">
       <Filter>Commands</Filter>
     </ClInclude>
-    <ClInclude Include="TakeDamageCommand.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="HealthDisplayComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="Observer.h">
+      <Filter>Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
       <Filter>Observer</Filter>
     </ClInclude>
   </ItemGroup>
@@ -182,13 +167,10 @@
     <ClCompile Include="Font.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Minigin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Time.cpp">
+    <ClCompile Include="Clock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
@@ -221,22 +203,10 @@
     <ClCompile Include="XBox360Controller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Subject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BaseComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="FPSComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="HealthComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="ImGuiComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="PeterPepperComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="PlotGameObjectComponent.cpp">
@@ -254,11 +224,8 @@
     <ClCompile Include="Texture2DComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="TakeDamageCommand.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="HealthDisplayComponent.cpp">
-      <Filter>Components</Filter>
+    <ClCompile Include="Subject.cpp">
+      <Filter>Observer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

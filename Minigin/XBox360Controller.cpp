@@ -5,7 +5,7 @@
 #include <Xinput.h>
 #include <array>
 #include <vector>
-#include "Time.h"
+#include "Clock.h"
 
 #pragma comment(lib, "xinput.lib")
 
@@ -122,7 +122,7 @@ private:
 			return true;
 		}
 
-		m_CurrentTime += Time::GetDeltaTime();
+		m_CurrentTime += dae::Clock::GetDeltaTime();
 		return false;
 	}
 

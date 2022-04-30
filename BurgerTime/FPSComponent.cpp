@@ -1,11 +1,9 @@
-#include "MiniginPCH.h"
+#include "BurgerTimePCH.h"
 #include "FPSComponent.h"
-#include "Time.h"
+#include "Clock.h"
 #include "TextComponent.h"
 
-using namespace dae;
-
-FPSComponent::FPSComponent(std::shared_ptr<GameObject> gameObject, std::shared_ptr<TextComponent> textComponent)
+FPSComponent::FPSComponent(std::shared_ptr<dae::GameObject> gameObject, std::shared_ptr<dae::TextComponent> textComponent)
 	: BaseComponent(gameObject)
 	, m_TextComponent{textComponent}
 	, m_FPS{}
@@ -14,7 +12,7 @@ FPSComponent::FPSComponent(std::shared_ptr<GameObject> gameObject, std::shared_p
 
 void FPSComponent::Update()
 {
-	auto deltaTime = Time::GetInstance().GetDeltaTime();
+	auto deltaTime = dae::Clock::GetInstance().GetDeltaTime();
 	m_FPS = 1.f / deltaTime;
 	m_TextComponent.lock()->SetText(std::to_string(static_cast<int>(m_FPS)));
 }

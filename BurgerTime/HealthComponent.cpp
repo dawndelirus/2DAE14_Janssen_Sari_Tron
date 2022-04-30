@@ -1,4 +1,4 @@
-#include "MiniginPCH.h"
+#include "BurgerTimePCH.h"
 #include "HealthComponent.h"
 
 HealthComponent::HealthComponent(std::shared_ptr<dae::GameObject> gameObject, int maxHealth)
