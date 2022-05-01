@@ -18,10 +18,11 @@ public:
 	{
 		for (int i{}; i < XUSER_MAX_COUNT; ++i)
 		{
+			// reset input of all controllers
 			ZeroMemory(&m_PreviousState[i], sizeof(XINPUT_STATE));
 			ZeroMemory(&m_CurrentState[i], sizeof(XINPUT_STATE));
 
-			m_ControllerIdx.resize(XUSER_MAX_COUNT, -1);
+			// set all controllers to not connected
 			m_IsControllerConnected.resize(XUSER_MAX_COUNT, false);
 		}
 	}
@@ -32,15 +33,19 @@ public:
 
 		for (int cIdx{}; cIdx < XUSER_MAX_COUNT; ++cIdx)
 		{
+			// check if controller is connected
 			bool isConnected = m_IsControllerConnected[cIdx];
 			if (!hasTimePassed && !isConnected)
 			{
+				// every second, check all controller connections for added or removed controllers
 				continue;
 			}
 
+			// reset states
 			CopyMemory(&m_PreviousState[cIdx], &m_CurrentState[cIdx], sizeof(XINPUT_STATE));
 			ZeroMemory(&m_CurrentState[cIdx], sizeof(XINPUT_STATE));
 
+			// get current state of controller
 			XINPUT_STATE state;
 			DWORD result = XInputGetState(cIdx, &state);
 
@@ -48,9 +53,11 @@ public:
 			{
 				if (!isConnected)
 				{
+					// is connected but wasn't connected -> add
 					ConnectController(cIdx);
 				}
 
+				// set buttons released and pressed
 				CopyMemory(&m_CurrentState[cIdx], &state, sizeof(XINPUT_STATE));
 
 				auto buttonChanges = m_CurrentState[cIdx].Gamepad.wButtons ^ m_PreviousState[cIdx].Gamepad.wButtons;
@@ -62,9 +69,11 @@ public:
 			{
 				if (isConnected)
 				{
+					// was connected but not anymore -> remove
 					DisConnectController(cIdx);
 				}
 
+				// reset state of controller buttons
 				ZeroMemory(&m_CurrentState[cIdx], sizeof(XINPUT_STATE));
 				ZeroMemory(&m_PreviousState[cIdx], sizeof(XINPUT_STATE));
 				continue;
@@ -74,32 +83,29 @@ public:
 
 	bool IsPressed(ControllerButton button, int playerIdx) const
 	{
-		int cIdx = m_ControllerIdx[playerIdx];
-		if (cIdx == -1)
+		if (playerIdx == -1)
 		{
 			return false;
 		}
-		return m_CurrentState[cIdx].Gamepad.wButtons & static_cast<unsigned int>(button);
+		return m_CurrentState[playerIdx].Gamepad.wButtons & static_cast<unsigned int>(button);
 	}
 
 	bool IsDownThisFrame(ControllerButton button, int playerIdx) const
 	{
-		int cIdx = m_ControllerIdx[playerIdx];
-		if (cIdx == -1)
+		if (playerIdx == -1)
 		{
 			return false;
 		}
-		return m_ButtonsPressedThisFrame[cIdx] & static_cast<unsigned int>(button);
+		return m_ButtonsPressedThisFrame[playerIdx] & static_cast<unsigned int>(button);
 	}
 
 	bool IsReleasedThisFrame(ControllerButton button, int playerIdx) const
 	{
-		int cIdx = m_ControllerIdx[playerIdx];
-		if (cIdx == -1)
+		if (playerIdx == -1)
 		{
 			return false;
 		}
-		return m_ButtonsReleasedThisFrame[cIdx] & static_cast<unsigned int>(button);
+		return m_ButtonsReleasedThisFrame[playerIdx] & static_cast<unsigned int>(button);
 	}
 
 private:
@@ -109,7 +115,6 @@ private:
 	std::array<WORD, XUSER_MAX_COUNT> m_ButtonsPressedThisFrame{};
 	std::array<WORD, XUSER_MAX_COUNT> m_ButtonsReleasedThisFrame{};
 
-	std::vector<int> m_ControllerIdx{};
 	std::vector<bool> m_IsControllerConnected{};
 	float m_TotalTime{ 1.f };
 	float m_CurrentTime{};
@@ -128,15 +133,11 @@ private:
 
 	void ConnectController(int cIdx)
 	{
-		auto it = std::find(m_ControllerIdx.begin(), m_ControllerIdx.end(), -1);
-		m_ControllerIdx.at(it - m_ControllerIdx.begin()) = cIdx;
 		m_IsControllerConnected[cIdx] = true;
 	}
 
 	void DisConnectController(int cIdx)
 	{
-		auto it = std::find(m_ControllerIdx.begin(), m_ControllerIdx.end(), cIdx);
-		m_ControllerIdx.at(it - m_ControllerIdx.begin()) = -1;
 		m_IsControllerConnected[cIdx] = false;
 	}
 };
