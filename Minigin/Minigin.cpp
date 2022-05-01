@@ -8,6 +8,7 @@
 #include "Clock.h"
 
 #include "ComponentIncludes.h"
+#include "ServiceLocator.h"
 
 using namespace std;
 
@@ -73,12 +74,16 @@ void dae::Minigin::Run(std::function<void()> loadGame)
 	// tell the resource manager where he can find the game data
 	ResourceManager::GetInstance().Init("../Data/");
 
+	ServiceLocator::RegisterInputManager(new InputManager());
+	ServiceLocator::RegisterSceneManager(new SceneManager());
+	
+
 	loadGame();
 
 	{
 		auto& renderer = Renderer::GetInstance();
-		auto& sceneManager = SceneManager::GetInstance();
-		auto& input = InputManager::GetInstance();
+		auto& sceneManager = ServiceLocator::GetSceneManager();
+		auto& input = ServiceLocator::GetInputManager();
 		auto& time = dae::Clock::GetInstance();
 
 		bool doContinue = true;
@@ -101,4 +106,5 @@ void dae::Minigin::Run(std::function<void()> loadGame)
 	}
 
 	Cleanup();
+	ServiceLocator::Destroy();
 }

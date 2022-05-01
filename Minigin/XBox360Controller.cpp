@@ -4,7 +4,6 @@
 #include <Windows.h>
 #include <Xinput.h>
 #include <array>
-#include <vector>
 #include "Clock.h"
 
 #pragma comment(lib, "xinput.lib")
@@ -21,9 +20,9 @@ public:
 			// reset input of all controllers
 			ZeroMemory(&m_PreviousState[i], sizeof(XINPUT_STATE));
 			ZeroMemory(&m_CurrentState[i], sizeof(XINPUT_STATE));
-
+			
 			// set all controllers to not connected
-			m_IsControllerConnected.resize(XUSER_MAX_COUNT, false);
+			m_IsConnected[i] = false;
 		}
 	}
 
@@ -34,8 +33,7 @@ public:
 		for (int cIdx{}; cIdx < XUSER_MAX_COUNT; ++cIdx)
 		{
 			// check if controller is connected
-			bool isConnected = m_IsControllerConnected[cIdx];
-			if (!hasTimePassed && !isConnected)
+			if (!hasTimePassed && !m_IsConnected[cIdx])
 			{
 				// every second, check all controller connections for added or removed controllers
 				continue;
@@ -51,11 +49,7 @@ public:
 
 			if (result == ERROR_SUCCESS)
 			{
-				if (!isConnected)
-				{
-					// is connected but wasn't connected -> add
-					ConnectController(cIdx);
-				}
+				m_IsConnected[cIdx] = true;
 
 				// set buttons released and pressed
 				CopyMemory(&m_CurrentState[cIdx], &state, sizeof(XINPUT_STATE));
@@ -67,11 +61,7 @@ public:
 			}
 			else
 			{
-				if (isConnected)
-				{
-					// was connected but not anymore -> remove
-					DisConnectController(cIdx);
-				}
+				m_IsConnected[cIdx] = false;
 
 				// reset state of controller buttons
 				ZeroMemory(&m_CurrentState[cIdx], sizeof(XINPUT_STATE));
@@ -83,7 +73,11 @@ public:
 
 	bool IsPressed(ControllerButton button, int playerIdx) const
 	{
-		if (playerIdx == -1)
+		if (playerIdx >= XUSER_MAX_COUNT)
+		{
+			return false;
+		}
+		else if (!m_IsConnected[playerIdx])
 		{
 			return false;
 		}
@@ -92,7 +86,11 @@ public:
 
 	bool IsDownThisFrame(ControllerButton button, int playerIdx) const
 	{
-		if (playerIdx == -1)
+		if (playerIdx >= XUSER_MAX_COUNT)
+		{
+			return false;
+		}
+		else if (!m_IsConnected[playerIdx])
 		{
 			return false;
 		}
@@ -101,7 +99,11 @@ public:
 
 	bool IsReleasedThisFrame(ControllerButton button, int playerIdx) const
 	{
-		if (playerIdx == -1)
+		if (playerIdx >= XUSER_MAX_COUNT)
+		{
+			return false;
+		}
+		else if (!m_IsConnected[playerIdx])
 		{
 			return false;
 		}
@@ -115,7 +117,8 @@ private:
 	std::array<WORD, XUSER_MAX_COUNT> m_ButtonsPressedThisFrame{};
 	std::array<WORD, XUSER_MAX_COUNT> m_ButtonsReleasedThisFrame{};
 
-	std::vector<bool> m_IsControllerConnected{};
+	std::array<bool, XUSER_MAX_COUNT> m_IsConnected{};
+
 	float m_TotalTime{ 1.f };
 	float m_CurrentTime{};
 
@@ -129,16 +132,6 @@ private:
 
 		m_CurrentTime += dae::Clock::GetDeltaTime();
 		return false;
-	}
-
-	void ConnectController(int cIdx)
-	{
-		m_IsControllerConnected[cIdx] = true;
-	}
-
-	void DisConnectController(int cIdx)
-	{
-		m_IsControllerConnected[cIdx] = false;
 	}
 };
 

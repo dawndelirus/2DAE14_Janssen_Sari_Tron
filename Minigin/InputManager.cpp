@@ -39,7 +39,7 @@ void dae::InputManager::RemoveInput(ControllerButton button, ButtonState state, 
 	m_Controller->RemoveInput(button, state, playerIndex);
 }
 
-bool dae::InputManager::IsControllerButton(ButtonState state, ControllerButton button, int playerIndex)
+bool dae::InputManager::IsControllerButton(ButtonState state, ControllerButton button, int playerIndex) const
 {
 	switch (state)
 	{

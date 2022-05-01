@@ -1,8 +1,6 @@
 #pragma once
 #include "InputHelpers.h"
-
 #include <map>
-#include <vector>
 #include <memory>
 
 namespace dae

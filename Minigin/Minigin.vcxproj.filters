@@ -28,6 +28,9 @@
     <Filter Include="Observer">
       <UniqueIdentifier>{9cdf2706-3d23-4d9e-8349-0e2ba6e7a4dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sound">
+      <UniqueIdentifier>{8ca33f00-8d4c-4c07-a9d7-b08a6242305a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MiniginPCH.h">
@@ -141,6 +144,27 @@
     <ClInclude Include="ServiceLocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NullSoundSystem.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="SDLSoundSystem.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundSystemBase.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManagerBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NullInputManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManagerBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NullSceneManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -232,6 +256,9 @@
     </ClCompile>
     <ClCompile Include="ServiceLocator.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SDLSoundSystem.cpp">
+      <Filter>Sound</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -20,10 +20,10 @@
 #include "Texture2DComponent.h"
 
 #include "TakeDamageCommand.h"
-
+#include "ServiceLocator.h"
 #include <functional>
 
-void CreatePlayer(dae::Scene& scene, float healtPosX, float peterPosX, int playerId)
+void CreatePlayer(dae::Scene* scene, float healtPosX, float peterPosX, int playerId)
 {
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
 
@@ -34,7 +34,7 @@ void CreatePlayer(dae::Scene& scene, float healtPosX, float peterPosX, int playe
 	peterObject->AddComponent(std::make_shared<dae::Texture2DComponent>(peterObject, "PP_Idle.png"));
 
 	// Input
-	auto& input = dae::InputManager::GetInstance();
+	auto& input = dae::ServiceLocator::GetInputManager();
 	auto damageCommand = std::make_shared<TakeDamageCommand>(peterObject);
 	input.AddInput(dae::InputAction(playerId, dae::ButtonState::downThisFrame, damageCommand, dae::ControllerButton::ButtonA));
 
@@ -47,13 +47,13 @@ void CreatePlayer(dae::Scene& scene, float healtPosX, float peterPosX, int playe
 
 	peterHealthComp->AddObserver(healthDisplayComp);
 
-	scene.Add(healthObject);
-	scene.Add(peterObject);
+	scene->Add(healthObject);
+	scene->Add(peterObject);
 }
 
 void LoadGame()
 {
-	dae::Scene& scene = dae::SceneManager::GetInstance().CreateScene("Demo");
+	dae::Scene* scene = dae::ServiceLocator::GetSceneManager().CreateScene("Demo");
 
 	//auto soBg = std::make_shared<GameObject>();
 	//auto textureBg = std::make_shared<Texture2DComponent>(soBg, "background.jpg");
@@ -70,7 +70,7 @@ void LoadGame()
 	auto soAssignment = std::make_shared<dae::GameObject>(80, 20, 0);
 	auto textAssignment = std::make_shared<dae::TextComponent>(soAssignment, "Programming 4 Assignment", font, glm::vec3(255.f, 255.f, 255.f));
 	soAssignment->AddComponent(textAssignment);
-	scene.Add(soAssignment);
+	scene->Add(soAssignment);
 
 	//auto soFPS = std::make_shared<GameObject>();
 	//auto textFPS = std::make_shared<dae::TextComponent>(soFPS, "0", font, glm::vec3(255.f, 255.f, 255.f));

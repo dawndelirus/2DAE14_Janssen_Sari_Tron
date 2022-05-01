@@ -213,8 +213,12 @@
     <ClInclude Include="ImGuiComponent.h" />
     <ClInclude Include="InputHelpers.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="InputManagerBase.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="MiniginPCH.h" />
+    <ClInclude Include="NullInputManager.h" />
+    <ClInclude Include="NullSceneManager.h" />
+    <ClInclude Include="NullSoundSystem.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="ObserverHelpers.h" />
     <ClInclude Include="PlotGameObjectComponent.h" />
@@ -225,8 +229,11 @@
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SceneManagerBase.h" />
+    <ClInclude Include="SDLSoundSystem.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="Singleton.h" />
+    <ClInclude Include="SoundSystemBase.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Texture2D.h" />
@@ -304,6 +311,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="SDLSoundSystem.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="TextComponent.cpp" />

@@ -1,19 +1,18 @@
 #pragma once
-#include "Singleton.h"
+#include "SceneManagerBase.h"
 
 namespace dae
 {
 	class Scene;
-	class SceneManager final : public Singleton<SceneManager>
+	class SceneManager final : public SceneManagerBase
 	{
 	public:
-		Scene& CreateScene(const std::string& name);
+		SceneManager() = default;
+		Scene* CreateScene(const std::string& name);
 
 		void Update();
 		void Render();
 	private:
-		friend class Singleton<SceneManager>;
-		SceneManager() = default;
-		std::vector<std::shared_ptr<Scene>> m_Scenes;
+		std::vector<std::unique_ptr<Scene>> m_Scenes;
 	};
 }

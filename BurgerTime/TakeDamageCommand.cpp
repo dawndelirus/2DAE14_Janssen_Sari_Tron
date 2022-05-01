@@ -9,5 +9,6 @@ TakeDamageCommand::TakeDamageCommand(std::shared_ptr<dae::GameObject> gameObject
 
 void TakeDamageCommand::Execute()
 {
+	// TODO: COMMAND: save as component?
 	GetGameObject()->GetComponent<HealthComponent>()->TakeDamage(1);
 }

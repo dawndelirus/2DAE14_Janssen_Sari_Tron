@@ -6,6 +6,7 @@
 #include "backends/imgui_impl_sdl.h"
 #include "backends/imgui_impl_opengl2.h"
 #include "imgui_plot.h"
+#include "ServiceLocator.h"
 
 int GetOpenGLDriverIndex()
 {
@@ -46,7 +47,7 @@ void dae::Renderer::Render() const
 	ImGui_ImplSDL2_NewFrame(m_Window);
 	ImGui::NewFrame();
 
-	SceneManager::GetInstance().Render();
+	ServiceLocator::GetSceneManager().Render();
 
 	ImGui::Render();
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());

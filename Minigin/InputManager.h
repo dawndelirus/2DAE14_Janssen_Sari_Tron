@@ -1,23 +1,23 @@
 #pragma once
-#include "Singleton.h"
-#include "InputHelpers.h"
+#include "InputManagerBase.h"
 #include "XBox360Controller.h"
-#include <map>
 
 namespace dae
 {
-	class InputManager final : public Singleton<InputManager>
+	class InputManager final : public InputManagerBase
 	{
 	public:
-		bool ProcessInput();
-		void AddInput(InputAction action);
-		void RemoveInput(InputAction action);
-		void RemoveInput(ControllerButton button, ButtonState state, int playerIndex);
+		InputManager() = default;
+		~InputManager() = default;
 
-		bool IsControllerButton(ButtonState state, ControllerButton button, int playerIndex);
+		bool ProcessInput() override;
+		void AddInput(InputAction action) override;
+		void RemoveInput(InputAction action) override;
+		void RemoveInput(ControllerButton button, ButtonState state, int playerIndex) override;
+
+		bool IsControllerButton(ButtonState state, ControllerButton button, int playerIndex) const override;
 
 	private:
 		std::unique_ptr<XBox360Controller> m_Controller{std::make_unique<XBox360Controller>()};
 	};
-
 }
