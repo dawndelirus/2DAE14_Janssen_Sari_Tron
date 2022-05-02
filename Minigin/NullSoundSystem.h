@@ -1,13 +1,18 @@
 #pragma once
-#include "SoundSystemBase.h"
+#include "BaseSoundSystem.h"
 
 namespace dae
 {
-	class NullSoundSystem final : public SoundSystemBase
+	class NullSoundSystem final : public BaseSoundSystem
 	{
 	public:
-		void Play() override {};
-		void Pause() override {};
-		void Stop() override {};
+		~NullSoundSystem() = default;
+
+		void Play(SoundId, float) override {};
+		void Pause(SoundId id) override {};
+		void Stop(SoundId id) override {};
+		void Resume(dae::SoundId id) override {};
+
+		virtual void RegisterSound(SoundId, const std::string&) override {};
 	};
 }

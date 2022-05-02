@@ -1,20 +1,20 @@
 #include "MiniginPCH.h"
 #include "ServiceLocator.h"
-#include "SoundSystemBase.h"
-#include "InputManagerBase.h"
-#include "SceneManagerBase.h"
+#include "BaseSoundSystem.h"
+#include "BaseInputManager.h"
+#include "BaseSceneManager.h"
 
 
 using namespace dae;
 
 NullSoundSystem ServiceLocator::m_DefaultSoundSystem;
-SoundSystemBase* ServiceLocator::m_pSoundSystemInst = &m_DefaultSoundSystem;
+BaseSoundSystem* ServiceLocator::m_pSoundSystemInst = &m_DefaultSoundSystem;
 
 NullInputManager ServiceLocator::m_DefaultInputManager;
-InputManagerBase* ServiceLocator::m_pInputManagerInst = &m_DefaultInputManager;
+BaseInputManager* ServiceLocator::m_pInputManagerInst = &m_DefaultInputManager;
 
 NullSceneManager ServiceLocator::m_DefaultSceneManager;
-SceneManagerBase* ServiceLocator::m_pSceneManagerInst = &m_DefaultSceneManager;
+BaseSceneManager* ServiceLocator::m_pSceneManagerInst = &m_DefaultSceneManager;
 
 void ServiceLocator::Destroy()
 {
@@ -38,32 +38,32 @@ void ServiceLocator::Destroy()
 }
 
 
-SoundSystemBase& ServiceLocator::GetSoundSystem()
+BaseSoundSystem& ServiceLocator::GetSoundSystem()
 {
 	return *m_pSoundSystemInst;
 }
 
-void ServiceLocator::RegisterSoundSystem(SoundSystemBase* soundSystem)
+void ServiceLocator::RegisterSoundSystem(BaseSoundSystem* soundSystem)
 {
-	m_pSoundSystemInst = SetService<SoundSystemBase>(m_pSoundSystemInst, soundSystem, m_DefaultSoundSystem);
+	m_pSoundSystemInst = SetService<BaseSoundSystem>(m_pSoundSystemInst, soundSystem, m_DefaultSoundSystem);
 }
 
-InputManagerBase& ServiceLocator::GetInputManager()
+BaseInputManager& ServiceLocator::GetInputManager()
 {
 	return *m_pInputManagerInst;
 }
 
-void ServiceLocator::RegisterInputManager(InputManagerBase* inputManager)
+void ServiceLocator::RegisterInputManager(BaseInputManager* inputManager)
 {
-	m_pInputManagerInst = SetService<InputManagerBase>(m_pInputManagerInst, inputManager, m_DefaultInputManager);
+	m_pInputManagerInst = SetService<BaseInputManager>(m_pInputManagerInst, inputManager, m_DefaultInputManager);
 }
 
-SceneManagerBase& dae::ServiceLocator::GetSceneManager()
+BaseSceneManager& dae::ServiceLocator::GetSceneManager()
 {
 	return *m_pSceneManagerInst;
 }
 
-void dae::ServiceLocator::RegisterSceneManager(SceneManagerBase* sceneManager)
+void dae::ServiceLocator::RegisterSceneManager(BaseSceneManager* sceneManager)
 {
-	m_pSceneManagerInst = SetService<SceneManagerBase>(m_pSceneManagerInst, sceneManager, m_DefaultSceneManager);
+	m_pSceneManagerInst = SetService<BaseSceneManager>(m_pSceneManagerInst, sceneManager, m_DefaultSceneManager);
 }

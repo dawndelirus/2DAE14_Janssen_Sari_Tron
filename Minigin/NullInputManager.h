@@ -1,9 +1,9 @@
 #pragma once
-#include "InputManagerBase.h"
+#include "BaseInputManager.h"
 
 namespace dae
 {
-	class NullInputManager : public InputManagerBase
+	class NullInputManager : public BaseInputManager
 	{
 	public:
 		bool ProcessInput() override { return false; };

@@ -150,20 +150,23 @@
     <ClInclude Include="SDLSoundSystem.h">
       <Filter>Sound</Filter>
     </ClInclude>
-    <ClInclude Include="SoundSystemBase.h">
+    <ClInclude Include="BaseSoundSystem.h">
       <Filter>Sound</Filter>
     </ClInclude>
-    <ClInclude Include="InputManagerBase.h">
+    <ClInclude Include="BaseInputManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NullInputManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SceneManagerBase.h">
+    <ClInclude Include="BaseSceneManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NullSceneManager.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LoggingSoundSystem.h">
+      <Filter>Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -258,6 +261,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SDLSoundSystem.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="LoggingSoundSystem.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
   </ItemGroup>

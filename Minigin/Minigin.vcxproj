@@ -213,7 +213,8 @@
     <ClInclude Include="ImGuiComponent.h" />
     <ClInclude Include="InputHelpers.h" />
     <ClInclude Include="InputManager.h" />
-    <ClInclude Include="InputManagerBase.h" />
+    <ClInclude Include="BaseInputManager.h" />
+    <ClInclude Include="LoggingSoundSystem.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="MiniginPCH.h" />
     <ClInclude Include="NullInputManager.h" />
@@ -229,11 +230,11 @@
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="SceneManagerBase.h" />
+    <ClInclude Include="BaseSceneManager.h" />
     <ClInclude Include="SDLSoundSystem.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="Singleton.h" />
-    <ClInclude Include="SoundSystemBase.h" />
+    <ClInclude Include="BaseSoundSystem.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Texture2D.h" />
@@ -295,6 +296,7 @@
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="ImGuiComponent.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="LoggingSoundSystem.cpp" />
     <ClCompile Include="Minigin.cpp" />
     <ClCompile Include="MiniginPCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

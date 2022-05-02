@@ -1,10 +1,10 @@
 #pragma once
-#include "SceneManagerBase.h"
+#include "BaseSceneManager.h"
 
 namespace dae
 {
 	class Scene;
-	class SceneManager final : public SceneManagerBase
+	class SceneManager final : public BaseSceneManager
 	{
 	public:
 		SceneManager() = default;

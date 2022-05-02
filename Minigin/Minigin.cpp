@@ -9,6 +9,8 @@
 
 #include "ComponentIncludes.h"
 #include "ServiceLocator.h"
+#include "LoggingSoundSystem.h"
+#include "SDLSoundSystem.h"
 
 using namespace std;
 
@@ -76,7 +78,7 @@ void dae::Minigin::Run(std::function<void()> loadGame)
 
 	ServiceLocator::RegisterInputManager(new InputManager());
 	ServiceLocator::RegisterSceneManager(new SceneManager());
-	
+	ServiceLocator::RegisterSoundSystem(new LoggingSoundSystem(new SDLSoundSystem()));
 
 	loadGame();
 

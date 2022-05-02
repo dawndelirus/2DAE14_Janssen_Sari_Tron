@@ -3,16 +3,16 @@
 
 namespace dae
 {
-	class InputManagerBase
+	class BaseInputManager
 	{
 	public:
-		InputManagerBase() = default;
-		virtual ~InputManagerBase() = default;
+		BaseInputManager() = default;
+		virtual ~BaseInputManager() = default;
 
-		InputManagerBase(const InputManagerBase& other) = delete;
-		InputManagerBase(InputManagerBase&& other) = delete;
-		InputManagerBase& operator=(const InputManagerBase& other) = delete;
-		InputManagerBase& operator=(InputManagerBase&& other) = delete;
+		BaseInputManager(const BaseInputManager& other) = delete;
+		BaseInputManager(BaseInputManager&& other) = delete;
+		BaseInputManager& operator=(const BaseInputManager& other) = delete;
+		BaseInputManager& operator=(BaseInputManager&& other) = delete;
 
 		virtual bool ProcessInput() = 0;
 		virtual void AddInput(InputAction action) = 0;

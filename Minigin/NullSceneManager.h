@@ -1,10 +1,10 @@
 #pragma once
-#include "SceneManagerBase.h"
+#include "BaseSceneManager.h"
 #include "Scene.h"
 
 namespace dae
 {
-	class NullSceneManager : public SceneManagerBase
+	class NullSceneManager : public BaseSceneManager
 	{
 	public:
 		virtual Scene* CreateScene(const std::string&) { return nullptr; };

@@ -1,10 +1,10 @@
 #pragma once
-#include "InputManagerBase.h"
+#include "BaseInputManager.h"
 #include "XBox360Controller.h"
 
 namespace dae
 {
-	class InputManager final : public InputManagerBase
+	class InputManager final : public BaseInputManager
 	{
 	public:
 		InputManager() = default;

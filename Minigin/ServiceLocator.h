@@ -6,23 +6,23 @@
 
 namespace dae
 {
-	class SoundSystemBase;
-	class InputManagerBase;
-	class SceneManagerBase;
+	class BaseSoundSystem;
+	class BaseInputManager;
+	class BaseSceneManager;
 
 	class ServiceLocator final
 	{
 	public: // TODO: SERVICELOCATOR: add renderer, resource manager
 		static void Destroy();
 
-		static SoundSystemBase& GetSoundSystem();
-		static void RegisterSoundSystem(SoundSystemBase* soundSystem);
+		static BaseSoundSystem& GetSoundSystem();
+		static void RegisterSoundSystem(BaseSoundSystem* soundSystem);
 
-		static InputManagerBase& GetInputManager();
-		static void RegisterInputManager(InputManagerBase* inputManager);
+		static BaseInputManager& GetInputManager();
+		static void RegisterInputManager(BaseInputManager* inputManager);
 
-		static SceneManagerBase& GetSceneManager();
-		static void RegisterSceneManager(SceneManagerBase* sceneManager);
+		static BaseSceneManager& GetSceneManager();
+		static void RegisterSceneManager(BaseSceneManager* sceneManager);
 
 	private:
 		template <typename T>
@@ -42,13 +42,13 @@ namespace dae
 			return newService;
 		}
 		
-		static SoundSystemBase* m_pSoundSystemInst;
+		static BaseSoundSystem* m_pSoundSystemInst;
 		static NullSoundSystem m_DefaultSoundSystem;
 
-		static InputManagerBase* m_pInputManagerInst;
+		static BaseInputManager* m_pInputManagerInst;
 		static NullInputManager m_DefaultInputManager;
 
-		static SceneManagerBase* m_pSceneManagerInst;
+		static BaseSceneManager* m_pSceneManagerInst;
 		static NullSceneManager m_DefaultSceneManager;
 	};
 }
