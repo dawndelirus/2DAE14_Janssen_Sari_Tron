@@ -168,6 +168,9 @@
     <ClInclude Include="LoggingSoundSystem.h">
       <Filter>Sound</Filter>
     </ClInclude>
+    <ClInclude Include="SoundEventManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -265,6 +268,9 @@
     </ClCompile>
     <ClCompile Include="LoggingSoundSystem.cpp">
       <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundEventManager.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

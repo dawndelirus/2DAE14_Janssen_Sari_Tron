@@ -24,8 +24,6 @@ private:
 	std::map<dae::SoundId, std::string> m_SoundPaths;
 	std::map<dae::SoundId, int> m_SoundChannels;
 	std::map<dae::SoundId, Mix_Chunk*> m_SoundChunks;
-
-	std::mutex m_SoundLock;
 };
 
 

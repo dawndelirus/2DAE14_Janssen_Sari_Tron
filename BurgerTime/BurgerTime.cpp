@@ -22,8 +22,12 @@
 #include "TakeDamageCommand.h"
 #include "ServiceLocator.h"
 #include <functional>
+#include "SDLSoundSystem.h"
+#include "BaseSoundSystem.h"
+#include "BaseInputManager.h"
+#include "BaseSceneManager.h"
 
-void CreatePlayer(dae::Scene* scene, float healtPosX, float peterPosX, int playerId)
+void CreatePlayer(dae::Scene* scene, float healtPosX, float peterPosX, int)
 {
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
 
@@ -34,9 +38,9 @@ void CreatePlayer(dae::Scene* scene, float healtPosX, float peterPosX, int playe
 	peterObject->AddComponent(std::make_shared<dae::Texture2DComponent>(peterObject, "PP_Idle.png"));
 
 	// Input
-	auto& input = dae::ServiceLocator::GetInputManager();
-	auto damageCommand = std::make_shared<TakeDamageCommand>(peterObject);
-	input.AddInput(dae::InputAction(playerId, dae::ButtonState::downThisFrame, damageCommand, dae::ControllerButton::ButtonA));
+	//auto& input = dae::ServiceLocator::GetInputManager();
+	//auto damageCommand = std::make_shared<TakeDamageCommand>(peterObject);
+	//input.AddInput(dae::InputAction(playerId, dae::ButtonState::downThisFrame, damageCommand, dae::ControllerButton::ButtonA));
 
 	// Health
 	auto healthObject = std::make_shared<dae::GameObject>(glm::vec3(healtPosX, 70.f, 0.f));
@@ -81,6 +85,9 @@ void LoadGame()
 
 	CreatePlayer(scene, 0.f, 640.f / 3.f, 0);
 	CreatePlayer(scene, 450.f, 640.f / 3.f * 2.f, 1);
+
+	dae::ServiceLocator::GetSoundSystem().RegisterSound(0, "../Data/Yay.wav");
+	dae::ServiceLocator::GetSoundSystem().Play(0, 1.f);
 }
 
 int main(int, char* []) 

@@ -9,9 +9,9 @@ namespace dae
 		~NullSoundSystem() = default;
 
 		void Play(SoundId, float) override {};
-		void Pause(SoundId id) override {};
-		void Stop(SoundId id) override {};
-		void Resume(dae::SoundId id) override {};
+		void Pause(SoundId) override {};
+		void Stop(SoundId) override {};
+		void Resume(dae::SoundId) override {};
 
 		virtual void RegisterSound(SoundId, const std::string&) override {};
 	};
