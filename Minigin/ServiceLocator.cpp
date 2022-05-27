@@ -16,28 +16,6 @@ BaseInputManager* ServiceLocator::m_pInputManagerInst = &m_DefaultInputManager;
 NullSceneManager ServiceLocator::m_DefaultSceneManager;
 BaseSceneManager* ServiceLocator::m_pSceneManagerInst = &m_DefaultSceneManager;
 
-void ServiceLocator::Destroy()
-{
-	if (m_pSoundSystemInst != &m_DefaultSoundSystem)
-	{
-		delete m_pSoundSystemInst;
-		m_pSoundSystemInst = &m_DefaultSoundSystem;
-	}
-
-	if (m_pInputManagerInst != &m_DefaultInputManager)
-	{
-		delete m_pInputManagerInst;
-		m_pInputManagerInst = &m_DefaultInputManager;
-	}
-
-	if (m_pSceneManagerInst != &m_DefaultSceneManager)
-	{
-		delete m_pSceneManagerInst;
-		m_pSceneManagerInst = &m_DefaultSceneManager;
-	}
-}
-
-
 BaseSoundSystem& ServiceLocator::GetSoundSystem()
 {
 	return *m_pSoundSystemInst;

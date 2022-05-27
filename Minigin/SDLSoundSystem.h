@@ -1,29 +1,28 @@
 #pragma once
 #include "BaseSoundSystem.h"
-#include <map>
-#include <mutex>
-#include "SDL_mixer.h"
 
 class SDLSoundSystem final : public dae::BaseSoundSystem
 {
 public:
 	SDLSoundSystem();
 	~SDLSoundSystem();
-	void Play(dae::SoundId id, float volume) override;
-	void Pause(dae::SoundId id) override;
-	void Stop(dae::SoundId id) override;
-	void Resume(dae::SoundId id) override;
 
-	void RegisterSound(dae::SoundId, const std::string&) override;
+	void PlaySound(dae::SoundId id, float volume) override;
+	void PauseSound() override;
+	void ResumeSound() override;
+	void StopSound() override;
+
+	void PlayMusic(dae::SoundId id, float volume, int loops) override;
+	void PauseMusic() override;
+	void ResumeMusic() override;
+	void StopMusic() override;
+
+	void RegisterSound(dae::SoundId id, const std::string& path) override;
+	void RegisterMusic(dae::SoundId id, const std::string& path) override;
 
 private:
-	friend void ChannelDone(int channel);
-
-	int GetChannel(dae::SoundId id);
-
-	std::map<dae::SoundId, std::string> m_SoundPaths;
-	std::map<dae::SoundId, int> m_SoundChannels;
-	std::map<dae::SoundId, Mix_Chunk*> m_SoundChunks;
+	class SDLSoundSystemImpl;
+	SDLSoundSystemImpl* m_pImpl;
 };
 
 

@@ -108,5 +108,7 @@ void dae::Minigin::Run(std::function<void()> loadGame)
 	}
 
 	Cleanup();
-	ServiceLocator::Destroy();
+	delete &ServiceLocator::GetSoundSystem();
+	delete &ServiceLocator::GetInputManager();
+	delete &ServiceLocator::GetSceneManager();
 }

@@ -7,12 +7,18 @@ namespace dae
 	{
 	public:
 		~NullSoundSystem() = default;
+		
+		void PlaySound(SoundId, float) {};
+		void PauseSound() {};
+		void ResumeSound() {};
+		void StopSound() {};
 
-		void Play(SoundId, float) override {};
-		void Pause(SoundId) override {};
-		void Stop(SoundId) override {};
-		void Resume(dae::SoundId) override {};
+		void PlayMusic(SoundId, float, int) {};
+		void PauseMusic() {};
+		void ResumeMusic() {};
+		void StopMusic() {};
 
-		virtual void RegisterSound(SoundId, const std::string&) override {};
+		void RegisterSound(SoundId, const std::string&) {};
+		void RegisterMusic(SoundId, const std::string&) {};
 	};
 }

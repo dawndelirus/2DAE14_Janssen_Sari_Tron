@@ -13,7 +13,6 @@ namespace dae
 	class ServiceLocator final
 	{
 	public: // TODO: SERVICELOCATOR: add renderer, resource manager
-		static void Destroy();
 
 		static BaseSoundSystem& GetSoundSystem();
 		static void RegisterSoundSystem(BaseSoundSystem* soundSystem);
@@ -30,7 +29,6 @@ namespace dae
 		{
 			if (newService == nullptr)
 			{
-				//service = &defaultService;
 				return &defaultService;
 			}
 
@@ -38,7 +36,6 @@ namespace dae
 			{
 				delete service;
 			}
-			//service = newService;
 			return newService;
 		}
 		

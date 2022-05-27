@@ -9,12 +9,18 @@ namespace dae
 		LoggingSoundSystem(BaseSoundSystem* pRealSoundSystem);
 		~LoggingSoundSystem();
 
-		void Play(SoundId ud, float volume) override;
-		void Pause(SoundId id) override;
-		void Stop(SoundId id) override;
-		void Resume(dae::SoundId id) override;
+		void PlaySound(SoundId id, float volume) override;
+		void PauseSound() override;
+		void ResumeSound() override;
+		void StopSound() override;
 
-		virtual void RegisterSound(SoundId id, const std::string& path) override;
+		void PlayMusic(SoundId id, float volume, int loops) override;
+		void PauseMusic() override;
+		void ResumeMusic() override;
+		void StopMusic() override;
+
+		void RegisterSound(SoundId id, const std::string& path) override;
+		void RegisterMusic(SoundId id, const std::string& path) override;
 	private:
 		BaseSoundSystem* m_pRealSoundSystem;
 	};
