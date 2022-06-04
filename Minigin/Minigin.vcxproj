@@ -209,6 +209,7 @@
     <ClInclude Include="BaseComponent.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="ComponentIncludes.h" />
+    <ClInclude Include="EventArgs.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="ImGuiComponent.h" />
     <ClInclude Include="InputHelpers.h" />
@@ -236,6 +237,7 @@
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="BaseSoundSystem.h" />
     <ClInclude Include="SoundEventManager.h" />
+    <ClInclude Include="SoundSystemEventArgs.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Texture2D.h" />

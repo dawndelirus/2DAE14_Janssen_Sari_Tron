@@ -31,6 +31,9 @@
     <Filter Include="Sound">
       <UniqueIdentifier>{8ca33f00-8d4c-4c07-a9d7-b08a6242305a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EventArgs">
+      <UniqueIdentifier>{4f8754af-d785-45e0-a2b9-cbd2e304fce8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MiniginPCH.h">
@@ -170,6 +173,12 @@
     </ClInclude>
     <ClInclude Include="SoundEventManager.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EventArgs.h">
+      <Filter>EventArgs</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundSystemEventArgs.h">
+      <Filter>EventArgs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

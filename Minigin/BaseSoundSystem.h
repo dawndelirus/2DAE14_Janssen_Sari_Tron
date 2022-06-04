@@ -3,6 +3,7 @@
 namespace dae
 {
 	using SoundId = unsigned short;
+	using MusicId = unsigned short;
 	class BaseSoundSystem
 	{
 	public:
@@ -19,12 +20,12 @@ namespace dae
 		virtual void ResumeSound() = 0;
 		virtual void StopSound() = 0;
 
-		virtual void PlayMusic(SoundId id, float volume, int loops) = 0;
+		virtual void PlayMusic(MusicId id, float volume, int loops) = 0;
 		virtual void PauseMusic() = 0;
 		virtual void ResumeMusic() = 0;
 		virtual void StopMusic() = 0;
 
 		virtual void RegisterSound(SoundId id, const std::string& path) = 0;
-		virtual void RegisterMusic(SoundId id, const std::string& path) = 0;
+		virtual void RegisterMusic(MusicId id, const std::string& path) = 0;
 	};
 }

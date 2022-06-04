@@ -56,7 +56,7 @@ void dae::LoggingSoundSystem::PlayMusic(SoundId id, float volume, int loops)
 	m_pRealSoundSystem->PlayMusic(id, volume, loops);
 
 	std::stringstream messageStream;
-	messageStream << "Playing music: " << id << " at volume: " << volume << " with " << loops << "loops\n";
+	messageStream << "Playing music: " << id << " at volume: " << volume << " with " << loops << " loops\n";
 	std::string message = messageStream.str();
 	std::cout << message;
 }

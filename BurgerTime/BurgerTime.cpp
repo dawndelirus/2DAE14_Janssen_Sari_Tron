@@ -86,8 +86,10 @@ void LoadGame()
 	CreatePlayer(scene, 0.f, 640.f / 3.f, 0);
 	CreatePlayer(scene, 450.f, 640.f / 3.f * 2.f, 1);
 
-	dae::ServiceLocator::GetSoundSystem().RegisterSound(0, "../Data/Yay.wav");
-	dae::ServiceLocator::GetSoundSystem().PlaySound(0, 1.f);
+	//dae::ServiceLocator::GetSoundSystem().RegisterSound(0, "../Data/Yay.wav");
+	//dae::ServiceLocator::GetSoundSystem().PlaySound(0, 1.f);
+	dae::ServiceLocator::GetSoundSystem().RegisterMusic(0, "../Data/01_BGM#01.mp3");
+	dae::ServiceLocator::GetSoundSystem().PlayMusic(0, 1, 0);
 }
 
 int main(int, char* []) 
