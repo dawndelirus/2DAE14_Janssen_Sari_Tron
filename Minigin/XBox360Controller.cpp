@@ -13,104 +13,18 @@ using namespace dae;
 class XBox360Controller::XBox360ControllerImpl
 {
 public:
-	XBox360ControllerImpl()
-	{
-		for (int i{}; i < XUSER_MAX_COUNT; ++i)
-		{
-			// reset input of all controllers
-			ZeroMemory(&m_PreviousState[i], sizeof(XINPUT_STATE));
-			ZeroMemory(&m_CurrentState[i], sizeof(XINPUT_STATE));
-			
-			// set all controllers to not connected
-			m_IsConnected[i] = false;
-		}
-	}
+	XBox360ControllerImpl();
+	~XBox360ControllerImpl() = default;
 
-	void Update()
-	{
-		bool hasTimePassed = HasTimePassed();
+	void Update();
 
-		for (int cIdx{}; cIdx < XUSER_MAX_COUNT; ++cIdx)
-		{
-			// check if controller is connected
-			if (!hasTimePassed && !m_IsConnected[cIdx])
-			{
-				// every second, check all controller connections for added or removed controllers
-				continue;
-			}
-
-			// reset states
-			CopyMemory(&m_PreviousState[cIdx], &m_CurrentState[cIdx], sizeof(XINPUT_STATE));
-			ZeroMemory(&m_CurrentState[cIdx], sizeof(XINPUT_STATE));
-
-			// get current state of controller
-			XINPUT_STATE state;
-			DWORD result = XInputGetState(cIdx, &state);
-
-			if (result == ERROR_SUCCESS)
-			{
-				m_IsConnected[cIdx] = true;
-
-				// set buttons released and pressed
-				CopyMemory(&m_CurrentState[cIdx], &state, sizeof(XINPUT_STATE));
-
-				auto buttonChanges = m_CurrentState[cIdx].Gamepad.wButtons ^ m_PreviousState[cIdx].Gamepad.wButtons;
-				m_ButtonsPressedThisFrame[cIdx] = buttonChanges & m_CurrentState[cIdx].Gamepad.wButtons;
-				m_ButtonsReleasedThisFrame[cIdx] = buttonChanges & (~m_CurrentState[cIdx].Gamepad.wButtons);
-
-			}
-			else
-			{
-				m_IsConnected[cIdx] = false;
-
-				// reset state of controller buttons
-				ZeroMemory(&m_CurrentState[cIdx], sizeof(XINPUT_STATE));
-				ZeroMemory(&m_PreviousState[cIdx], sizeof(XINPUT_STATE));
-				continue;
-			}
-		}
-	}
-
-	bool IsPressed(ControllerButton button, int playerIdx) const
-	{
-		if (playerIdx >= XUSER_MAX_COUNT)
-		{
-			return false;
-		}
-		else if (!m_IsConnected[playerIdx])
-		{
-			return false;
-		}
-		return m_CurrentState[playerIdx].Gamepad.wButtons & static_cast<unsigned int>(button);
-	}
-
-	bool IsDownThisFrame(ControllerButton button, int playerIdx) const
-	{
-		if (playerIdx >= XUSER_MAX_COUNT)
-		{
-			return false;
-		}
-		else if (!m_IsConnected[playerIdx])
-		{
-			return false;
-		}
-		return m_ButtonsPressedThisFrame[playerIdx] & static_cast<unsigned int>(button);
-	}
-
-	bool IsReleasedThisFrame(ControllerButton button, int playerIdx) const
-	{
-		if (playerIdx >= XUSER_MAX_COUNT)
-		{
-			return false;
-		}
-		else if (!m_IsConnected[playerIdx])
-		{
-			return false;
-		}
-		return m_ButtonsReleasedThisFrame[playerIdx] & static_cast<unsigned int>(button);
-	}
+	bool IsPressed(ControllerButton button, int playerIdx) const;
+	bool IsDownThisFrame(ControllerButton button, int playerIdx) const;
+	bool IsReleasedThisFrame(ControllerButton button, int playerIdx) const;
 
 private:
+	bool HasTimePassed();
+
 	std::array<XINPUT_STATE, XUSER_MAX_COUNT> m_CurrentState{};
 	std::array<XINPUT_STATE, XUSER_MAX_COUNT> m_PreviousState{};
 
@@ -121,18 +35,6 @@ private:
 
 	float m_TotalTime{ 1.f };
 	float m_CurrentTime{};
-
-	bool HasTimePassed()
-	{
-		if (m_CurrentTime >= m_TotalTime)
-		{
-			m_CurrentTime = 0.f;
-			return true;
-		}
-
-		m_CurrentTime += dae::Clock::GetDeltaTime();
-		return false;
-	}
 };
 
 XBox360Controller::XBox360Controller()
@@ -224,3 +126,113 @@ void dae::XBox360Controller::RemoveInput(ControllerButton button, ButtonState st
 	}
 }
 
+XBox360Controller::XBox360ControllerImpl::XBox360ControllerImpl()
+{
+	{
+		for (int i{}; i < XUSER_MAX_COUNT; ++i)
+		{
+			// reset input of all controllers
+			ZeroMemory(&m_PreviousState[i], sizeof(XINPUT_STATE));
+			ZeroMemory(&m_CurrentState[i], sizeof(XINPUT_STATE));
+
+			// set all controllers to not connected
+			m_IsConnected[i] = false;
+		}
+	}
+}
+
+void XBox360Controller::XBox360ControllerImpl::Update()
+{
+	bool hasTimePassed = HasTimePassed();
+
+	for (int cIdx{}; cIdx < XUSER_MAX_COUNT; ++cIdx)
+	{
+		// check if controller is connected
+		if (!hasTimePassed && !m_IsConnected[cIdx])
+		{
+			// every second, check all controller connections for added or removed controllers
+			continue;
+		}
+
+		// reset states
+		CopyMemory(&m_PreviousState[cIdx], &m_CurrentState[cIdx], sizeof(XINPUT_STATE));
+		ZeroMemory(&m_CurrentState[cIdx], sizeof(XINPUT_STATE));
+
+		// get current state of controller
+		XINPUT_STATE state;
+		DWORD result = XInputGetState(cIdx, &state);
+
+		if (result == ERROR_SUCCESS)
+		{
+			m_IsConnected[cIdx] = true;
+
+			// set buttons released and pressed
+			CopyMemory(&m_CurrentState[cIdx], &state, sizeof(XINPUT_STATE));
+
+			auto buttonChanges = m_CurrentState[cIdx].Gamepad.wButtons ^ m_PreviousState[cIdx].Gamepad.wButtons;
+			m_ButtonsPressedThisFrame[cIdx] = buttonChanges & m_CurrentState[cIdx].Gamepad.wButtons;
+			m_ButtonsReleasedThisFrame[cIdx] = buttonChanges & (~m_CurrentState[cIdx].Gamepad.wButtons);
+
+		}
+		else
+		{
+			m_IsConnected[cIdx] = false;
+
+			// reset state of controller buttons
+			ZeroMemory(&m_CurrentState[cIdx], sizeof(XINPUT_STATE));
+			ZeroMemory(&m_PreviousState[cIdx], sizeof(XINPUT_STATE));
+			continue;
+		}
+	}
+}
+
+bool XBox360Controller::XBox360ControllerImpl::IsPressed(ControllerButton button, int playerIdx) const
+{
+	if (playerIdx >= XUSER_MAX_COUNT)
+	{
+		return false;
+	}
+	else if (!m_IsConnected[playerIdx])
+	{
+		return false;
+	}
+	return m_CurrentState[playerIdx].Gamepad.wButtons & static_cast<unsigned int>(button);
+}
+
+bool XBox360Controller::XBox360ControllerImpl::IsDownThisFrame(ControllerButton button, int playerIdx) const
+{
+	if (playerIdx >= XUSER_MAX_COUNT)
+	{
+		return false;
+	}
+	else if (!m_IsConnected[playerIdx])
+	{
+		return false;
+	}
+	return m_ButtonsPressedThisFrame[playerIdx] & static_cast<unsigned int>(button);
+}
+
+bool XBox360Controller::XBox360ControllerImpl::IsReleasedThisFrame(ControllerButton button, int playerIdx) const
+{
+	if (playerIdx >= XUSER_MAX_COUNT)
+	{
+		return false;
+	}
+	else if (!m_IsConnected[playerIdx])
+	{
+		return false;
+	}
+	return m_ButtonsReleasedThisFrame[playerIdx] & static_cast<unsigned int>(button);
+}
+
+bool XBox360Controller::XBox360ControllerImpl::HasTimePassed()
+{
+	if (m_CurrentTime >= m_TotalTime)
+	{
+		m_CurrentTime = 0.f;
+		return true;
+	}
+
+	m_CurrentTime += dae::Clock::GetDeltaTime();
+	return false;
+}

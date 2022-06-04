@@ -17,8 +17,12 @@ namespace dae
 		virtual bool ProcessInput() = 0;
 		virtual void AddInput(InputAction action) = 0;
 		virtual void RemoveInput(InputAction action) = 0;
-		virtual void RemoveInput(ControllerButton button, ButtonState state, int playerIndex) = 0;
 
 		virtual bool IsControllerButton(ButtonState state, ControllerButton button, int playerIndex) const = 0;
+		virtual bool IsKeyboardKey(ButtonState state, KeyboardKey key) const = 0;
+
+		virtual void RemoveControllerInput(ControllerButton button, ButtonState state, int playerIndex) = 0;
+		virtual void RemoveKeyboardInput(KeyboardKey button, ButtonState state) = 0;
+
 	};
 }

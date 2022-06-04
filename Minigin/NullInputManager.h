@@ -9,8 +9,11 @@ namespace dae
 		bool ProcessInput() override { return false; };
 		void AddInput(InputAction) override {};
 		void RemoveInput(InputAction) override {};
-		void RemoveInput(ControllerButton, ButtonState, int) override {};
 
 		bool IsControllerButton(ButtonState, ControllerButton, int) const override { return false; };
+		bool IsKeyboardKey(ButtonState, KeyboardKey) const override { return false; };
+
+		void RemoveControllerInput(ControllerButton, ButtonState, int) override {};
+		void RemoveKeyboardInput(KeyboardKey, ButtonState) override {};
 	};
 }

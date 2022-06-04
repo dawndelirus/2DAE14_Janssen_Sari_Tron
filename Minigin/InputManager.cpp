@@ -5,6 +5,7 @@
 bool dae::InputManager::ProcessInput()
 {
 	m_Controller->Update();
+	m_Keyboard->Update();
 
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
@@ -26,17 +27,36 @@ bool dae::InputManager::ProcessInput()
 
 void dae::InputManager::AddInput(InputAction action)
 {
-	m_Controller->AddInput(action.controllerButtonCode, action.command, action.buttonState, action.playerIndex);
+	if (action.keyboardKeyCode != KeyboardKey::Empty)
+	{
+		m_Keyboard->AddInput(action.keyboardKeyCode, action.command, action.buttonState);
+	}
+	if (action.controllerButtonCode != ControllerButton::Empty)
+	{
+		m_Controller->AddInput(action.controllerButtonCode, action.command, action.buttonState, action.playerIndex);
+	}
 }
 
 void dae::InputManager::RemoveInput(InputAction action)
 {
-	RemoveInput(action.controllerButtonCode, action.buttonState, action.playerIndex);
+	if (action.keyboardKeyCode != KeyboardKey::Empty)
+	{
+		RemoveControllerInput(action.controllerButtonCode, action.buttonState, action.playerIndex);
+	}
+	if (action.controllerButtonCode != ControllerButton::Empty)
+	{
+		RemoveKeyboardInput(action.keyboardKeyCode, action.buttonState);
+	}
 }
 
-void dae::InputManager::RemoveInput(ControllerButton button, ButtonState state, int playerIndex)
+void dae::InputManager::RemoveControllerInput(ControllerButton button, ButtonState state, int playerIndex)
 {
 	m_Controller->RemoveInput(button, state, playerIndex);
+}
+
+void dae::InputManager::RemoveKeyboardInput(KeyboardKey button, ButtonState state)
+{
+	m_Keyboard->RemoveInput(button, state);
 }
 
 bool dae::InputManager::IsControllerButton(ButtonState state, ControllerButton button, int playerIndex) const
@@ -51,6 +71,24 @@ bool dae::InputManager::IsControllerButton(ButtonState state, ControllerButton b
 		break;
 	case dae::ButtonState::releasedThisFrame:
 		return m_Controller->IsReleasedThisFrame(button, playerIndex);
+		break;
+	}
+
+	return false;
+}
+
+bool dae::InputManager::IsKeyboardKey(ButtonState state, KeyboardKey key) const
+{
+	switch (state)
+	{
+	case dae::ButtonState::pressed:
+		return m_Keyboard->IsPressed(key);
+		break;
+	case dae::ButtonState::downThisFrame:
+		return m_Keyboard->IsDownThisFrame(key);
+		break;
+	case dae::ButtonState::releasedThisFrame:
+		return m_Keyboard->IsReleasedThisFrame(key);
 		break;
 	}
 

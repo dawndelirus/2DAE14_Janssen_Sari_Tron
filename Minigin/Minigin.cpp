@@ -81,7 +81,7 @@ void dae::Minigin::Run(std::function<void()> loadGame)
 	ServiceLocator::RegisterSoundSystem(new LoggingSoundSystem(new SDLSoundSystem()));
 
 	loadGame();
-
+	
 	{
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = ServiceLocator::GetSceneManager();

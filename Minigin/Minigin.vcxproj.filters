@@ -22,9 +22,6 @@
     <Filter Include="Commands">
       <UniqueIdentifier>{c0421415-77cb-4874-a67e-b0ac9f01ecf0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Helpers">
-      <UniqueIdentifier>{07a5f600-d7a6-4b86-921c-011ffabd0164}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Observer">
       <UniqueIdentifier>{9cdf2706-3d23-4d9e-8349-0e2ba6e7a4dc}</UniqueIdentifier>
     </Filter>
@@ -33,6 +30,9 @@
     </Filter>
     <Filter Include="EventArgs">
       <UniqueIdentifier>{4f8754af-d785-45e0-a2b9-cbd2e304fce8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{8615971e-c465-48d3-b87a-5edd7be57195}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -49,9 +49,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Texture2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
@@ -126,15 +123,6 @@
     <ClInclude Include="ComponentIncludes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="XBox360Controller.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputHelpers.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="ObserverHelpers.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
     <ClInclude Include="Command.h">
       <Filter>Commands</Filter>
     </ClInclude>
@@ -156,12 +144,6 @@
     <ClInclude Include="BaseSoundSystem.h">
       <Filter>Sound</Filter>
     </ClInclude>
-    <ClInclude Include="BaseInputManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NullInputManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BaseSceneManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -171,14 +153,32 @@
     <ClInclude Include="LoggingSoundSystem.h">
       <Filter>Sound</Filter>
     </ClInclude>
-    <ClInclude Include="SoundEventManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="EventArgs.h">
       <Filter>EventArgs</Filter>
     </ClInclude>
     <ClInclude Include="SoundSystemEventArgs.h">
       <Filter>EventArgs</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="XBox360Controller.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="NullInputManager.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseInputManager.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="InputHelpers.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="ObserverHelpers.h">
+      <Filter>Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardControls.h">
+      <Filter>Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -192,9 +192,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Texture2D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InputManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
@@ -242,9 +239,6 @@
     <ClCompile Include="..\3rdParty\imgui-1.87\imgui_plot.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
-    <ClCompile Include="XBox360Controller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BaseComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -278,8 +272,14 @@
     <ClCompile Include="LoggingSoundSystem.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
-    <ClCompile Include="SoundEventManager.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="XBox360Controller.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyboardControls.cpp">
+      <Filter>Input</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
