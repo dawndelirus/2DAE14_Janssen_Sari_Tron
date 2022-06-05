@@ -27,6 +27,12 @@
 #include "BaseInputManager.h"
 #include "BaseSceneManager.h"
 
+#include "MoveLeftCommand.h"
+#include "MoveRightCommand.h"
+#include "MoveUpCommand.h"
+#include "MoveDownCommand.h"
+#include "MoveComponent.h"
+
 void CreatePlayer(dae::Scene* scene, float healtPosX, float peterPosX, int playerId)
 {
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
@@ -36,18 +42,15 @@ void CreatePlayer(dae::Scene* scene, float healtPosX, float peterPosX, int playe
 	peterObject->AddComponent(std::make_shared<PeterPepperComponent>(peterObject));
 	auto peterHealthComp = peterObject->AddComponent(std::make_shared<HealthComponent>(peterObject, 3));
 	peterObject->AddComponent(std::make_shared<dae::Texture2DComponent>(peterObject, "PP_Idle.png"));
+	peterObject->AddComponent(std::make_shared<MoveComponent>(peterObject, 20.f));
 
 	// Input
 	auto& input = dae::ServiceLocator::GetInputManager();
 	auto damageCommand = std::make_shared<TakeDamageCommand>(peterObject);
-	if (playerId == 0)
-	{
-		input.AddInput(dae::InputAction(playerId, dae::ButtonState::downThisFrame, damageCommand, dae::ControllerButton::ButtonA));
-	}
-	else
-	{
-		input.AddInput(dae::InputAction(playerId, dae::ButtonState::downThisFrame, damageCommand, dae::ControllerButton::ButtonA, dae::KeyboardKey::K_A));
-	}
+	input.AddInput(dae::InputAction(playerId, dae::ButtonState::pressed, std::make_shared<MoveLeftCommand>(peterObject), dae::ControllerButton::DPadLeft, dae::KeyboardKey::K_A));
+	input.AddInput(dae::InputAction(playerId, dae::ButtonState::pressed, std::make_shared<MoveRightCommand>(peterObject), dae::ControllerButton::DPadRight, dae::KeyboardKey::K_D));
+	input.AddInput(dae::InputAction(playerId, dae::ButtonState::pressed, std::make_shared<MoveUpCommand>(peterObject), dae::ControllerButton::DPadUp, dae::KeyboardKey::K_W));
+	input.AddInput(dae::InputAction(playerId, dae::ButtonState::pressed, std::make_shared<MoveDownCommand>(peterObject), dae::ControllerButton::DPadDown, dae::KeyboardKey::K_S));
 
 	// Health
 	auto healthObject = std::make_shared<dae::GameObject>(glm::vec3(healtPosX, 70.f, 0.f));

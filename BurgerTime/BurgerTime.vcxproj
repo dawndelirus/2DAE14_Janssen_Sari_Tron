@@ -177,6 +177,11 @@
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="HealthDisplayComponent.cpp" />
+    <ClCompile Include="MoveDownCommand.cpp" />
+    <ClCompile Include="MoveLeftCommand.cpp" />
+    <ClCompile Include="MoveComponent.cpp" />
+    <ClCompile Include="MoveRightCommand.cpp" />
+    <ClCompile Include="MoveUpCommand.cpp" />
     <ClCompile Include="PeterPepperComponent.cpp" />
     <ClCompile Include="TakeDamageCommand.cpp" />
   </ItemGroup>
@@ -185,6 +190,11 @@
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="HealthDisplayComponent.h" />
+    <ClInclude Include="MoveDownCommand.h" />
+    <ClInclude Include="MoveLeftCommand.h" />
+    <ClInclude Include="MoveComponent.h" />
+    <ClInclude Include="MoveRightCommand.h" />
+    <ClInclude Include="MoveUpCommand.h" />
     <ClInclude Include="PeterPepperComponent.h" />
     <ClInclude Include="TakeDamageCommand.h" />
   </ItemGroup>

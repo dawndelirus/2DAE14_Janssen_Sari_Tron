@@ -34,6 +34,9 @@
     <Filter Include="Input">
       <UniqueIdentifier>{8615971e-c465-48d3-b87a-5edd7be57195}</UniqueIdentifier>
     </Filter>
+    <Filter Include="State">
+      <UniqueIdentifier>{7893c7e7-4e85-4968-92e6-c8ef13675841}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MiniginPCH.h">
@@ -180,6 +183,9 @@
     <ClInclude Include="KeyboardControls.h">
       <Filter>Input</Filter>
     </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -280,6 +286,9 @@
     </ClCompile>
     <ClCompile Include="KeyboardControls.cpp">
       <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>State</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

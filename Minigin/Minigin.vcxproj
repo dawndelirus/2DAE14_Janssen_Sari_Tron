@@ -238,6 +238,7 @@
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="BaseSoundSystem.h" />
     <ClInclude Include="SoundSystemEventArgs.h" />
+    <ClInclude Include="State.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Texture2D.h" />
@@ -319,6 +320,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="SDLSoundSystem.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
+    <ClCompile Include="State.cpp" />
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Texture2D.cpp" />

@@ -14,10 +14,10 @@ public:
 	bool IsReleasedThisFrame(KeyboardKey key) const;
 
 private:
-	PBYTE m_CurrentState{};
-	PBYTE m_PreviousState{};
-	PBYTE m_KeyboardState0{};
-	PBYTE m_KeyboardState1{};
+	PBYTE m_pCurrentState{};
+	PBYTE m_pPreviousState{};
+	PBYTE m_pKeyboardState0{};
+	PBYTE m_pKeyboardState1{};
 
 	bool m_IsKeyboard0Active{false};
 };
@@ -109,11 +109,11 @@ bool dae::KeyboardControls::IsReleasedThisFrame(KeyboardKey key) const
 }
 
 dae::KeyboardControls::KeyboardControlsImpl::KeyboardControlsImpl()
-	: m_KeyboardState0{ new BYTE[256] }
-	, m_KeyboardState1{ new BYTE[256] }
+	: m_pKeyboardState0{ new BYTE[256] }
+	, m_pKeyboardState1{ new BYTE[256] }
 {
 
-	if (!GetKeyboardState(m_KeyboardState0) || !GetKeyboardState(m_KeyboardState1))
+	if (!GetKeyboardState(m_pKeyboardState0) || !GetKeyboardState(m_pKeyboardState1))
 	{
 		std::cout << "InputManager::Initialize >> Failed to GetKeyboardState.";
 	}
@@ -121,8 +121,8 @@ dae::KeyboardControls::KeyboardControlsImpl::KeyboardControlsImpl()
 
 dae::KeyboardControls::KeyboardControlsImpl::~KeyboardControlsImpl()
 {
-	delete[] m_KeyboardState0;
-	delete[] m_KeyboardState1;
+	delete[] m_pKeyboardState0;
+	delete[] m_pKeyboardState1;
 }
 
 void dae::KeyboardControls::KeyboardControlsImpl::Update()
@@ -130,15 +130,15 @@ void dae::KeyboardControls::KeyboardControlsImpl::Update()
 	BOOL getKeyboardResult;
 	if (m_IsKeyboard0Active)
 	{
-		getKeyboardResult = GetKeyboardState(m_KeyboardState1);
-		m_PreviousState = m_KeyboardState0;
-		m_CurrentState = m_KeyboardState1;
+		getKeyboardResult = GetKeyboardState(m_pKeyboardState1);
+		m_pPreviousState = m_pKeyboardState0;
+		m_pCurrentState = m_pKeyboardState1;
 	}
 	else
 	{
-		getKeyboardResult = GetKeyboardState(m_KeyboardState0);
-		m_PreviousState = m_KeyboardState1;
-		m_CurrentState = m_KeyboardState0;
+		getKeyboardResult = GetKeyboardState(m_pKeyboardState0);
+		m_pPreviousState = m_pKeyboardState1;
+		m_pCurrentState = m_pKeyboardState0;
 	}
 
 	m_IsKeyboard0Active = !m_IsKeyboard0Active;
@@ -147,21 +147,21 @@ void dae::KeyboardControls::KeyboardControlsImpl::Update()
 
 bool dae::KeyboardControls::KeyboardControlsImpl::IsPressed(KeyboardKey key) const
 {
-	return (m_CurrentState[static_cast<int>(key)] & 0xF0) != 0;
+	return (m_pCurrentState[static_cast<int>(key)] & 0xF0) != 0;
 }
 
 bool dae::KeyboardControls::KeyboardControlsImpl::IsDownThisFrame(KeyboardKey key) const
 {
-	bool currentFrameDown = (m_CurrentState[static_cast<int>(key)] & 0xF0) != 0;
-	bool previousFrameDown = (m_PreviousState[static_cast<int>(key)] & 0xF0) != 0;
+	bool currentFrameDown = (m_pCurrentState[static_cast<int>(key)] & 0xF0) != 0;
+	bool previousFrameDown = (m_pPreviousState[static_cast<int>(key)] & 0xF0) != 0;
 
 	return currentFrameDown && !previousFrameDown;
 }
 
 bool dae::KeyboardControls::KeyboardControlsImpl::IsReleasedThisFrame(KeyboardKey key) const
 {
-	bool currentFrameDown = (m_CurrentState[static_cast<int>(key)] & 0xF0) != 0;
-	bool previousFrameDown = (m_PreviousState[static_cast<int>(key)] & 0xF0) != 0;
+	bool currentFrameDown = (m_pCurrentState[static_cast<int>(key)] & 0xF0) != 0;
+	bool previousFrameDown = (m_pPreviousState[static_cast<int>(key)] & 0xF0) != 0;
 
 	return !currentFrameDown && previousFrameDown;
 }
