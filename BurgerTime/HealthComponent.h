@@ -11,12 +11,10 @@ public:
 	int GetCurrentHealth() const;
 	void TakeDamage(int amount);
 
-	virtual void Update() {};
-	virtual void Render() const {};
+	virtual void Update() override {};
+	virtual void Render() const override {};
 
 private:
-	void Die();
-
 	int m_CurrentHealth;
 	int m_MaxHealth;
 };

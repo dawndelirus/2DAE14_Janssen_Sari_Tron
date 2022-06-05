@@ -1,8 +1,9 @@
 #pragma once
 
-enum class Event
+enum class ObserverEvent
 {
-	PlayerDied,
+	TakeDamage,
+	HasDied,
 	SubjectDeleted,
-
+	BurgerDropped,
 };

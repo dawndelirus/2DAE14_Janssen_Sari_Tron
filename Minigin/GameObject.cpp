@@ -55,7 +55,7 @@ void GameObject::Render() const
 	}
 }
 
-void GameObject::SetParent(std::weak_ptr<GameObject> parent, bool keepWorldPosition)
+void GameObject::SetParent(std::weak_ptr<GameObject> parent, std::shared_ptr<GameObject> child, bool keepWorldPosition)
 {
 	auto parentShared = parent.lock();
 
@@ -73,7 +73,7 @@ void GameObject::SetParent(std::weak_ptr<GameObject> parent, bool keepWorldPosit
 	m_IsTransformDirty = true;
 
 	// Find this as shared_ptr in previous parent
-	auto child = GetThisGameObjectFromParent(m_Parent);
+	//auto child = GetThisGameObjectFromParent(m_Parent);
 
 	// Change parent
 	RemoveParent();
@@ -89,6 +89,11 @@ std::weak_ptr<GameObject> GameObject::GetParent() const
 void dae::GameObject::RemoveParent()
 {
 	auto parent = m_Parent.lock();
+
+	if (parent == nullptr)
+	{
+		return;
+	}
 
 	for (size_t i{}; i < parent->GetChildCount(); ++i)
 	{

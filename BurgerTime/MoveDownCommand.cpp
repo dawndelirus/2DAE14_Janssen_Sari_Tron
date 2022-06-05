@@ -9,5 +9,5 @@ MoveDownCommand::MoveDownCommand(std::shared_ptr<dae::GameObject> gameObject)
 
 void MoveDownCommand::Execute()
 {
-	GetGameObject()->GetComponent<MoveComponent>()->Move(glm::vec2{ 0.f, -1.f });
+	GetGameObject()->GetComponent<MoveComponent>()->Move(glm::vec2{ 0.f, 1.f });
 }

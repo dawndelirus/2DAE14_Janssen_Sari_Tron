@@ -11,7 +11,10 @@ MoveComponent::MoveComponent(std::weak_ptr<dae::GameObject> gameObject, float mo
 
 void MoveComponent::Update()
 {
-	std::cout << m_MoveDirection.x << ", " << m_MoveDirection.y << std::endl;
+	auto gameObject = GetGameObject();
+	auto position = gameObject->GetLocalPosition();
+	gameObject->SetLocalPosition(position + glm::vec3( m_MoveDirection.x, m_MoveDirection.y, 0.f ));
+
 	m_MoveDirection = glm::vec2{ 0.f, 0.f };
 }
 

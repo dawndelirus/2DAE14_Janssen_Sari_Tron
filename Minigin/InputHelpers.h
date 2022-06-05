@@ -36,6 +36,7 @@ namespace dae
 		K_Alt		= 0x12,
 		
 		K_Esc 		= 0x1B,
+		K_SPACE		= 0x20,
 		K_Left		= 0x25,
 		K_UP 		= 0x26,
 		K_RIGHT		= 0x27,

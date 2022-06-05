@@ -16,7 +16,7 @@ void dae::Subject::RemoveObserver(std::shared_ptr<Observer> observer)
 	}
 }
 
-void dae::Subject::Notify(std::shared_ptr<GameObject> gameObject, Event event)
+void dae::Subject::Notify(std::shared_ptr<GameObject> gameObject, ObserverEvent event)
 {
 	for (int i {}; i < m_Observers.size(); ++i)
 	{

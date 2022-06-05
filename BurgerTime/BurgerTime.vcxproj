@@ -96,6 +96,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>BurgerTimePCH.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -116,6 +117,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>BurgerTimePCH.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -136,6 +138,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>BurgerTimePCH.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -156,6 +159,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>BurgerTimePCH.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -177,12 +181,17 @@
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="HealthDisplayComponent.cpp" />
+    <ClCompile Include="LevelPrefab.cpp" />
     <ClCompile Include="MoveDownCommand.cpp" />
     <ClCompile Include="MoveLeftCommand.cpp" />
     <ClCompile Include="MoveComponent.cpp" />
     <ClCompile Include="MoveRightCommand.cpp" />
     <ClCompile Include="MoveUpCommand.cpp" />
     <ClCompile Include="PeterPepperComponent.cpp" />
+    <ClCompile Include="ScoreComponent.cpp" />
+    <ClCompile Include="SprayCommand.cpp" />
+    <ClCompile Include="SprayComponent.cpp" />
+    <ClCompile Include="StateComponent.cpp" />
     <ClCompile Include="TakeDamageCommand.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -190,12 +199,17 @@
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="HealthDisplayComponent.h" />
+    <ClInclude Include="LevelPrefab.h" />
     <ClInclude Include="MoveDownCommand.h" />
     <ClInclude Include="MoveLeftCommand.h" />
     <ClInclude Include="MoveComponent.h" />
     <ClInclude Include="MoveRightCommand.h" />
     <ClInclude Include="MoveUpCommand.h" />
     <ClInclude Include="PeterPepperComponent.h" />
+    <ClInclude Include="ScoreComponent.h" />
+    <ClInclude Include="SprayCommand.h" />
+    <ClInclude Include="SprayComponent.h" />
+    <ClInclude Include="StateComponent.h" />
     <ClInclude Include="TakeDamageCommand.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

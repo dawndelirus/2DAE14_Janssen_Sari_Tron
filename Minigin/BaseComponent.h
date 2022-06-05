@@ -7,7 +7,7 @@ namespace dae
 	class BaseComponent
 	{
 	public:
-		BaseComponent(std::weak_ptr<GameObject> gameObject)
+		BaseComponent(std::weak_ptr<dae::GameObject> gameObject)
 			: m_GameObject(gameObject) {}
 		virtual ~BaseComponent() = default;
 

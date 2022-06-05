@@ -15,7 +15,8 @@ namespace dae
 		virtual void Render() const override;
 
 		void SetTexture(const std::string& fileName);
-
+		int GetWidth();
+		int GetHeight();
 	private:
 		std::shared_ptr<Texture2D> m_Texture;
 	};

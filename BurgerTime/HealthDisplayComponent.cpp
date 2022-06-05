@@ -10,13 +10,15 @@ HealthDisplayComponent::HealthDisplayComponent(std::shared_ptr<dae::GameObject> 
 	m_TextComponent.lock()->SetText("Remaining lives: " + std::to_string(health));
 }
 
-void HealthDisplayComponent::Notify(std::shared_ptr<dae::GameObject> gameObject, Event event)
+void HealthDisplayComponent::Notify(std::shared_ptr<dae::GameObject> gameObject, ObserverEvent event)
 {
 	switch (event)
 	{
-	case Event::PlayerDied:
-		auto health = m_HealthComponent.lock()->GetCurrentHealth();
-		m_TextComponent.lock()->SetText("Remaining lives: " + std::to_string(health));
-		break;
+	case ObserverEvent::HasDied:
+		{
+			auto health = m_HealthComponent.lock()->GetCurrentHealth();
+			m_TextComponent.lock()->SetText("Remaining lives: " + std::to_string(health));
+			break;
+		}
 	}
 }

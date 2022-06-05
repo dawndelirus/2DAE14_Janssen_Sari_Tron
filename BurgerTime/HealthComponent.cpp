@@ -17,22 +17,18 @@ void HealthComponent::TakeDamage(int amount)
 		if (m_CurrentHealth <= 0)
 		{
 			m_CurrentHealth = 0;
-			Die();
+			std::cout << "AAAh I died!\n";
+			Notify(GetGameObject(), ObserverEvent::HasDied);
 		}
 		else
 		{
 			std::cout << m_CurrentHealth << "\n";
+			Notify(GetGameObject(), ObserverEvent::TakeDamage);
 		}
-		Notify(GetGameObject(), Event::PlayerDied);
 	}
 }
 
 int HealthComponent::GetCurrentHealth() const
 {
 	return m_CurrentHealth;
-}
-
-void HealthComponent::Die()
-{
-	std::cout << "AAAh I died!\n";
 }

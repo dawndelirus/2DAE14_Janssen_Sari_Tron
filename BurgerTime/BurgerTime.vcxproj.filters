@@ -57,6 +57,21 @@
     <ClCompile Include="MoveDownCommand.cpp">
       <Filter>Command</Filter>
     </ClCompile>
+    <ClCompile Include="StateComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="SprayCommand.cpp">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="SprayComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelPrefab.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerTimePCH.h">
@@ -91,6 +106,21 @@
     </ClInclude>
     <ClInclude Include="MoveDownCommand.h">
       <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="StateComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SprayCommand.h">
+      <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="SprayComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelPrefab.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -23,3 +23,13 @@ void dae::Texture2DComponent::SetTexture(const std::string& fileName)
 {
 	m_Texture = ResourceManager::GetInstance().LoadTexture(fileName);
 }
+
+int dae::Texture2DComponent::GetWidth()
+{
+	return m_Texture->GetWidth();
+}
+
+int dae::Texture2DComponent::GetHeight()
+{
+	return m_Texture->GetHeight();
+}

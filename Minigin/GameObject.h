@@ -62,7 +62,7 @@ namespace dae
 		}
 
 		/// <param name="pParent">If pParent is null, current parent will be unset and no new parent will be added</param>
-		void SetParent(std::weak_ptr<GameObject> parent, bool keepWorldPosition);
+		void SetParent(std::weak_ptr<GameObject> parent, std::shared_ptr<GameObject> child, bool keepWorldPosition);
 		std::weak_ptr<GameObject> GetParent() const;
 
 		size_t GetChildCount() const;

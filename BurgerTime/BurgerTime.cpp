@@ -33,6 +33,8 @@
 #include "MoveDownCommand.h"
 #include "MoveComponent.h"
 
+#include "LevelPrefab.h"
+
 void CreatePlayer(dae::Scene* scene, float healtPosX, float peterPosX, int playerId)
 {
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
@@ -46,11 +48,12 @@ void CreatePlayer(dae::Scene* scene, float healtPosX, float peterPosX, int playe
 
 	// Input
 	auto& input = dae::ServiceLocator::GetInputManager();
-	auto damageCommand = std::make_shared<TakeDamageCommand>(peterObject);
+	//auto damageCommand = std::make_shared<TakeDamageCommand>(peterObject);
 	input.AddInput(dae::InputAction(playerId, dae::ButtonState::pressed, std::make_shared<MoveLeftCommand>(peterObject), dae::ControllerButton::DPadLeft, dae::KeyboardKey::K_A));
 	input.AddInput(dae::InputAction(playerId, dae::ButtonState::pressed, std::make_shared<MoveRightCommand>(peterObject), dae::ControllerButton::DPadRight, dae::KeyboardKey::K_D));
 	input.AddInput(dae::InputAction(playerId, dae::ButtonState::pressed, std::make_shared<MoveUpCommand>(peterObject), dae::ControllerButton::DPadUp, dae::KeyboardKey::K_W));
 	input.AddInput(dae::InputAction(playerId, dae::ButtonState::pressed, std::make_shared<MoveDownCommand>(peterObject), dae::ControllerButton::DPadDown, dae::KeyboardKey::K_S));
+	input.AddInput(dae::InputAction(playerId, dae::ButtonState::pressed, std::make_shared<MoveDownCommand>(peterObject), dae::ControllerButton::ButtonA, dae::KeyboardKey::K_SPACE));
 
 	// Health
 	auto healthObject = std::make_shared<dae::GameObject>(glm::vec3(healtPosX, 70.f, 0.f));
@@ -65,9 +68,12 @@ void CreatePlayer(dae::Scene* scene, float healtPosX, float peterPosX, int playe
 	scene->Add(peterObject);
 }
 
+
 void LoadGame()
 {
 	dae::Scene* scene = dae::ServiceLocator::GetSceneManager().CreateScene("Demo");
+
+	LoadLevel(scene);
 
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 

@@ -12,7 +12,7 @@ public:
 
 	void Update() override {};
 	void Render() const override {};
-	void Notify(std::shared_ptr<dae::GameObject> gameObject, Event event) override;
+	void Notify(std::shared_ptr<dae::GameObject> gameObject, ObserverEvent event) override;
 
 private:
 	std::weak_ptr<dae::TextComponent> m_TextComponent;

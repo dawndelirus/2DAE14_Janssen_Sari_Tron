@@ -8,11 +8,8 @@ public:
 	PeterPepperComponent(std::shared_ptr<dae::GameObject> gameObject);
 	~PeterPepperComponent() = default;
 
-	virtual void Update();
-	virtual void Render() const;
-
-
-
+	virtual void Update() override;
+	virtual void Render() const override;
 private:
 };
 

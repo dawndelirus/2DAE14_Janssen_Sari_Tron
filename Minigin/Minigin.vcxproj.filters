@@ -186,6 +186,9 @@
     <ClInclude Include="State.h">
       <Filter>State</Filter>
     </ClInclude>
+    <ClInclude Include="BinToCharVec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
