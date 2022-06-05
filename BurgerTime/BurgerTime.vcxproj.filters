@@ -72,6 +72,9 @@
     <ClCompile Include="LevelPrefab.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LevelLoaderComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerTimePCH.h">
@@ -121,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="LevelPrefab.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelLoaderComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
