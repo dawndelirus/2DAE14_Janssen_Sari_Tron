@@ -43,8 +43,8 @@ void CreatePlayer(dae::Scene* scene, float healtPosX, float peterPosX, int playe
 	auto peterObject = std::make_shared<dae::GameObject>(glm::vec3(peterPosX, 480.f / 2.f, 0.f));
 	peterObject->AddComponent(std::make_shared<PeterPepperComponent>(peterObject));
 	auto peterHealthComp = peterObject->AddComponent(std::make_shared<HealthComponent>(peterObject, 3));
-	peterObject->AddComponent(std::make_shared<dae::Texture2DComponent>(peterObject, "PP_Idle.png"));
-	peterObject->AddComponent(std::make_shared<MoveComponent>(peterObject, 20.f));
+	peterObject->AddComponent(std::make_shared<dae::Texture2DComponent>(peterObject, "Sprites/PeterPepper/PP_Idle.png"));
+	peterObject->AddComponent(std::make_shared<MoveComponent>(peterObject, 50.f));
 
 	// Input
 	auto& input = dae::ServiceLocator::GetInputManager();
