@@ -2,6 +2,7 @@
 #include "BaseComponent.h"
 #include "unordered_map"
 
+class LevelMovementComponent;
 class LevelLoaderComponent final : public dae::BaseComponent
 {
 public:
@@ -19,7 +20,7 @@ public:
 		egg = 7
 	};
 
-	LevelLoaderComponent(std::weak_ptr<dae::GameObject> gameObject, int gridWidth);
+	LevelLoaderComponent(std::weak_ptr<dae::GameObject> gameObject, std::shared_ptr<LevelMovementComponent> walkableLevel, int gridWidth);
 	~LevelLoaderComponent() = default;
 
 	void Update() override {};
@@ -41,6 +42,7 @@ private:
 
 	std::unordered_map<int, glm::vec2> m_PlayerPositions;
 	std::unordered_multimap<int, glm::vec2> m_EnemyPositions;
+	std::weak_ptr<LevelMovementComponent> m_LevelMovement;
 
 	int m_TileWidth;
 	int m_TileHeight;

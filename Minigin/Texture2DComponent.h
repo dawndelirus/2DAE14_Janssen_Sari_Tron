@@ -15,10 +15,12 @@ namespace dae
 		virtual void Render() const override;
 
 		void SetTexture(const std::string& fileName);
+		void SetRenderPositionOffset(glm::vec2 renderPos);
 		int GetWidth();
 		int GetHeight();
 	private:
 		std::shared_ptr<Texture2D> m_Texture;
+		glm::vec2 m_Offset;
 	};
 
 }

@@ -9,19 +9,28 @@
 
 dae::Texture2DComponent::Texture2DComponent(std::shared_ptr<GameObject> gameObject, const std::string& fileName)
 	: BaseComponent(gameObject)
+	, m_Offset{}
 {
 	m_Texture = ResourceManager::GetInstance().LoadTexture(fileName);
 }
 
 void dae::Texture2DComponent::Render() const
 {
-	auto position = GetGameObject()->GetWorldPosition();
+	glm::vec3 position = GetGameObject()->GetWorldPosition();
+	position.x -= m_Offset.x;
+	position.y -= m_Offset.y;
+
 	dae::Renderer::GetInstance().RenderTexture(*m_Texture, position.x, position.y);
 }
 
 void dae::Texture2DComponent::SetTexture(const std::string& fileName)
 {
 	m_Texture = ResourceManager::GetInstance().LoadTexture(fileName);
+}
+
+void dae::Texture2DComponent::SetRenderPositionOffset(glm::vec2 renderPos)
+{
+	m_Offset = renderPos;
 }
 
 int dae::Texture2DComponent::GetWidth()

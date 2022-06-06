@@ -2,13 +2,16 @@
 #include "LevelLoaderComponent.h"
 #include "Texture2DComponent.h"
 #include "BinToCharVec.h"
+#include "LevelMovementComponent.h"
 
-LevelLoaderComponent::LevelLoaderComponent(std::weak_ptr<dae::GameObject> gameObject, int gridWidth)
+LevelLoaderComponent::LevelLoaderComponent(std::weak_ptr<dae::GameObject> gameObject, std::shared_ptr<LevelMovementComponent> walkableLevel, int gridWidth)
 	: BaseComponent(gameObject)
 	, m_TileWidth{}
 	, m_TileHeight{}
 	, m_GridWidth{ gridWidth }
+	, m_LevelMovement{walkableLevel}
 {
+	walkableLevel->SetGridWidth(gridWidth);
 }
 
 glm::vec2 LevelLoaderComponent::GetGridTopLeft(size_t idx)
@@ -58,10 +61,13 @@ const std::unordered_map<int, glm::vec2>& LevelLoaderComponent::GetPlayerPositio
 void LevelLoaderComponent::LoadLevelVisuals(std::vector<char> output)
 {
 	auto levelVisuals = std::make_shared<dae::GameObject>(0, 0, 0);
+	std::vector<bool> isWalkable{};
+
 	for (size_t i = 0; i < output.size(); ++i)
 	{
 		if (static_cast<int>(output[i]) == 4)
 		{
+			isWalkable.emplace_back(false);
 			continue;
 		}
 
@@ -88,6 +94,7 @@ void LevelLoaderComponent::LoadLevelVisuals(std::vector<char> output)
 		{
 			m_TileWidth = texComp->GetWidth();
 			m_TileHeight = texComp->GetHeight();
+			m_LevelMovement.lock()->SetTileSize(glm::vec2(m_TileWidth, m_TileHeight));
 		}
 
 		auto pos = GetGridTopLeft(i);
@@ -95,9 +102,11 @@ void LevelLoaderComponent::LoadLevelVisuals(std::vector<char> output)
 		visualChild->AddComponent(texComp);
 		visualChild->SetParent(levelVisuals, visualChild, true);
 		visualChild->SetLocalPosition(pos.x, pos.y, 0.f);
+		isWalkable.emplace_back(true);
 	}
 
 	levelVisuals->SetParent(GetGameObject(), levelVisuals, false);
+	m_LevelMovement.lock()->SetWalkableGrid(isWalkable);
 }
 
 void LevelLoaderComponent::LoadLevelFood(std::vector<char> output)
@@ -181,8 +190,6 @@ void LevelLoaderComponent::LoadPlayerPositions(std::vector<char> output)
 			break;
 		}
 
-		pos.x -= 32.f / 2.f;
-		pos.y -= 32.f;
 		m_PlayerPositions.emplace(std::make_pair(index, pos));
 	}
 }

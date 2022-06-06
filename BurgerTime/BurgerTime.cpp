@@ -34,8 +34,9 @@
 #include "MoveComponent.h"
 
 #include "LevelLoaderComponent.h"
+#include "LevelMovementComponent.h"
 
-void CreatePlayer(dae::Scene* scene, float healtPosX, glm::vec2 peterPos, int playerId)
+void CreatePlayer(dae::Scene* scene, std::shared_ptr<LevelMovementComponent> movement, float healtPosX, glm::vec2 peterPos, int playerId)
 {
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
 
@@ -43,8 +44,11 @@ void CreatePlayer(dae::Scene* scene, float healtPosX, glm::vec2 peterPos, int pl
 	auto peterObject = std::make_shared<dae::GameObject>(glm::vec3(peterPos.x, peterPos.y, 0.f));
 	peterObject->AddComponent(std::make_shared<PeterPepperComponent>(peterObject));
 	auto peterHealthComp = peterObject->AddComponent(std::make_shared<HealthComponent>(peterObject, 3));
-	peterObject->AddComponent(std::make_shared<dae::Texture2DComponent>(peterObject, "Sprites/PeterPepper/PP_Idle.png"));
-	peterObject->AddComponent(std::make_shared<MoveComponent>(peterObject, 50.f));
+	auto textureComp = std::make_shared<dae::Texture2DComponent>(peterObject, "Sprites/PeterPepper/PP_Idle.png");
+	peterObject->AddComponent(textureComp);
+	textureComp->SetRenderPositionOffset(glm::vec2(textureComp->GetWidth() / 2.f, textureComp->GetHeight()));
+
+	peterObject->AddComponent(std::make_shared<MoveComponent>(peterObject, movement, 50.f));
 
 	// Input
 	auto& input = dae::ServiceLocator::GetInputManager();
@@ -74,9 +78,13 @@ void LoadGame()
 	dae::Scene* scene = dae::ServiceLocator::GetSceneManager().CreateScene("Demo");
 
 	auto levelObject = std::make_shared<dae::GameObject>(100, 50, 0);
-	auto levelLoader = std::make_shared<LevelLoaderComponent>(levelObject, 17);
+	auto levelMovement = std::make_shared<LevelMovementComponent>(levelObject);
+	levelObject->AddComponent(levelMovement);
+
+	auto levelLoader = std::make_shared<LevelLoaderComponent>(levelObject, levelMovement, 17);
 	levelObject->AddComponent(levelLoader);
 	levelLoader->LoadLevel("../Data/Level/Level0.bin");
+
 	auto playerPos = levelLoader->GetPlayerPositions();
 	scene->Add(levelObject);
 
@@ -87,16 +95,17 @@ void LoadGame()
 	soAssignment->AddComponent(textAssignment);
 	scene->Add(soAssignment);
 
+	// Create players
 	auto pos = playerPos[static_cast<int>(LevelLoaderComponent::PlayerIndex::pepper)];
 	pos.x += levelObject->GetWorldPosition().x;
 	pos.y += levelObject->GetWorldPosition().y;
 
-	CreatePlayer(scene, 0.f, pos, 0);
+	CreatePlayer(scene, levelMovement, 0.f, pos, 0);
 	
 	pos = playerPos[static_cast<int>(LevelLoaderComponent::PlayerIndex::salt)];
 	pos.x += levelObject->GetWorldPosition().x;
 	pos.y += levelObject->GetWorldPosition().y;
-	CreatePlayer(scene, 450.f, pos, 1);
+	CreatePlayer(scene, levelMovement, 450.f, pos, 1);
 
 	dae::ServiceLocator::GetSoundSystem().RegisterMusic(0, "../Data/01_BGM#01.mp3");
 	dae::ServiceLocator::GetSoundSystem().PlayMusic(0, 1, 0);

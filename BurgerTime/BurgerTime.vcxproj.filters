@@ -75,6 +75,9 @@
     <ClCompile Include="LevelLoaderComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="LevelMovementComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerTimePCH.h">
@@ -126,6 +129,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LevelLoaderComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelMovementComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
