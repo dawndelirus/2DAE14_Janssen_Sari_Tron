@@ -1,5 +1,6 @@
 #pragma once
 #include "SceneManager.h"
+#include <vector>
 
 namespace dae
 {
