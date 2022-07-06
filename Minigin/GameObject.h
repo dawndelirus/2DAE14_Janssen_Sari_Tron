@@ -10,12 +10,8 @@ namespace dae
 	class GameObject final
 	{
 	public:
-		void Update();
-		void Render() const;
-
 		GameObject();
 		GameObject(float x, float y, float z);
-		GameObject(int x, int y, int z);
 		GameObject(const glm::vec3& pos);
 		~GameObject() = default;
 
@@ -23,6 +19,9 @@ namespace dae
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
+
+		void Update();
+		void Render() const;
 
 		template <typename T> 
 		std::shared_ptr<T> AddComponent(std::shared_ptr<T> pComponent)
@@ -62,7 +61,7 @@ namespace dae
 		}
 
 		/// <param name="pParent">If pParent is null, current parent will be unset and no new parent will be added</param>
-		void SetParent(std::weak_ptr<GameObject> parent, std::shared_ptr<GameObject> child, bool keepWorldPosition);
+		void SetParent(std::shared_ptr<GameObject> parent, std::shared_ptr<GameObject> child, bool keepWorldPosition);
 		std::weak_ptr<GameObject> GetParent() const;
 
 		size_t GetChildCount() const;

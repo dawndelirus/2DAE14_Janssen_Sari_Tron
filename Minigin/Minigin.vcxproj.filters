@@ -78,9 +78,6 @@
     <ClInclude Include="TextComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="RenderComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="BaseComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -113,15 +110,6 @@
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui-1.87\imgui_plot.h">
       <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGuiComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="PlotIntComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="PlotGameObjectComponent.h">
-      <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="ComponentIncludes.h">
       <Filter>Header Files</Filter>
@@ -189,6 +177,12 @@
     <ClInclude Include="BinToCharVec.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="glmWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sdlWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -249,18 +243,6 @@
       <Filter>imgui</Filter>
     </ClCompile>
     <ClCompile Include="BaseComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGuiComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="PlotGameObjectComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="PlotIntComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="TextComponent.cpp">

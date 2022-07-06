@@ -1,7 +1,7 @@
 #pragma once
 #include "BaseComponent.h"
 #include "Transform.h"
-#include <glm/vec3.hpp>
+#include "glmWrapper.h"
 #include <string>
 
 namespace dae

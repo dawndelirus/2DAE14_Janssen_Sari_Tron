@@ -212,7 +212,7 @@
     <ClInclude Include="ComponentIncludes.h" />
     <ClInclude Include="EventArgs.h" />
     <ClInclude Include="Font.h" />
-    <ClInclude Include="ImGuiComponent.h" />
+    <ClInclude Include="glmWrapper.h" />
     <ClInclude Include="InputHelpers.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="BaseInputManager.h" />
@@ -225,9 +225,6 @@
     <ClInclude Include="NullSoundSystem.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="ObserverHelpers.h" />
-    <ClInclude Include="PlotGameObjectComponent.h" />
-    <ClInclude Include="PlotIntComponent.h" />
-    <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -235,6 +232,7 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="BaseSceneManager.h" />
     <ClInclude Include="SDLSoundSystem.h" />
+    <ClInclude Include="sdlWrapper.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="BaseSoundSystem.h" />
@@ -300,7 +298,6 @@
     <ClCompile Include="BaseComponent.cpp" />
     <ClCompile Include="BinToCharVec.cpp" />
     <ClCompile Include="Font.cpp" />
-    <ClCompile Include="ImGuiComponent.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="KeyboardControls.cpp" />
     <ClCompile Include="LoggingSoundSystem.cpp" />
@@ -312,9 +309,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MiniginPCH.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="PlotGameObjectComponent.cpp" />
-    <ClCompile Include="PlotIntComponent.cpp" />
-    <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />

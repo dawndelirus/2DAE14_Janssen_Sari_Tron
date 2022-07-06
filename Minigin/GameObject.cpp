@@ -9,11 +9,6 @@ GameObject::GameObject(float x, float y, float z)
 {
 }
 
-GameObject::GameObject(int x, int y, int z)
-	: GameObject(static_cast<float>(x), static_cast<float>(y), static_cast<float>(z))
-{
-}
-
 dae::GameObject::GameObject(const glm::vec3& pos)
 	: m_ComponentVec{}
 	, m_ChildrenVec{}
@@ -55,11 +50,9 @@ void GameObject::Render() const
 	}
 }
 
-void GameObject::SetParent(std::weak_ptr<GameObject> parent, std::shared_ptr<GameObject> child, bool keepWorldPosition)
+void GameObject::SetParent(std::shared_ptr<GameObject> parent, std::shared_ptr<GameObject> child, bool keepWorldPosition)
 {
-	auto parentShared = parent.lock();
-
-	if (parentShared == nullptr)
+	if (parent == nullptr)
 	{
 		SetLocalPosition(GetWorldPosition());
 		RemoveParent();
@@ -68,16 +61,13 @@ void GameObject::SetParent(std::weak_ptr<GameObject> parent, std::shared_ptr<Gam
 	
 	if (keepWorldPosition)
 	{
-		SetLocalPosition(GetLocalPosition() - parentShared->GetWorldPosition());
+		SetLocalPosition(GetLocalPosition() - parent->GetWorldPosition());
 	}
 	m_IsTransformDirty = true;
 
-	// Find this as shared_ptr in previous parent
-	//auto child = GetThisGameObjectFromParent(m_Parent);
-
 	// Change parent
 	RemoveParent();
-	m_Parent = parentShared;
+	m_Parent = parent;
 	m_Parent.lock()->AddChild(child);
 }
 
@@ -90,7 +80,7 @@ void dae::GameObject::RemoveParent()
 {
 	auto parent = m_Parent.lock();
 
-	if (parent == nullptr)
+	if (parent != nullptr)
 	{
 		return;
 	}
