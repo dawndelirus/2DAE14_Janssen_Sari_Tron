@@ -22,6 +22,9 @@ void LoadGame()
 	auto textureBg = std::make_shared<dae::Texture2DComponent>(soBg, "background.jpg");
 	soBg->AddComponent(textureBg);
 	scene->Add(soBg);
+
+	dae::ServiceLocator::GetSoundSystem().RegisterMusic(0, "../Data/01_BGM#01.mp3");
+	dae::ServiceLocator::GetSoundSystem().PlayMusic(0, 1, 0);
 }
 
 int main(int, char* [])

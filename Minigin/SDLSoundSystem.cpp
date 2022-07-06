@@ -47,7 +47,7 @@ public:
 
 private:
 	void UpdateThread_T();
-	void ProcessQueue_T();
+	void ProcessEvent_T(Event event, std::shared_ptr<EventArgs> eventArgs);
 
 	std::map<dae::SoundId, Mix_Chunk*> m_SoundChunks;
 	std::map<dae::SoundId, Mix_Music*> m_Music;
@@ -56,7 +56,6 @@ private:
 
 	std::atomic<bool> m_IsThreadActive;
 	std::deque<std::pair<Event, std::shared_ptr<EventArgs>>> m_SoundQueue;
-	std::deque<std::pair<Event, std::shared_ptr<EventArgs>>> m_ThreadedQueue;
 
 	std::mutex m_QueueMutex;
 	std::jthread m_Thread;
@@ -249,60 +248,55 @@ void SDLSoundSystem::SDLSoundSystemImpl::UpdateThread_T()
 				return !m_SoundQueue.empty() || !m_IsThreadActive;
 			});
 
+		std::pair<Event, std::shared_ptr<EventArgs>> soundEvent{};
 		while (!m_SoundQueue.empty())
 		{
-			auto& soundEvent = m_SoundQueue.front();
-			m_ThreadedQueue.emplace_back(soundEvent);
+			soundEvent = m_SoundQueue.front();
 			m_SoundQueue.pop_front();
+			lock.unlock();
+			ProcessEvent_T(soundEvent.first, soundEvent.second);
+			lock.lock();
 		}
 		lock.unlock();
-		ProcessQueue_T();
 	}
 }
 
-void SDLSoundSystem::SDLSoundSystemImpl::ProcessQueue_T()
+void SDLSoundSystem::SDLSoundSystemImpl::ProcessEvent_T(Event e, std::shared_ptr<EventArgs> ea)
 {
-	while (!m_ThreadedQueue.empty())
+	switch (e)
 	{
-		auto& soundEvent = m_ThreadedQueue.front();
-
-		switch (soundEvent.first)
-		{
-		case Event::PlaySound:
-		{
-			auto args = std::dynamic_pointer_cast<SoundEffectsEventArgs>(soundEvent.second);
-			PlaySound_T(args->id, args->volume);
-			break;
-		}
-		case Event::PauseSound:
-			PauseSound_T();
-			break;
-		case Event::ResumeSound:
-			ResumeSound_T();
-			break;
-		case Event::StopSound:
-			StopSound_T();
-			break;
-		case Event::PlayMusic:
-		{
-			auto args = std::dynamic_pointer_cast<MusicEventArgs>(soundEvent.second);
-			PlayMusic_T(args->id, args->volume, args->loops);
-			break;
-		}
-		case Event::PauseMusic:
-			PauseMusic_T();
-			break;
-		case Event::ResumeMusic:
-			ResumeMusic_T();
-			break;
-		case Event::StopMusic:
-			StopMusic_T();
-			break;
-		default:
-			break;
-		}
-
-		m_ThreadedQueue.pop_front();
+	case Event::PlaySound:
+	{
+		auto args = std::dynamic_pointer_cast<SoundEffectsEventArgs>(ea);
+		PlaySound_T(args->id, args->volume);
+		break;
+	}
+	case Event::PauseSound:
+		PauseSound_T();
+		break;
+	case Event::ResumeSound:
+		ResumeSound_T();
+		break;
+	case Event::StopSound:
+		StopSound_T();
+		break;
+	case Event::PlayMusic:
+	{
+		auto args = std::dynamic_pointer_cast<MusicEventArgs>(ea);
+		PlayMusic_T(args->id, args->volume, args->loops);
+		break;
+	}
+	case Event::PauseMusic:
+		PauseMusic_T();
+		break;
+	case Event::ResumeMusic:
+		ResumeMusic_T();
+		break;
+	case Event::StopMusic:
+		StopMusic_T();
+		break;
+	default:
+		break;
 	}
 }
 
