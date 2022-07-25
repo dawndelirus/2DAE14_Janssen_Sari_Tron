@@ -89,6 +89,7 @@ namespace dae
 
 	enum class ButtonState
 	{
+		none,
 		pressed,
 		downThisFrame,
 		releasedThisFrame
@@ -102,6 +103,10 @@ namespace dae
 
 		InputAction(int idx, ButtonState state, std::shared_ptr<Command> command, KeyboardKey key)
 			: InputAction(idx, state, command, ControllerButton::Empty, key, Joystick::Empty)
+		{}
+
+		InputAction(int idx, std::shared_ptr<Command> command, Joystick stick)
+			: InputAction(idx, ButtonState::none, command, ControllerButton::Empty, KeyboardKey::Empty, stick)
 		{}
 
 		InputAction(int idx, ButtonState state, std::shared_ptr<Command> command, ControllerButton button, KeyboardKey key, Joystick stick)

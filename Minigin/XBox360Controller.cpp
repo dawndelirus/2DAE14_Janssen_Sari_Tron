@@ -98,6 +98,16 @@ void XBox360Controller::Update()
 			command.second->Execute();
 		}
 	}
+
+	for (auto& command : m_CommandsJoystick)
+	{
+		auto joystickPos = GetJoystickPosition(command.first.second, command.first.first);
+		if (joystickPos.x > 0.f || joystickPos.y > 0.f) // TODO: add deadzone
+		{
+			command.second->Execute();
+		}
+	}
+
 }
 
 void XBox360Controller::AddInput(ControllerButton button, std::shared_ptr<Command> command, ButtonState state, int playerIndex)
@@ -116,10 +126,10 @@ void XBox360Controller::AddInput(ControllerButton button, std::shared_ptr<Comman
 	}
 }
 
-//void dae::XBox360Controller::AddInput(Joystick stick, std::unique_ptr<Command> command, int playerIndex)
-//{
-//	m_CommandsJoystick.emplace(std::make_pair(playerIndex, stick), command);
-//}
+void dae::XBox360Controller::AddInput(Joystick stick, std::shared_ptr<Command> command, int playerIndex)
+{
+	m_CommandsJoystick.emplace(std::make_pair(playerIndex, stick), command);
+}
 
 void dae::XBox360Controller::RemoveInput(ControllerButton button, ButtonState state, int playerIndex)
 {
@@ -137,10 +147,10 @@ void dae::XBox360Controller::RemoveInput(ControllerButton button, ButtonState st
 	}
 }
 
-//void dae::XBox360Controller::RemoveInput(Joystick stick, int playerIndex)
-//{
-//	m_CommandsJoystick.erase(std::make_pair(playerIndex, stick));
-//}
+void dae::XBox360Controller::RemoveInput(Joystick stick, int playerIndex)
+{
+	m_CommandsJoystick.erase(std::make_pair(playerIndex, stick));
+}
 
 XBox360Controller::XBox360ControllerImpl::XBox360ControllerImpl()
 {
@@ -188,8 +198,6 @@ void XBox360Controller::XBox360ControllerImpl::Update()
 			auto buttonChanges = m_CurrentState[cIdx].Gamepad.wButtons ^ m_PreviousState[cIdx].Gamepad.wButtons;
 			m_ButtonsPressedThisFrame[cIdx] = buttonChanges & m_CurrentState[cIdx].Gamepad.wButtons;
 			m_ButtonsReleasedThisFrame[cIdx] = buttonChanges & (~m_CurrentState[cIdx].Gamepad.wButtons);
-
-			//m_CurrentState[cIdx].Gamepad.sThumbLX;
 		}
 		else
 		{

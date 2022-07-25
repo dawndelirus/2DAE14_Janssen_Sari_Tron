@@ -35,38 +35,31 @@ void dae::InputManager::AddInput(InputAction action)
 	{
 		m_Controller->AddInput(action.controllerButtonCode, action.command, action.buttonState, action.playerIndex);
 	}
+	if (action.joystickCode != Joystick::Empty)
+	{
+		m_Controller->AddInput(action.joystickCode, action.command, action.playerIndex);
+	}
 }
 
 void dae::InputManager::RemoveInput(InputAction action)
 {
 	if (action.keyboardKeyCode != KeyboardKey::Empty)
 	{
-		RemoveControllerInput(action.controllerButtonCode, action.buttonState, action.playerIndex);
+		m_Controller->RemoveInput(action.controllerButtonCode, action.buttonState, action.playerIndex);
 	}
 	if (action.controllerButtonCode != ControllerButton::Empty)
 	{
-		RemoveKeyboardInput(action.keyboardKeyCode, action.buttonState);
+		m_Keyboard->RemoveInput(action.keyboardKeyCode, action.buttonState);
+	}
+	if (action.joystickCode != Joystick::Empty)
+	{
+		m_Controller->RemoveInput(action.joystickCode, action.playerIndex);
 	}
 }
 
-void dae::InputManager::RemoveControllerInput(ControllerButton button, ButtonState state, int playerIndex)
+glm::vec2 dae::InputManager::GetJoystickPosition(Joystick stick, int playerIndex) const
 {
-	m_Controller->RemoveInput(button, state, playerIndex);
-}
-
-void dae::InputManager::RemoveKeyboardInput(KeyboardKey button, ButtonState state)
-{
-	m_Keyboard->RemoveInput(button, state);
-}
-
-//glm::vec2 dae::InputManager::GetJoystickPosition(Joystick stick, int playerIndex) const
-//{
-//	return m_Controller->GetJoystickPosition(stick, playerIndex);
-//}
-
-glm::vec2 dae::InputManager::GetJoystickPosition(Joystick, int ) const
-{
-	return glm::vec2();
+	return m_Controller->GetJoystickPosition(stick, playerIndex);
 }
 
 bool dae::InputManager::IsControllerButton(ButtonState state, ControllerButton button, int playerIndex) const

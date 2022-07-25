@@ -15,6 +15,9 @@
 #include "ServiceLocator.h"
 #include "BaseSceneManager.h"
 
+#include "MoveComponent.h"
+#include "MoveCommand.h"
+
 void LoadGame()
 {
 	auto scene = dae::ServiceLocator::GetSceneManager().CreateScene("Demo");
@@ -25,6 +28,13 @@ void LoadGame()
 
 	dae::ServiceLocator::GetSoundSystem().RegisterMusic(0, "../Data/01_BGM#01.mp3");
 	dae::ServiceLocator::GetSoundSystem().PlayMusic(0, 1, 0);
+
+	auto test = std::make_shared<dae::GameObject>();
+	test->AddComponent(std::make_shared<MoveComponent>(test));
+
+	auto& inputM = dae::ServiceLocator::GetInputManager();
+	auto action = dae::InputAction(0, std::make_shared<MoveCommand>(test), dae::Joystick::LeftStick);
+	inputM.AddInput(action);
 }
 
 int main(int, char* [])

@@ -13,8 +13,5 @@ namespace dae
 		glm::vec2 GetJoystickPosition(Joystick, int) const override { return glm::vec2{ 0.f, 0.f }; };
 		bool IsControllerButton(ButtonState, ControllerButton, int) const override { return false; };
 		bool IsKeyboardKey(ButtonState, KeyboardKey) const override { return false; };
-
-		void RemoveControllerInput(ControllerButton, ButtonState, int) override {};
-		void RemoveKeyboardInput(KeyboardKey, ButtonState) override {};
 	};
 }

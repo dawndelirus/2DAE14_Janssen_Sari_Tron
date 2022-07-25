@@ -4,7 +4,6 @@
 #include "BaseInputManager.h"
 #include "BaseSceneManager.h"
 
-
 using namespace dae;
 
 NullSoundSystem ServiceLocator::m_DefaultSoundSystem;

@@ -163,7 +163,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="MoveCommand.cpp" />
+    <ClCompile Include="MoveComponent.cpp" />
     <ClCompile Include="Tron.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MoveCommand.h" />
+    <ClInclude Include="MoveComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

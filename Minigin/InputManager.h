@@ -19,10 +19,7 @@ namespace dae
 		bool IsControllerButton(ButtonState state, ControllerButton button, int playerIndex = 0) const override;
 		bool IsKeyboardKey(ButtonState state, KeyboardKey key) const override;
 
-		void RemoveControllerInput(ControllerButton button, ButtonState state, int playerIndex = 0) override;
-		void RemoveKeyboardInput(KeyboardKey button, ButtonState state) override;
 	private:
-
 		std::unique_ptr<XBox360Controller> m_Controller{std::make_unique<XBox360Controller>()};
 		std::unique_ptr<KeyboardControls> m_Keyboard{std::make_unique<KeyboardControls>()};
 	};
