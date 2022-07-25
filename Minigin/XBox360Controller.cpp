@@ -18,6 +18,7 @@ public:
 
 	void Update();
 
+	glm::vec2 GetJoystickPosition(Joystick stick, int playerIndex) const;
 	bool IsPressed(ControllerButton button, int playerIdx) const;
 	bool IsDownThisFrame(ControllerButton button, int playerIdx) const;
 	bool IsReleasedThisFrame(ControllerButton button, int playerIdx) const;
@@ -45,6 +46,11 @@ XBox360Controller::XBox360Controller()
 XBox360Controller::~XBox360Controller()
 {
 	delete m_pImpl;
+}
+
+glm::vec2 dae::XBox360Controller::GetJoystickPosition(Joystick stick, int playerIndex) const
+{
+	return m_pImpl->GetJoystickPosition(stick, playerIndex);
 }
 
 bool XBox360Controller::IsPressed(ControllerButton button, int playerIndex) const
@@ -110,6 +116,11 @@ void XBox360Controller::AddInput(ControllerButton button, std::shared_ptr<Comman
 	}
 }
 
+//void dae::XBox360Controller::AddInput(Joystick stick, std::unique_ptr<Command> command, int playerIndex)
+//{
+//	m_CommandsJoystick.emplace(std::make_pair(playerIndex, stick), command);
+//}
+
 void dae::XBox360Controller::RemoveInput(ControllerButton button, ButtonState state, int playerIndex)
 {
 	switch (state)
@@ -125,6 +136,11 @@ void dae::XBox360Controller::RemoveInput(ControllerButton button, ButtonState st
 		break;
 	}
 }
+
+//void dae::XBox360Controller::RemoveInput(Joystick stick, int playerIndex)
+//{
+//	m_CommandsJoystick.erase(std::make_pair(playerIndex, stick));
+//}
 
 XBox360Controller::XBox360ControllerImpl::XBox360ControllerImpl()
 {
@@ -173,6 +189,7 @@ void XBox360Controller::XBox360ControllerImpl::Update()
 			m_ButtonsPressedThisFrame[cIdx] = buttonChanges & m_CurrentState[cIdx].Gamepad.wButtons;
 			m_ButtonsReleasedThisFrame[cIdx] = buttonChanges & (~m_CurrentState[cIdx].Gamepad.wButtons);
 
+			//m_CurrentState[cIdx].Gamepad.sThumbLX;
 		}
 		else
 		{
@@ -184,6 +201,43 @@ void XBox360Controller::XBox360ControllerImpl::Update()
 			continue;
 		}
 	}
+}
+
+glm::vec2 XBox360Controller::XBox360ControllerImpl::GetJoystickPosition(Joystick stick, int playerIndex) const
+{
+	glm::vec2 position{};
+
+	if (playerIndex >= XUSER_MAX_COUNT)
+	{
+		return position;
+	}
+	else if (!m_IsConnected[playerIndex])
+	{
+		return position;
+	}
+	
+	switch (stick)
+	{
+	case Joystick::LeftStick:
+	{
+		float x = m_CurrentState[playerIndex].Gamepad.sThumbLX;
+		float y = m_CurrentState[playerIndex].Gamepad.sThumbLY;
+		position = glm::vec2(x, y);
+		break;
+	}
+	case Joystick::RightStick:
+	{
+		float x = m_CurrentState[playerIndex].Gamepad.sThumbRX;
+		float y = m_CurrentState[playerIndex].Gamepad.sThumbRY;
+		position = glm::vec2(x, y);
+		break;
+	}
+	default:
+		assert(true && "Joystick not recognised");
+		break;
+	}
+
+	return position;
 }
 
 bool XBox360Controller::XBox360ControllerImpl::IsPressed(ControllerButton button, int playerIdx) const

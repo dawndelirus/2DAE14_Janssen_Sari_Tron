@@ -15,6 +15,7 @@ namespace dae
 		void AddInput(InputAction action) override;
 		void RemoveInput(InputAction action) override;
 
+		glm::vec2 GetJoystickPosition(Joystick stick, int playerIndex = 0) const override;
 		bool IsControllerButton(ButtonState state, ControllerButton button, int playerIndex = 0) const override;
 		bool IsKeyboardKey(ButtonState state, KeyboardKey key) const override;
 

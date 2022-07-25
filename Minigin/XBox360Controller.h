@@ -13,8 +13,12 @@ namespace dae
 
 		void Update();
 		void AddInput(ControllerButton button, std::shared_ptr<Command> command, ButtonState state, int playerIndex);
+		//void AddInput(Joystick stick, std::unique_ptr<Command> command, int playerIndex);
+		
 		void RemoveInput(ControllerButton button, ButtonState state, int playerIndex);
+		//void RemoveInput(Joystick stick, int playerIndex);
 
+		glm::vec2 GetJoystickPosition(Joystick stick, int playerIndex) const;
 		bool IsPressed(ControllerButton button, int playerIndex) const;
 		bool IsDownThisFrame(ControllerButton button, int playerIndex) const;
 		bool IsReleasedThisFrame(ControllerButton button, int playerIndex) const;
@@ -27,5 +31,8 @@ namespace dae
 		XBox360ControllerCommandsMap m_CommandsPressed{};
 		XBox360ControllerCommandsMap m_CommandsDown{};
 		XBox360ControllerCommandsMap m_CommandsReleased{};
+
+		using PlayerJoystick = std::pair<unsigned, Joystick>;
+		std::map<PlayerJoystick, std::unique_ptr<Command>> m_CommandsJoystick{};
 	};
 }

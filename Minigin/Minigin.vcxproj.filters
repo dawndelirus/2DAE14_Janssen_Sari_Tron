@@ -25,17 +25,26 @@
     <Filter Include="Observer">
       <UniqueIdentifier>{9cdf2706-3d23-4d9e-8349-0e2ba6e7a4dc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sound">
-      <UniqueIdentifier>{8ca33f00-8d4c-4c07-a9d7-b08a6242305a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="EventArgs">
       <UniqueIdentifier>{4f8754af-d785-45e0-a2b9-cbd2e304fce8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Input">
-      <UniqueIdentifier>{8615971e-c465-48d3-b87a-5edd7be57195}</UniqueIdentifier>
-    </Filter>
     <Filter Include="State">
       <UniqueIdentifier>{7893c7e7-4e85-4968-92e6-c8ef13675841}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\HeaderWrappers">
+      <UniqueIdentifier>{d9785edc-44be-4a9e-8b20-0d37986eaa87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServiceLocator">
+      <UniqueIdentifier>{3303325a-71f2-4022-bbc6-f5b426c87f74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServiceLocator\SceneManager">
+      <UniqueIdentifier>{2e20b0a2-206c-447e-8b3c-8a71adae36a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServiceLocator\SoundSystem">
+      <UniqueIdentifier>{8ca33f00-8d4c-4c07-a9d7-b08a6242305a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServiceLocator\InputManager">
+      <UniqueIdentifier>{8615971e-c465-48d3-b87a-5edd7be57195}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -58,9 +67,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
@@ -111,9 +117,6 @@
     <ClInclude Include="..\3rdParty\imgui-1.87\imgui_plot.h">
       <Filter>imgui</Filter>
     </ClInclude>
-    <ClInclude Include="ComponentIncludes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Command.h">
       <Filter>Commands</Filter>
     </ClInclude>
@@ -123,26 +126,17 @@
     <ClInclude Include="Subject.h">
       <Filter>Observer</Filter>
     </ClInclude>
-    <ClInclude Include="ServiceLocator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="NullSoundSystem.h">
-      <Filter>Sound</Filter>
+      <Filter>ServiceLocator\SoundSystem</Filter>
     </ClInclude>
     <ClInclude Include="SDLSoundSystem.h">
-      <Filter>Sound</Filter>
+      <Filter>ServiceLocator\SoundSystem</Filter>
     </ClInclude>
     <ClInclude Include="BaseSoundSystem.h">
-      <Filter>Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseSceneManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NullSceneManager.h">
-      <Filter>Header Files</Filter>
+      <Filter>ServiceLocator\SoundSystem</Filter>
     </ClInclude>
     <ClInclude Include="LoggingSoundSystem.h">
-      <Filter>Sound</Filter>
+      <Filter>ServiceLocator\SoundSystem</Filter>
     </ClInclude>
     <ClInclude Include="EventArgs.h">
       <Filter>EventArgs</Filter>
@@ -151,25 +145,25 @@
       <Filter>EventArgs</Filter>
     </ClInclude>
     <ClInclude Include="InputManager.h">
-      <Filter>Input</Filter>
+      <Filter>ServiceLocator\InputManager</Filter>
     </ClInclude>
     <ClInclude Include="XBox360Controller.h">
-      <Filter>Input</Filter>
+      <Filter>ServiceLocator\InputManager</Filter>
     </ClInclude>
     <ClInclude Include="NullInputManager.h">
-      <Filter>Input</Filter>
+      <Filter>ServiceLocator\InputManager</Filter>
     </ClInclude>
     <ClInclude Include="BaseInputManager.h">
-      <Filter>Input</Filter>
+      <Filter>ServiceLocator\InputManager</Filter>
     </ClInclude>
     <ClInclude Include="InputHelpers.h">
-      <Filter>Input</Filter>
+      <Filter>ServiceLocator\InputManager</Filter>
     </ClInclude>
     <ClInclude Include="ObserverHelpers.h">
       <Filter>Observer</Filter>
     </ClInclude>
     <ClInclude Include="KeyboardControls.h">
-      <Filter>Input</Filter>
+      <Filter>ServiceLocator\InputManager</Filter>
     </ClInclude>
     <ClInclude Include="State.h">
       <Filter>State</Filter>
@@ -177,11 +171,26 @@
     <ClInclude Include="BinToCharVec.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="glmWrapper.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="BaseSceneManager.h">
+      <Filter>ServiceLocator\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="NullSceneManager.h">
+      <Filter>ServiceLocator\SceneManager</Filter>
     </ClInclude>
     <ClInclude Include="sdlWrapper.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\HeaderWrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="glmWrapper.h">
+      <Filter>Header Files\HeaderWrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>ServiceLocator\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ServiceLocator.h">
+      <Filter>ServiceLocator</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentIncludes.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -201,9 +210,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Font.cpp">
@@ -254,29 +260,32 @@
     <ClCompile Include="Subject.cpp">
       <Filter>Observer</Filter>
     </ClCompile>
-    <ClCompile Include="ServiceLocator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SDLSoundSystem.cpp">
-      <Filter>Sound</Filter>
+      <Filter>ServiceLocator\SoundSystem</Filter>
     </ClCompile>
     <ClCompile Include="LoggingSoundSystem.cpp">
-      <Filter>Sound</Filter>
+      <Filter>ServiceLocator\SoundSystem</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
-      <Filter>Input</Filter>
+      <Filter>ServiceLocator\InputManager</Filter>
     </ClCompile>
     <ClCompile Include="XBox360Controller.cpp">
-      <Filter>Input</Filter>
+      <Filter>ServiceLocator\InputManager</Filter>
     </ClCompile>
     <ClCompile Include="KeyboardControls.cpp">
-      <Filter>Input</Filter>
+      <Filter>ServiceLocator\InputManager</Filter>
     </ClCompile>
     <ClCompile Include="State.cpp">
       <Filter>State</Filter>
     </ClCompile>
     <ClCompile Include="BinToCharVec.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>ServiceLocator\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ServiceLocator.cpp">
+      <Filter>ServiceLocator</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

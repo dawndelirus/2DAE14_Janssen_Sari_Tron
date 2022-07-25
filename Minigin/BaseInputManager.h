@@ -18,6 +18,7 @@ namespace dae
 		virtual void AddInput(InputAction action) = 0;
 		virtual void RemoveInput(InputAction action) = 0;
 
+		virtual glm::vec2 GetJoystickPosition(Joystick stick, int playerIndex = 0) const = 0;
 		virtual bool IsControllerButton(ButtonState state, ControllerButton button, int playerIndex) const = 0;
 		virtual bool IsKeyboardKey(ButtonState state, KeyboardKey key) const = 0;
 

@@ -80,6 +80,13 @@ namespace dae
 		K_Z = 0x5A,	
 	};
 
+	enum class Joystick
+	{
+		Empty,
+		LeftStick,
+		RightStick
+	};
+
 	enum class ButtonState
 	{
 		pressed,
@@ -90,31 +97,28 @@ namespace dae
 	struct InputAction
 	{
 		InputAction(int idx, ButtonState state, std::shared_ptr<Command> command, ControllerButton button)
-			: playerIndex{idx}
-			, buttonState{state}
-			, command{command}
-			, controllerButtonCode{button}
+			: InputAction(idx, state, command, button, KeyboardKey::Empty, Joystick::Empty)
 		{}
 
 		InputAction(int idx, ButtonState state, std::shared_ptr<Command> command, KeyboardKey key)
-			: playerIndex{idx}
-			, buttonState{state}
-			, command{command}
-			, keyboardKeyCode{ key }
+			: InputAction(idx, state, command, ControllerButton::Empty, key, Joystick::Empty)
 		{}
 
-		InputAction(int idx, ButtonState state, std::shared_ptr<Command> command, ControllerButton button, KeyboardKey key)
+		InputAction(int idx, ButtonState state, std::shared_ptr<Command> command, ControllerButton button, KeyboardKey key, Joystick stick)
 			: playerIndex{ idx }
 			, buttonState{ state }
 			, command{ command }
 			, controllerButtonCode{ button }
 			, keyboardKeyCode{ key }
+			, joystickCode{ stick }
 		{}
 
 		int playerIndex{ 0 };
 		ButtonState buttonState{ ButtonState::pressed };
 		std::shared_ptr<Command> command;
+		
 		ControllerButton controllerButtonCode{ControllerButton::Empty};
 		KeyboardKey keyboardKeyCode{ KeyboardKey::Empty };
+		Joystick joystickCode{ Joystick::Empty };
 	};
 }

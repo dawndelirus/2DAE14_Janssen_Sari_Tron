@@ -59,6 +59,16 @@ void dae::InputManager::RemoveKeyboardInput(KeyboardKey button, ButtonState stat
 	m_Keyboard->RemoveInput(button, state);
 }
 
+//glm::vec2 dae::InputManager::GetJoystickPosition(Joystick stick, int playerIndex) const
+//{
+//	return m_Controller->GetJoystickPosition(stick, playerIndex);
+//}
+
+glm::vec2 dae::InputManager::GetJoystickPosition(Joystick, int ) const
+{
+	return glm::vec2();
+}
+
 bool dae::InputManager::IsControllerButton(ButtonState state, ControllerButton button, int playerIndex) const
 {
 	switch (state)
