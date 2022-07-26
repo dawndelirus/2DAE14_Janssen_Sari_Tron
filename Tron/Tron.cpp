@@ -33,7 +33,7 @@ void LoadGame()
 	test->AddComponent(std::make_shared<MoveComponent>(test));
 
 	auto& inputM = dae::ServiceLocator::GetInputManager();
-	auto action = dae::InputAction(0, std::make_shared<MoveCommand>(test), dae::Joystick::LeftStick);
+	auto action = dae::InputAction(0, std::make_shared<MoveCommand>(test, dae::Joystick::LeftStick), dae::Joystick::LeftStick);
 	inputM.AddInput(action);
 }
 

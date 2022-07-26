@@ -18,7 +18,7 @@ namespace dae
 		void RemoveInput(ControllerButton button, ButtonState state, int playerIndex);
 		void RemoveInput(Joystick stick, int playerIndex);
 
-		glm::vec2 GetJoystickPosition(Joystick stick, int playerIndex) const;
+		glm::vec3 GetJoystickPosition(Joystick stick, int playerIndex) const;
 		bool IsPressed(ControllerButton button, int playerIndex) const;
 		bool IsDownThisFrame(ControllerButton button, int playerIndex) const;
 		bool IsReleasedThisFrame(ControllerButton button, int playerIndex) const;

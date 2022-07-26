@@ -10,6 +10,6 @@ public:
 	void Update() override {};
 	void Render() const override {};
 
-	void Move(float x, float y);
+	void Move(float x, float y, float magnitude);
 };
 

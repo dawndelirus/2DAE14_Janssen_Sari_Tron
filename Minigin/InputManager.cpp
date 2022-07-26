@@ -57,7 +57,7 @@ void dae::InputManager::RemoveInput(InputAction action)
 	}
 }
 
-glm::vec2 dae::InputManager::GetJoystickPosition(Joystick stick, int playerIndex) const
+glm::vec3 dae::InputManager::GetJoystickPosition(Joystick stick, int playerIndex) const
 {
 	return m_Controller->GetJoystickPosition(stick, playerIndex);
 }

@@ -6,7 +6,7 @@ MoveComponent::MoveComponent(std::weak_ptr<dae::GameObject> gameObject)
 {
 }
 
-void MoveComponent::Move(float x, float y)
+void MoveComponent::Move(float x, float y, float magnitude)
 {
-	std::cout << "Move: " << x << ", " << y << "\n";
+	std::cout << "Move: " << x << ", " << y << ", magnitude: " << magnitude << "\n";
 }

@@ -1,15 +1,15 @@
 #include "MoveCommand.h"
 #include "MoveComponent.h"
-//#include "ServiceLocator.h" 
+#include "ServiceLocator.h" 
 
-MoveCommand::MoveCommand(std::shared_ptr<dae::GameObject> pGameObject)
+MoveCommand::MoveCommand(std::shared_ptr<dae::GameObject> pGameObject, dae::Joystick joystick)
 	: Command(pGameObject)
+	, m_Joystick{joystick}
 {
 }
 
 void MoveCommand::Execute()
 {
-	//const auto& move = dae::ServiceLocator::GetInputManager().GetJoystickPosition(dae::Joystick::LeftStick);
-	//GetGameObject()->GetComponent<MoveComponent>()->Move(move.x, move.y);
-	GetGameObject()->GetComponent<MoveComponent>()->Move(0.f, 0.f);
+	const auto& move = dae::ServiceLocator::GetInputManager().GetJoystickPosition(m_Joystick);
+	GetGameObject()->GetComponent<MoveComponent>()->Move(move.x, move.y, move.z);
 }

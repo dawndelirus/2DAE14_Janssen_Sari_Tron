@@ -1,12 +1,15 @@
 #pragma once
 #include <Command.h>
+#include "InputHelpers.h"
 
-
-class MoveCommand : public dae::Command
+class MoveCommand final : public dae::Command
 {
 public:
-	MoveCommand(std::shared_ptr<dae::GameObject> pGameObject);
+	MoveCommand(std::shared_ptr<dae::GameObject> pGameObject, dae::Joystick joystick);
 	~MoveCommand() = default;
 	void Execute() override;
+
+private:
+	dae::Joystick m_Joystick{};
 };
 
