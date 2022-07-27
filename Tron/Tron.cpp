@@ -22,7 +22,7 @@ void LoadGame()
 {
 	auto scene = dae::ServiceLocator::GetSceneManager().CreateScene("Demo");
 	auto soBg = std::make_shared<dae::GameObject>();
-	auto textureBg = std::make_shared<dae::Texture2DComponent>(soBg, "background.jpg");
+	auto textureBg = std::make_shared<dae::Texture2DComponent>(soBg.get(), "background.jpg");
 	soBg->AddComponent(textureBg);
 	scene->Add(soBg);
 
@@ -30,7 +30,7 @@ void LoadGame()
 	dae::ServiceLocator::GetSoundSystem().PlayMusic(0, 1, 0);
 
 	auto test = std::make_shared<dae::GameObject>();
-	test->AddComponent(std::make_shared<MoveComponent>(test));
+	test->AddComponent(std::make_shared<MoveComponent>(test.get()));
 
 	auto& inputM = dae::ServiceLocator::GetInputManager();
 	auto action = dae::InputAction(0, std::make_shared<MoveCommand>(test, dae::Joystick::LeftStick), dae::Joystick::LeftStick);

@@ -4,7 +4,7 @@
 class MoveComponent final : public dae::BaseComponent
 {
 public:
-	MoveComponent(std::weak_ptr<dae::GameObject> gameObject);
+	MoveComponent(dae::GameObject* pGameObject);
 	~MoveComponent() = default;
 
 	void Update() override {};

@@ -1,14 +1,13 @@
 #pragma once
 #include "GameObject.h"
-#include <memory>
 
 namespace dae
 {
 	class BaseComponent
 	{
 	public:
-		BaseComponent(std::weak_ptr<dae::GameObject> gameObject)
-			: m_GameObject(gameObject) {}
+		BaseComponent(GameObject* pGameObject)
+			: m_pGameObject(pGameObject) {}
 		virtual ~BaseComponent() = default;
 
 		BaseComponent(const BaseComponent& other) = delete;
@@ -20,13 +19,13 @@ namespace dae
 		virtual void Render() const = 0;
 
 	protected:
-		std::shared_ptr<GameObject> GetGameObject() const
+		GameObject* GetGameObject() const
 		{
-			return m_GameObject.lock();
+			return m_pGameObject;
 		}
 
 	private:
-		std::weak_ptr<GameObject> m_GameObject;
+		GameObject* m_pGameObject;
 	};
 }
 

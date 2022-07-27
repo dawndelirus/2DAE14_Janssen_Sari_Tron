@@ -7,18 +7,14 @@
 
 #include"TransformComponent.h"
 
-dae::TextComponent::TextComponent(std::shared_ptr<GameObject> gameObject, const std::string& text, const std::shared_ptr<Font>& font, const glm::vec3& textColor)
-	: BaseComponent(gameObject)
+dae::TextComponent::TextComponent(dae::GameObject* pGameObject, const std::string& text, const std::shared_ptr<Font>& font, const glm::vec3& textColor)
+	: BaseComponent(pGameObject)
 	, m_NeedsUpdate(true)
 	, m_Text(text)
 	, m_Font(font)
 	, m_TextTexture(nullptr)
 	, m_Color(textColor)
 { }
-
-dae::TextComponent::~TextComponent()
-{
-}
 
 void dae::TextComponent::Update()
 {

@@ -25,13 +25,12 @@ namespace dae
 		void Render() const;
 
 		template <typename T> 
-		std::shared_ptr<T> AddComponent(std::shared_ptr<T> pComponent)
+		void AddComponent(std::shared_ptr<T> pComponent)
 		{
 			if (GetComponent<T>() == nullptr)
 			{
-				m_ComponentVec.push_back(pComponent);
+				m_ComponentVec.emplace_back(pComponent);
 			}
-			return pComponent;
 		}
 
 		template <typename T> 
@@ -61,7 +60,6 @@ namespace dae
 			}
 		}
 
-		/// <param name="pParent">If pParent is null, current parent will be unset and no new parent will be added</param>
 		void SetParent(std::shared_ptr<GameObject> parent, std::shared_ptr<GameObject> child, bool keepWorldPosition);
 		std::weak_ptr<GameObject> GetParent() const;
 
@@ -88,8 +86,8 @@ namespace dae
 		std::vector<std::shared_ptr<GameObject>> m_ChildrenVec;
 		std::weak_ptr<GameObject> m_Parent;
 
-		dae::Transform m_LocalTransform;
-		dae::Transform m_WorldTransform;
+		Transform m_LocalTransform;
+		Transform m_WorldTransform;
 		bool m_IsTransformDirty;
 	};
 }

@@ -9,7 +9,7 @@ namespace dae
 	class Texture2DComponent final : public BaseComponent
 	{
 	public:
-		Texture2DComponent(std::shared_ptr<GameObject> gameObject, const std::string& fileName);
+		Texture2DComponent(dae::GameObject* pGameObject, const std::string& fileName);
 		~Texture2DComponent() = default;
 
 		virtual void Update() override {};

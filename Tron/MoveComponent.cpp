@@ -1,8 +1,8 @@
 #include "MoveComponent.h"
 #include <iostream>
 
-MoveComponent::MoveComponent(std::weak_ptr<dae::GameObject> gameObject)
-	: BaseComponent(gameObject)
+MoveComponent::MoveComponent(dae::GameObject* pGameObject)
+	: BaseComponent(pGameObject)
 {
 }
 
