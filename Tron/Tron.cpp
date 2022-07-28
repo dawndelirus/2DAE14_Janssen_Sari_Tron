@@ -20,21 +20,34 @@
 
 void LoadGame()
 {
-	auto scene = dae::ServiceLocator::GetSceneManager().CreateScene("Demo");
-	auto soBg = std::make_shared<dae::GameObject>();
-	auto textureBg = std::make_shared<dae::Texture2DComponent>(soBg.get(), "background.jpg");
-	soBg->AddComponent(textureBg);
-	scene->Add(soBg);
-
-	dae::ServiceLocator::GetSoundSystem().RegisterMusic(0, "../Data/01_BGM#01.mp3");
-	dae::ServiceLocator::GetSoundSystem().PlayMusic(0, 1, 0);
-
-	auto test = std::make_shared<dae::GameObject>();
-	test->AddComponent(std::make_shared<MoveComponent>(test.get()));
-
+	auto scene = dae::ServiceLocator::GetSceneManager().CreateScene("Level");
 	auto& inputM = dae::ServiceLocator::GetInputManager();
-	auto action = dae::InputAction(0, std::make_shared<MoveCommand>(test, dae::Joystick::LeftStick), dae::Joystick::LeftStick);
+	
+	//auto soBg = std::make_shared<dae::GameObject>();
+	//auto textureBg = std::make_shared<dae::Texture2DComponent>(soBg.get(), "background.jpg");
+	//soBg->AddComponent(textureBg);
+	//scene->Add(soBg);
+
+	//dae::ServiceLocator::GetSoundSystem().RegisterMusic(0, "../Data/01_BGM#01.mp3");
+	//dae::ServiceLocator::GetSoundSystem().PlayMusic(0, 1, 0);
+
+	//auto test = std::make_shared<dae::GameObject>();
+	//test->AddComponent(std::make_shared<MoveComponent>(test.get()));
+
+	//auto& inputM = dae::ServiceLocator::GetInputManager();
+	//auto action = dae::InputAction(0, std::make_shared<MoveCommand>(test, dae::Joystick::LeftStick), dae::Joystick::LeftStick);
+	//inputM.AddInput(action);
+
+	auto playerRed_go = std::make_shared<dae::GameObject>();
+	auto playerRed_texture = std::make_shared<dae::Texture2DComponent>(playerRed_go.get(), "Sprites/RedTank.png");
+	playerRed_go->AddComponent(playerRed_texture);
+	playerRed_go->AddComponent(std::make_shared<MoveComponent>(playerRed_go.get(), 20.f));
+
+	scene->Add(playerRed_go);
+
+	auto action = dae::InputAction(0, std::make_shared<MoveCommand>(playerRed_go, playerRed_go->GetComponent<MoveComponent>().get(), dae::Joystick::LeftStick), dae::Joystick::LeftStick);
 	inputM.AddInput(action);
+
 }
 
 int main(int, char* [])
