@@ -4,7 +4,7 @@
 class MoveComponent final : public dae::BaseComponent
 {
 public:
-	MoveComponent(dae::GameObject* pGameObject, float movementSpeed);
+	MoveComponent(std::shared_ptr<dae::GameObject> gameObject, float movementSpeed);
 	~MoveComponent() = default;
 
 	void Update() override {};

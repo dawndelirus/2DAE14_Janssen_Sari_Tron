@@ -27,7 +27,7 @@
     <ClCompile Include="LevelMovementComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LevelFromFile.cpp">
+    <ClCompile Include="LevelLayoutComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,7 +41,7 @@
     <ClInclude Include="LevelMovementComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LevelFromFile.h">
+    <ClInclude Include="LevelLayoutComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

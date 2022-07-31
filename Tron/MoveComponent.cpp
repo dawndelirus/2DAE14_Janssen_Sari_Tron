@@ -2,8 +2,8 @@
 #include <iostream>
 #include "Clock.h"
 
-MoveComponent::MoveComponent(dae::GameObject* pGameObject, float movementSpeed)
-	: BaseComponent(pGameObject)
+MoveComponent::MoveComponent(std::shared_ptr<dae::GameObject> gameObject, float movementSpeed)
+	: BaseComponent(gameObject)
 	, m_MovementSpeed{movementSpeed}
 {
 }
