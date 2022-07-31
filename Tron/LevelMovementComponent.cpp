@@ -15,7 +15,7 @@ void LevelMovementComponent::MoveOnGrid(glm::vec3& position, const glm::vec2& di
 
 	if (displacement.x > 0.f)
 	{
-		assert((static_cast<size_t>(index) == m_IsWalkable.size() - 1) && "Player is on the edge of the grid");
+		assert((static_cast<size_t>(index) < m_IsWalkable.size() - 1) && "Player is on the edge of the grid");
 
 		//if (index != m_IsWalkable.size() - 2 && (index + 1) % m_GridWidth != 0 && m_IsWalkable[index + 1])
 		if (m_IsWalkable[index + 1])
@@ -25,7 +25,7 @@ void LevelMovementComponent::MoveOnGrid(glm::vec3& position, const glm::vec2& di
 	}
 	else if (displacement.x < 0.f)
 	{
-		assert((index == 0) && "Player is on the edge of the grid");
+		assert((index > 0) && "Player is on the edge of the grid");
 
 		//if ((index - 1) >= 0 && (index % m_GridWidth) != 0 && m_IsWalkable[index - 1])
 		if (m_IsWalkable[index - 1])
@@ -35,7 +35,7 @@ void LevelMovementComponent::MoveOnGrid(glm::vec3& position, const glm::vec2& di
 	}
 	else if (displacement.y < 0.f)
 	{
-		assert((index <= m_GridWidth) && "Player is on the edge of the grid");
+		assert((index > m_GridWidth) && "Player is on the edge of the grid");
 
 		//if (index >= m_GridWidth && m_IsWalkable[index - m_GridWidth])
 		if (m_IsWalkable[index - m_GridWidth])
@@ -45,7 +45,7 @@ void LevelMovementComponent::MoveOnGrid(glm::vec3& position, const glm::vec2& di
 	}
 	else if (displacement.y > 0.f)
 	{
-		assert((static_cast<size_t>(index + m_GridWidth) >= m_IsWalkable.size()) && "Player is on the edge of the grid");
+		assert((static_cast<size_t>(index + m_GridWidth) < m_IsWalkable.size()) && "Player is on the edge of the grid");
 		
 		if (m_IsWalkable[index + m_GridWidth])
 		{

@@ -249,7 +249,7 @@ glm::vec3 XBox360Controller::XBox360ControllerImpl::GetJoystickPosition(Joystick
 		break;
 	}
 	default:
-		assert(true && "Joystick not recognised");
+		assert(false && "Joystick not recognised");
 		break;
 	}
 
