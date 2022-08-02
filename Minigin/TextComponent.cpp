@@ -7,8 +7,8 @@
 
 #include"TransformComponent.h"
 
-dae::TextComponent::TextComponent(dae::GameObject* pGameObject, const std::string& text, const std::shared_ptr<Font>& font, const glm::vec3& textColor)
-	: BaseComponent(pGameObject)
+dae::TextComponent::TextComponent(std::shared_ptr<dae::GameObject> gameObject, const std::string& text, const std::shared_ptr<Font>& font, const glm::vec3& textColor)
+	: BaseComponent(gameObject)
 	, m_NeedsUpdate(true)
 	, m_Text(text)
 	, m_Font(font)

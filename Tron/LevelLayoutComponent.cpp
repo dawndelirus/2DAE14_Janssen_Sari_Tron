@@ -42,7 +42,7 @@ void LevelLayoutComponent::LoadLevel(std::string filePath)
     }
     inFile.close();
 
-    m_GridWidth = m_LevelPath.size() / gridHeight;
+    m_GridWidth = static_cast<int>(m_LevelPath.size()) / gridHeight;
 }
 
 int LevelLayoutComponent::GetGridWidth()
@@ -79,7 +79,7 @@ int LevelLayoutComponent::GetGridIndex(const glm::vec2& pos) const
     return y * m_GridWidth + x;
 }
 
-glm::vec2 LevelLayoutComponent::GetGridTopLeft(size_t idx) const
+const glm::vec2& LevelLayoutComponent::GetGridTopLeft(size_t idx) const
 {
     glm::vec2 gridPos{};
     gridPos.x = static_cast<float>(static_cast<int>(idx) % m_GridWidth * m_TileWidth);
@@ -87,7 +87,7 @@ glm::vec2 LevelLayoutComponent::GetGridTopLeft(size_t idx) const
     return gridPos;
 }
 
-glm::vec2 LevelLayoutComponent::GetGridCenter(size_t idx) const
+const glm::vec2& LevelLayoutComponent::GetGridCenter(size_t idx) const
 {
     auto gridPos = GetGridTopLeft(idx);
     gridPos.x += m_TileWidth / 2.f;

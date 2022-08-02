@@ -39,13 +39,13 @@ void LoadGame()
 	//inputM.AddInput(action);
 
 	auto playerRed_go = std::make_shared<dae::GameObject>();
-	auto playerRed_texture = std::make_shared<dae::Texture2DComponent>(playerRed_go.get(), "Sprites/RedTank.png");
+	auto playerRed_texture = std::make_shared<dae::Texture2DComponent>(playerRed_go, "Sprites/RedTank.png");
 	playerRed_go->AddComponent(playerRed_texture);
-	playerRed_go->AddComponent(std::make_shared<MoveComponent>(playerRed_go.get(), 20.f));
+	playerRed_go->AddComponent(std::make_shared<MoveComponent>(playerRed_go, 20.f));
 
 	scene->Add(playerRed_go);
 
-	auto action = dae::InputAction(0, std::make_shared<MoveCommand>(playerRed_go, playerRed_go->GetComponent<MoveComponent>().get(), dae::Joystick::LeftStick), dae::Joystick::LeftStick);
+	auto action = dae::InputAction(0, std::make_shared<MoveCommand>(playerRed_go, playerRed_go->GetComponent<MoveComponent>(), dae::Joystick::LeftStick), dae::Joystick::LeftStick);
 	inputM.AddInput(action);
 
 }

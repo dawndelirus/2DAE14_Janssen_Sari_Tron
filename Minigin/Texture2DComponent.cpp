@@ -7,8 +7,8 @@
 #include "ResourceManager.h"
 
 
-dae::Texture2DComponent::Texture2DComponent(dae::GameObject* pGameObject, const std::string& fileName)
-	: BaseComponent(pGameObject)
+dae::Texture2DComponent::Texture2DComponent(std::shared_ptr<dae::GameObject> gameObject, const std::string& fileName)
+	: BaseComponent(gameObject)
 	, m_Offset{}
 {
 	m_Texture = ResourceManager::GetInstance().LoadTexture(fileName);
