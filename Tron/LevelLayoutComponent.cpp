@@ -3,7 +3,7 @@
 #include <sstream>
 #include <assert.h>
 
-LevelLayoutComponent::LevelLayoutComponent(std::shared_ptr<dae::GameObject> gameObject, std::string filePath, int tileWidth, int tileHeight)
+LevelLayoutComponent::LevelLayoutComponent(std::shared_ptr<dae::GameObject> gameObject, const std::string& filePath, int tileWidth, int tileHeight)
     : BaseComponent(gameObject)
     , m_TileWidth{tileWidth}
     , m_TileHeight{tileHeight}
@@ -79,7 +79,7 @@ int LevelLayoutComponent::GetGridIndex(const glm::vec2& pos) const
     return y * m_GridWidth + x;
 }
 
-const glm::vec2& LevelLayoutComponent::GetGridTopLeft(size_t idx) const
+glm::vec2 LevelLayoutComponent::GetGridTopLeft(size_t idx) const
 {
     glm::vec2 gridPos{};
     gridPos.x = static_cast<float>(static_cast<int>(idx) % m_GridWidth * m_TileWidth);
@@ -87,7 +87,7 @@ const glm::vec2& LevelLayoutComponent::GetGridTopLeft(size_t idx) const
     return gridPos;
 }
 
-const glm::vec2& LevelLayoutComponent::GetGridCenter(size_t idx) const
+glm::vec2 LevelLayoutComponent::GetGridCenter(size_t idx) const
 {
     auto gridPos = GetGridTopLeft(idx);
     gridPos.x += m_TileWidth / 2.f;

@@ -80,7 +80,7 @@ void dae::GameObject::RemoveParent()
 {
 	auto parent = m_Parent.lock();
 
-	if (parent != nullptr)
+	if (parent == nullptr)
 	{
 		return;
 	}

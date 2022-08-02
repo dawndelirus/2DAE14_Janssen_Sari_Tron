@@ -6,7 +6,7 @@
 class LevelLayoutComponent final : dae::BaseComponent
 {
 public:
-	LevelLayoutComponent(std::shared_ptr<dae::GameObject> gameObject, std::string filePath, int tileWidth, int tileHeight);
+	LevelLayoutComponent(std::shared_ptr<dae::GameObject> gameObject, const std::string& filePath, int tileWidth, int tileHeight);
 	~LevelLayoutComponent() = default;
 
 	bool IsWalkable(int index);
@@ -16,8 +16,11 @@ public:
 	int GetTileHeight();
 
 	int GetGridIndex(const glm::vec2& pos) const;
-	const glm::vec2& GetGridTopLeft(size_t idx) const;
-	const glm::vec2& GetGridCenter(size_t idx) const;
+	glm::vec2 GetGridTopLeft(size_t idx) const;
+	glm::vec2 GetGridCenter(size_t idx) const;
+
+	void Update() override {}
+	void Render() const override {}
 
 private:
 	void LoadLevel(std::string filePath);

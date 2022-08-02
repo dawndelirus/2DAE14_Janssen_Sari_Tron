@@ -32,7 +32,7 @@ void LevelMovementComponent::MoveOnGrid(glm::vec3& position, const glm::vec2& di
 	}
 	else if (displacement.y < 0.f)
 	{
-		assert((index > m_GridWidth) && "Player is on the edge of the grid");
+		assert((index > levelLayout->GetGridWidth()) && "Player is on the edge of the grid");
 
 		if (levelLayout->IsWalkable(index - levelLayout->GetGridWidth()))
 		{

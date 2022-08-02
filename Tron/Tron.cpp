@@ -18,6 +18,10 @@
 #include "MoveComponent.h"
 #include "MoveCommand.h"
 
+#include "LevelLayoutComponent.h"
+#include "LevelVisualComponent.h"
+#include "LevelMovementComponent.h"
+
 void LoadGame()
 {
 	auto scene = dae::ServiceLocator::GetSceneManager().CreateScene("Level");
@@ -37,6 +41,14 @@ void LoadGame()
 	//auto& inputM = dae::ServiceLocator::GetInputManager();
 	//auto action = dae::InputAction(0, std::make_shared<MoveCommand>(test, dae::Joystick::LeftStick), dae::Joystick::LeftStick);
 	//inputM.AddInput(action);
+
+	auto level_go = std::make_shared<dae::GameObject>();
+	auto level_layout = std::make_shared<LevelLayoutComponent>(level_go, "../Data/LevelLayout0.csv", 16, 16);
+	//level_go->AddComponent(level_layout);
+	auto level_visuals = std::make_shared<LevelVisualComponent>(level_go, level_layout);
+	level_go->AddComponent(level_visuals);
+	level_visuals->CreateVisuals();
+	scene->Add(level_go);
 
 	auto playerRed_go = std::make_shared<dae::GameObject>();
 	auto playerRed_texture = std::make_shared<dae::Texture2DComponent>(playerRed_go, "Sprites/RedTank.png");

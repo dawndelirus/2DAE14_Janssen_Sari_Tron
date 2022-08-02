@@ -171,6 +171,7 @@
   <ItemGroup>
     <ClCompile Include="LevelLayoutComponent.cpp" />
     <ClCompile Include="LevelMovementComponent.cpp" />
+    <ClCompile Include="LevelVisualComponent.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="MoveComponent.cpp" />
     <ClCompile Include="Tron.cpp" />
@@ -178,6 +179,7 @@
   <ItemGroup>
     <ClInclude Include="LevelLayoutComponent.h" />
     <ClInclude Include="LevelMovementComponent.h" />
+    <ClInclude Include="LevelVisualComponent.h" />
     <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="MoveComponent.h" />
   </ItemGroup>
