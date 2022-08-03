@@ -32,6 +32,8 @@ void LevelLayoutComponent::LoadLevel(std::string filePath)
         std::stringstream ss(line);
         while (ss >> number)
         {
+            SaveObjectPositions(number, static_cast<int>(m_LevelPath.size()));
+
             m_LevelPath.emplace_back(number);
             if (ss.peek() == ',')
             {
@@ -43,6 +45,21 @@ void LevelLayoutComponent::LoadLevel(std::string filePath)
     inFile.close();
 
     m_GridWidth = static_cast<int>(m_LevelPath.size()) / gridHeight;
+}
+
+void LevelLayoutComponent::SaveObjectPositions(int number, int index)
+{
+    switch (number)
+    {
+    case static_cast<int>(Objects::Player):
+        m_PlayerPositions.emplace_back(index);
+        break;
+    case static_cast<int>(Objects::Enemy):
+        m_EnemyPositions.emplace_back(index);
+        break;
+    default:
+        break;
+    }
 }
 
 int LevelLayoutComponent::GetGridWidth()
@@ -90,7 +107,17 @@ glm::vec2 LevelLayoutComponent::GetGridTopLeft(size_t idx) const
 glm::vec2 LevelLayoutComponent::GetGridCenter(size_t idx) const
 {
     auto gridPos = GetGridTopLeft(idx);
-    gridPos.x += m_TileWidth / 2.f;
-    gridPos.y += m_TileHeight;
+    gridPos.x += m_TileWidth / 2.f + GetGameObject()->GetLocalPosition().x;
+    gridPos.y += m_TileHeight + GetGameObject()->GetLocalPosition().y;
     return gridPos;
+}
+
+const std::vector<int>& LevelLayoutComponent::GetPlayerStartPositions() const
+{
+    return m_PlayerPositions;
+}
+
+const std::vector<int>& LevelLayoutComponent::GetEnemyStartPositions() const
+{
+    return m_EnemyPositions;
 }

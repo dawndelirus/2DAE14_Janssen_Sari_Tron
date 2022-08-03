@@ -6,7 +6,7 @@ LevelVisualComponent::LevelVisualComponent(std::shared_ptr<dae::GameObject> game
 	: BaseComponent(gameObject)
 	, m_LevelLayout{levelLayout}
 {
-	//CreateVisuals();
+	CreateVisuals();
 }
 
 void LevelVisualComponent::CreateVisuals()
@@ -28,6 +28,7 @@ void LevelVisualComponent::CreateVisuals()
 		{
 			texComp = std::make_shared<dae::Texture2DComponent>(visualChild, "Level/no.png");
 		}
+		texComp->SetRenderPositionOffset(glm::vec2(8.f, 8.f));
 
 		auto pos = levelLayout->GetGridCenter(i);
 
@@ -35,5 +36,5 @@ void LevelVisualComponent::CreateVisuals()
 		visualChild->SetParent(levelVisuals, visualChild, true);
 		visualChild->SetLocalPosition(pos.x, pos.y, 0.f);
 	}
-	levelVisuals->SetParent(GetGameObject(), levelVisuals, false);
+	levelVisuals->SetParent(GetGameObject(), levelVisuals, true);
 }

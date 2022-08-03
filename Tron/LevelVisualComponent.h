@@ -12,8 +12,8 @@ public:
 	void Update() override {}
 	void Render() const override {}
 
-	void CreateVisuals();
 private:
+	void CreateVisuals();
 	std::weak_ptr<LevelLayoutComponent> m_LevelLayout;
 };
 

@@ -189,6 +189,6 @@ void GameObject::AddChild(std::shared_ptr<GameObject> child)
 {
 	if (std::find(m_ChildrenVec.begin(), m_ChildrenVec.end(), child) == m_ChildrenVec.end())
 	{
-		m_ChildrenVec.push_back(child);
+		m_ChildrenVec.emplace_back(child);
 	}
 }

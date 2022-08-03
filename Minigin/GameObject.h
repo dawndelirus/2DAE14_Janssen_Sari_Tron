@@ -29,7 +29,7 @@ namespace dae
 		{
 			if (GetComponent<T>() == nullptr)
 			{
-				m_ComponentVec.emplace_back(pComponent);
+				m_ComponentVec.push_back(pComponent);
 			}
 		}
 
