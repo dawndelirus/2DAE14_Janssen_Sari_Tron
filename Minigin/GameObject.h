@@ -74,6 +74,8 @@ namespace dae
 		void SetWorldPosition(const glm::vec3& position);
 		void SetWorldPosition(float x, float y, float z);
 
+		bool IsObjectDead() { return m_IsDead; }
+
 	private:
 		void RemoveParent();
 		void AddChild(std::shared_ptr<GameObject> child);
@@ -89,5 +91,6 @@ namespace dae
 		Transform m_LocalTransform;
 		Transform m_WorldTransform;
 		bool m_IsTransformDirty;
+		bool m_IsDead;
 	};
 }

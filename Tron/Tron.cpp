@@ -24,12 +24,13 @@
 
 void LoadGame()
 {
-	auto scene = dae::ServiceLocator::GetSceneManager().CreateScene("Level");
+	auto scene = dae::ServiceLocator::GetSceneManager().CreateScene("Level0");
 	auto& inputM = dae::ServiceLocator::GetInputManager();
 	
 	//dae::ServiceLocator::GetSoundSystem().RegisterMusic(0, "../Data/01_BGM#01.mp3");
 	//dae::ServiceLocator::GetSoundSystem().PlayMusic(0, 1, 0);
 
+	// LEVEL
 	auto level_go = std::make_shared<dae::GameObject>(100.f, 20.f, 0.f);
 	std::shared_ptr<LevelLayoutComponent> level_layout = std::make_shared<LevelLayoutComponent>(level_go, "../Data/LevelLayout0.csv", 16, 16);
 	level_go->AddComponent(level_layout);
@@ -40,6 +41,7 @@ void LoadGame()
 	
 	scene->Add(level_go);
 
+	// PLAYER
 	auto player_startPos = level_layout->GetGridCenter(level_layout->GetPlayerStartPositions()[0]);
 	auto playerRed_go = std::make_shared<dae::GameObject>(player_startPos.x, player_startPos.y, 0.f);
 	auto playerRed_texture = std::make_shared<dae::Texture2DComponent>(playerRed_go, "Sprites/RedTank.png");
@@ -49,8 +51,9 @@ void LoadGame()
 
 	scene->Add(playerRed_go);
 
-	auto action = dae::InputAction(0, std::make_shared<MoveCommand>(playerRed_go, playerRed_go->GetComponent<MoveComponent>(), dae::Joystick::LeftStick), dae::Joystick::LeftStick);
-	inputM.AddInput(action);
+	// INPUT
+	auto movementInput = dae::InputAction(0, std::make_shared<MoveCommand>(playerRed_go, playerRed_go->GetComponent<MoveComponent>(), dae::Joystick::LeftStick), dae::Joystick::LeftStick);
+	inputM.AddInput(movementInput);
 
 }
 

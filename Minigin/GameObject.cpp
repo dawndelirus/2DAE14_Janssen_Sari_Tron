@@ -16,6 +16,7 @@ dae::GameObject::GameObject(const glm::vec3& pos)
 	, m_LocalTransform{ pos }
 	, m_WorldTransform{ pos }
 	, m_IsTransformDirty{ false }
+	, m_IsDead{ false }
 {
 }
 
