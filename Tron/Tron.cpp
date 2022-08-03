@@ -47,7 +47,7 @@ void LoadGame()
 	auto playerRed_texture = std::make_shared<dae::Texture2DComponent>(playerRed_go, "Sprites/RedTank.png");
 	playerRed_texture->SetRenderPositionOffset(glm::vec2(16.f, 16.f));
 	playerRed_go->AddComponent(playerRed_texture);
-	playerRed_go->AddComponent(std::make_shared<MoveComponent>(playerRed_go, 20.f));
+	playerRed_go->AddComponent(std::make_shared<MoveComponent>(playerRed_go, level_movement, 20.f));
 
 	scene->Add(playerRed_go);
 

@@ -17,8 +17,6 @@ void Scene::Add(const std::shared_ptr<GameObject>& object)
 
 void Scene::Update()
 {
-	m_DeletedObjects.clear();
-
 	// In case another object gets added tot he scene during the update, it won't immedately update this frame as well.
 	size_t objectAmount = m_Objects.size();
 
@@ -28,13 +26,9 @@ void Scene::Update()
 		{
 			m_Objects[i]->Update();
 		}
-		else
-		{
-			m_DeletedObjects.emplace(m_DeletedObjects.begin(), i);
-		}
 	}
 
-	for (size_t i = m_DeletedObjects.size() - 1; i > 0; --i)
+	for (size_t i = objectAmount - 1; i > 0; --i)
 	{
 		if (m_Objects[i]->IsObjectDead())
 		{
@@ -42,7 +36,6 @@ void Scene::Update()
 			m_Objects.pop_back();
 		}
 	}
-	m_DeletedObjects.clear();
 }
 
 void Scene::Render() const
