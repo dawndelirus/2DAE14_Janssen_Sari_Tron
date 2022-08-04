@@ -31,7 +31,7 @@ void LoadGame()
 	//dae::ServiceLocator::GetSoundSystem().PlayMusic(0, 1, 0);
 
 	// LEVEL
-	auto level_go = std::make_shared<dae::GameObject>(/*100.f, 20.f, 0.f*/);
+	auto level_go = std::make_shared<dae::GameObject>(100.f, 20.f, 0.f);
 	std::shared_ptr<LevelLayoutComponent> level_layout = std::make_shared<LevelLayoutComponent>(level_go, "../Data/LevelLayout0.csv", 16, 16);
 	level_go->AddComponent(level_layout);
 	auto level_visuals = std::make_shared<LevelVisualComponent>(level_go, level_layout);
@@ -47,7 +47,7 @@ void LoadGame()
 	auto playerRed_texture = std::make_shared<dae::Texture2DComponent>(playerRed_go, "Sprites/RedTank.png");
 	playerRed_texture->SetRenderPositionOffset(glm::vec2(16.f, 16.f));
 	playerRed_go->AddComponent(playerRed_texture);
-	playerRed_go->AddComponent(std::make_shared<MoveComponent>(playerRed_go, level_movement, 20.f));
+	playerRed_go->AddComponent(std::make_shared<MoveComponent>(playerRed_go, level_movement, 100.f));
 
 	scene->Add(playerRed_go);
 

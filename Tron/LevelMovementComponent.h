@@ -16,6 +16,9 @@ public:
 	void Render() const override {};
 
 private:
-	void MoveToGridCenter();
+	bool IsBelowGridCenter(const glm::vec2& position, const glm::vec2& gridCenter);
+	bool IsAboveGridCenter(const glm::vec2& position, const glm::vec2& gridCenter);
+	bool IsLeftGridCenter(const glm::vec2& position, const glm::vec2& gridCenter);
+	bool IsRightGridCenter(const glm::vec2& position, const glm::vec2& gridCenter);
 	std::weak_ptr<LevelLayoutComponent> m_LevelLayout;
 };

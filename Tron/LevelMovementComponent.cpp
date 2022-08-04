@@ -11,138 +11,143 @@ void LevelMovementComponent::MoveOnGrid(glm::vec3& position, const glm::vec2& di
 {
 	auto levelLayout = m_LevelLayout.lock();
 	int index = levelLayout->GetGridIndex(position);
-	auto help = levelLayout->GetGridCenter(index);
-	help;
-	if (displacement.x > 0.f)
+	
+	glm::vec2 gridCenter = levelLayout->GetGridCenter(index);
+
+	// TODO: GRIDMOVEMENT: make player walk to center of grid if next tile is not walkable
+
+	if (abs(displacement.x) > 0.f)
 	{
-		assert((static_cast<size_t>(index) < levelLayout->GetGridSize() - 1) && "Player is on the edge of the grid");
-
-		if (levelLayout->IsWalkable(index + 1))
+		if (displacement.x > 0.f)
 		{
-			float gridCenterY = levelLayout->GetGridCenter(index).y;
+			assert((static_cast<size_t>(index) < levelLayout->GetGridSize() - 1) && "Player is on the edge of the grid");
+			++index;
+		}
+		else if (displacement.x < 0.f)
+		{
+			assert((index > 0) && "Player is on the edge of the grid");
+			--index;
+		}
 
-			if (position.y - gridCenterY > 0.01f)
+		if (!levelLayout->IsWalkable(index))
+		{
+			if (IsLeftGridCenter(position, gridCenter))
 			{
-				position -= glm::vec3(displacement.y, displacement.x, 0.f);
-				
-				if (position.y - gridCenterY < 0.f)
+				position -= glm::vec3(abs(displacement.x), 0.f, 0.f);
+				if (IsRightGridCenter(position, gridCenter))
 				{
-					position.y = gridCenterY;
+					position.x = gridCenter.x;
 				}
 			}
-			else if (position.y - gridCenterY < -0.01f)
+			else if (IsRightGridCenter(position, gridCenter))
 			{
-				position += glm::vec3(displacement.y, displacement.x, 0.f);
-				
-				if (position.y - gridCenterY > 0.f)
+				position += glm::vec3(abs(displacement.x), 0.f, 0.f);
+				if (IsLeftGridCenter(position, gridCenter))
 				{
-					position.y = gridCenterY;
+					position.x = gridCenter.x;
 				}
 			}
-			else
+
+			return;
+		}
+
+		if (IsBelowGridCenter(position, gridCenter))
+		{
+			position -= glm::vec3(0.f, abs(displacement.x), 0.f);
+			if (IsAboveGridCenter(position, gridCenter))
 			{
-				position += glm::vec3(displacement.x, displacement.y, 0.f);
-				position.y = gridCenterY;
+				position.y = gridCenter.y;
 			}
 		}
-	}
-	else if (displacement.x < 0.f)
-	{
-		assert((index > 0) && "Player is on the edge of the grid");
-
-		if (levelLayout->IsWalkable(index - 1))
+		else if (IsAboveGridCenter(position, gridCenter))
 		{
-			float gridCenterY = levelLayout->GetGridCenter(index).y;
-
-			if (position.y - gridCenterY > 0.01f)
+			position += glm::vec3(0.f, abs(displacement.x), 0.f);
+			if (IsBelowGridCenter(position, gridCenter))
 			{
-				position += glm::vec3(displacement.y, displacement.x, 0.f);
-
-				if (position.y - gridCenterY < 0.f)
-				{
-					position.y = gridCenterY;
-				}
-			}
-			else if (position.y - gridCenterY < -0.01f)
-			{
-				position -= glm::vec3(displacement.y, displacement.x, 0.f);
-
-				if (position.y - gridCenterY > 0.f)
-				{
-					position.y = gridCenterY;
-				}
-			}
-			else
-			{
-				position += glm::vec3(displacement.x, displacement.y, 0.f);
-				position.y = gridCenterY;
+				position.y = gridCenter.y;
 			}
 		}
-	}
-	else if (displacement.y < 0.f)
-	{
-		assert((index > levelLayout->GetGridWidth()) && "Player is on the edge of the grid");
-
-		if (levelLayout->IsWalkable(index - levelLayout->GetGridWidth()))
+		else
 		{
-			float gridCenterX = levelLayout->GetGridCenter(index).x;
-
-			if (position.x - gridCenterX > 0.01f)
-			{
-				position += glm::vec3(displacement.y, displacement.x, 0.f);
-
-				if (position.x - gridCenterX < 0.f)
-				{
-					position.x = gridCenterX;
-				}
-			}
-			else if (position.x - gridCenterX < -0.01f)
-			{
-				position -= glm::vec3(displacement.y, displacement.x, 0.f);
-
-				if (position.x - gridCenterX > 0.f)
-				{
-					position.x = gridCenterX;
-				}
-			}
-			else
-			{
-				position += glm::vec3(displacement.x, displacement.y, 0.f);
-				position.x = gridCenterX;
-			}
+			position += glm::vec3(displacement.x, 0.f, 0.f);
+			position.y = gridCenter.y;
 		}
 	}
-	else if (displacement.y > 0.f)
+	else if (abs(displacement.y) > 0.f)
 	{
-		assert((static_cast<size_t>(index + levelLayout->GetGridWidth()) < levelLayout->GetGridSize()) && "Player is on the edge of the grid");
-		
-		if (levelLayout->IsWalkable(index + levelLayout->GetGridWidth()))
+		if (displacement.y < 0.f)
 		{
-			float gridCenterX = levelLayout->GetGridCenter(index).x;
+			assert((index > levelLayout->GetGridWidth()) && "Player is on the edge of the grid");
+			index -= levelLayout->GetGridWidth();
+		}
+		else if (displacement.y > 0.f)
+		{
+			assert((static_cast<size_t>(index + levelLayout->GetGridWidth()) < levelLayout->GetGridSize()) && "Player is on the edge of the grid");
+			index += levelLayout->GetGridWidth();
+		}
 
-			if (position.x - gridCenterX > 0.01f)
+		if (!levelLayout->IsWalkable(index))
+		{
+			if (IsBelowGridCenter(position, gridCenter))
 			{
-				position -= glm::vec3(displacement.y, displacement.x, 0.f);
-
-				if (position.x - gridCenterX < 0.f)
+				position -= glm::vec3(0.f, abs(displacement.y), 0.f);
+				if (IsAboveGridCenter(position, gridCenter))
 				{
-					position.x = gridCenterX;
+					position.y = gridCenter.y;
 				}
 			}
-			else if (position.x - gridCenterX < -0.01f)
+			else if (IsAboveGridCenter(position, gridCenter))
 			{
-				position += glm::vec3(displacement.y, displacement.x, 0.f);
-
-				if (position.x - gridCenterX > 0.f)
+				position += glm::vec3(0.f, abs(displacement.y), 0.f);
+				if (IsBelowGridCenter(position, gridCenter))
 				{
-					position.x = gridCenterX;
+					position.y = gridCenter.y;
 				}
 			}
-			else
+			
+			return;
+		}
+
+		if (IsLeftGridCenter(position, gridCenter))
+		{
+			position -= glm::vec3(abs(displacement.y), 0.f, 0.f);
+			if (IsRightGridCenter(position, gridCenter))
 			{
-				position += glm::vec3(displacement.x, displacement.y, 0.f);
-				position.x = gridCenterX;
+				position.x = gridCenter.x;
 			}
 		}
+		else if (IsRightGridCenter(position, gridCenter))
+		{
+			position += glm::vec3(abs(displacement.y), 0.f, 0.f);
+			if (IsLeftGridCenter(position, gridCenter))
+			{
+				position.x = gridCenter.x;
+			}
+		}
+		else
+		{
+			position += glm::vec3(0.f, displacement.y, 0.f);
+			position.x = gridCenter.x;
+		}
 	}
+}
+
+bool LevelMovementComponent::IsBelowGridCenter(const glm::vec2& position, const glm::vec2& gridCenter)
+{
+	return (position.y - gridCenter.y > 0.01f);
+}
+
+bool LevelMovementComponent::IsAboveGridCenter(const glm::vec2& position, const glm::vec2& gridCenter)
+{
+	return (position.y - gridCenter.y < -0.01f);
+}
+
+bool LevelMovementComponent::IsLeftGridCenter(const glm::vec2& position, const glm::vec2& gridCenter)
+{
+	return (position.x - gridCenter.x > 0.01f);
+}
+
+bool LevelMovementComponent::IsRightGridCenter(const glm::vec2& position, const glm::vec2& gridCenter)
+{
+	return (position.x - gridCenter.x < -0.01f);
 }
