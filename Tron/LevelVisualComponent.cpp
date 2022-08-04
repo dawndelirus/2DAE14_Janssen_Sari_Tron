@@ -34,7 +34,7 @@ void LevelVisualComponent::CreateVisuals()
 
 		visualChild->AddComponent(texComp);
 		visualChild->SetParent(levelVisuals, visualChild, true);
-		visualChild->SetLocalPosition(pos.x, pos.y, 0.f);
+		visualChild->SetLocalPosition({ pos.x, pos.y, 0.f });
 	}
 	levelVisuals->SetParent(GetGameObject(), levelVisuals, true);
 }

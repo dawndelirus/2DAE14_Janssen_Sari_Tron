@@ -68,11 +68,14 @@ namespace dae
 
 		const glm::vec3& GetLocalPosition() const;
 		void SetLocalPosition(const glm::vec3& position);
-		void SetLocalPosition(float x, float y, float z);
-
+		
 		const glm::vec3& GetWorldPosition();
 		void SetWorldPosition(const glm::vec3& position);
-		void SetWorldPosition(float x, float y, float z);
+
+		float GetLocalRotation() const;
+		void SetLocalRotation(float angleDeg);
+		float GetWorldRotation();
+		void SetWorldRotation(float angleDeg);
 
 		bool IsObjectDead() { return m_IsDead; }
 
@@ -83,6 +86,7 @@ namespace dae
 		std::shared_ptr<GameObject> GetThisGameObjectFromParent(std::weak_ptr<GameObject> parent);
 
 		void UpdateWorldPosition();
+		void UpdateWorldRotation();
 
 		std::vector<std::shared_ptr<BaseComponent>> m_ComponentVec;
 		std::vector<std::shared_ptr<GameObject>> m_ChildrenVec;
@@ -90,7 +94,8 @@ namespace dae
 
 		Transform m_LocalTransform;
 		Transform m_WorldTransform;
-		bool m_IsTransformDirty;
+		bool m_IsPositionDirty;
+		bool m_IsRotationDirty;
 		bool m_IsDead;
 	};
 }

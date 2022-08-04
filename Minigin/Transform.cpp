@@ -1,15 +1,17 @@
 #include "MiniginPCH.h"
 #include "Transform.h"
 
-dae::Transform::Transform(float x, float y, float z)
-	: Transform(glm::vec3(x, y, z))
+dae::Transform::Transform(const glm::vec3& pos)
+	: Transform(pos, 0.f)
 {
 }
 
-dae::Transform::Transform(const glm::vec3& pos)
+dae::Transform::Transform(const glm::vec3& pos, float angleDeg)
 	: m_Position{pos}
+	, m_Angle{angleDeg}
 {
 }
+
 
 void dae::Transform::SetPosition(const float x, const float y, const float z)
 {
@@ -21,4 +23,9 @@ void dae::Transform::SetPosition(const float x, const float y, const float z)
 void dae::Transform::SetPosition(const glm::vec3& position)
 {
 	m_Position = position;
+}
+
+void dae::Transform::SetRotation(float angleDeg)
+{
+	m_Angle = angleDeg;
 }

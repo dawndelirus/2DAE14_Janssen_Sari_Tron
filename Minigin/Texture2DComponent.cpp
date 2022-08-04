@@ -20,7 +20,7 @@ void dae::Texture2DComponent::Render() const
 	position.x -= m_Offset.x;
 	position.y -= m_Offset.y;
 
-	dae::Renderer::GetInstance().RenderTexture(*m_Texture, position.x, position.y);
+	dae::Renderer::GetInstance().RenderTexture(*m_Texture, position.x, position.y, GetGameObject()->GetWorldRotation());
 }
 
 void dae::Texture2DComponent::SetTexture(const std::string& fileName)

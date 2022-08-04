@@ -15,7 +15,8 @@ dae::GameObject::GameObject(const glm::vec3& pos)
 	, m_Parent{}
 	, m_LocalTransform{ pos }
 	, m_WorldTransform{ pos }
-	, m_IsTransformDirty{ false }
+	, m_IsPositionDirty{ false }
+	, m_IsRotationDirty{ false }
 	, m_IsDead{ false }
 {
 }
@@ -56,6 +57,7 @@ void GameObject::SetParent(std::shared_ptr<GameObject> parent, std::shared_ptr<G
 	if (parent == nullptr)
 	{
 		SetLocalPosition(GetWorldPosition());
+		SetLocalRotation(GetWorldRotation());
 		RemoveParent();
 		return;
 	}
@@ -63,8 +65,10 @@ void GameObject::SetParent(std::shared_ptr<GameObject> parent, std::shared_ptr<G
 	if (keepWorldPosition)
 	{
 		SetLocalPosition(GetLocalPosition() - parent->GetWorldPosition());
+		SetLocalRotation(GetLocalRotation() - parent->GetWorldRotation());
 	}
-	m_IsTransformDirty = true;
+	m_IsPositionDirty = true;
+	m_IsRotationDirty = true;
 
 	// Change parent
 	RemoveParent();
@@ -136,7 +140,7 @@ std::shared_ptr<GameObject> dae::GameObject::GetThisGameObjectFromParent(std::we
 
 void dae::GameObject::UpdateWorldPosition()
 {
-	if (m_IsTransformDirty)
+	if (m_IsPositionDirty)
 	{
 		if (m_Parent.lock() == nullptr)	
 		{
@@ -148,12 +152,29 @@ void dae::GameObject::UpdateWorldPosition()
 		}
 	}
 
-	m_IsTransformDirty = false;
+	m_IsPositionDirty = false;
+}
+
+void dae::GameObject::UpdateWorldRotation()
+{
+	if (m_IsRotationDirty)
+	{
+		if (m_Parent.lock() == nullptr)
+		{
+			SetWorldRotation(m_LocalTransform.GetRotation());
+		}
+		else
+		{
+			SetWorldRotation(m_Parent.lock()->GetWorldRotation() + GetLocalRotation());
+		}
+	}
+
+	m_IsRotationDirty = false;
 }
 
 const glm::vec3& dae::GameObject::GetWorldPosition()
 {
-	if (m_IsTransformDirty)
+	if (m_IsPositionDirty)
 	{
 		UpdateWorldPosition();
 	}
@@ -167,23 +188,38 @@ const glm::vec3& dae::GameObject::GetLocalPosition() const
 
 void dae::GameObject::SetLocalPosition(const glm::vec3& position)
 {
-	SetLocalPosition(position.x, position.y, position.z);
-}
-
-void dae::GameObject::SetLocalPosition(float x, float y, float z)
-{
-	m_LocalTransform.SetPosition(x, y, z);
-	m_IsTransformDirty = true;
+	m_LocalTransform.SetPosition(position);
+	m_IsPositionDirty = true;
 }
 
 void dae::GameObject::SetWorldPosition(const glm::vec3& position)
 {
-	m_WorldTransform.SetPosition(position.x, position.y, position.z);
+	m_WorldTransform.SetPosition(position);
 }
 
-void dae::GameObject::SetWorldPosition(float x, float y, float z)
+float dae::GameObject::GetLocalRotation() const
 {
-	m_WorldTransform.SetPosition(x, y, z);
+	return m_LocalTransform.GetRotation();
+}
+
+void dae::GameObject::SetLocalRotation(float angleDeg)
+{
+	m_LocalTransform.SetRotation(angleDeg);
+	m_IsRotationDirty = true;
+}
+
+float dae::GameObject::GetWorldRotation()
+{
+	if (m_IsRotationDirty)
+	{
+		UpdateWorldRotation();
+	}
+	return m_WorldTransform.GetRotation();
+}
+
+void dae::GameObject::SetWorldRotation(float angleDeg)
+{
+	m_WorldTransform.SetRotation(angleDeg);
 }
 
 void GameObject::AddChild(std::shared_ptr<GameObject> child)

@@ -14,8 +14,6 @@ void LevelMovementComponent::MoveOnGrid(glm::vec3& position, const glm::vec2& di
 	
 	glm::vec2 gridCenter = levelLayout->GetGridCenter(index);
 
-	// TODO: GRIDMOVEMENT: make player walk to center of grid if next tile is not walkable
-
 	if (abs(displacement.x) > 0.f)
 	{
 		if (displacement.x > 0.f)

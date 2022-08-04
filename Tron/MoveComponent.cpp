@@ -12,17 +12,33 @@ MoveComponent::MoveComponent(std::shared_ptr<dae::GameObject> gameObject, std::s
 
 void MoveComponent::Move(float x, float y, float magnitude)
 {
-	auto position = GetGameObject()->GetLocalPosition();
+	glm::vec3 position = GetGameObject()->GetLocalPosition();
 
 	glm::vec2 displacement{};
 
 	if (abs(x) >= abs(y))
 	{
 		displacement.x = (x * magnitude * m_MovementSpeed) * dae::Clock::GetDeltaTime();
+		if (displacement.x > 0.f)
+		{
+			GetGameObject()->SetLocalRotation(0.f);
+		}
+		else
+		{
+			GetGameObject()->SetLocalRotation(180.f);
+		}
 	}
 	else
 	{
 		displacement.y = -(y * magnitude * m_MovementSpeed) * dae::Clock::GetDeltaTime();
+		if (displacement.y > 0.f)
+		{
+			GetGameObject()->SetLocalRotation(90.f);
+		}
+		else
+		{
+			GetGameObject()->SetLocalRotation(-90.f);
+		}
 	}
 	m_LevelMovement.lock()->MoveOnGrid(position, displacement);
 
