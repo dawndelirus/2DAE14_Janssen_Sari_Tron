@@ -108,7 +108,7 @@ glm::vec2 LevelLayoutComponent::GetGridCenter(size_t idx) const
 {
     auto gridPos = GetGridTopLeft(idx);
     gridPos.x += m_TileWidth / 2.f + GetGameObject()->GetLocalPosition().x;
-    gridPos.y += m_TileHeight + GetGameObject()->GetLocalPosition().y;
+    gridPos.y += m_TileHeight / 2.f + GetGameObject()->GetLocalPosition().y;
     return gridPos;
 }
 

@@ -37,7 +37,7 @@
       <Filter>Commands</Filter>
     </ClCompile>
     <ClCompile Include="LevelVisualComponent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -54,7 +54,7 @@
       <Filter>Commands</Filter>
     </ClInclude>
     <ClInclude Include="LevelVisualComponent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

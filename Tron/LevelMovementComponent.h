@@ -16,5 +16,6 @@ public:
 	void Render() const override {};
 
 private:
+	void MoveToGridCenter();
 	std::weak_ptr<LevelLayoutComponent> m_LevelLayout;
 };
