@@ -21,6 +21,8 @@
 #include "LevelLayoutComponent.h"
 #include "LevelVisualComponent.h"
 #include "LevelMovementComponent.h"
+#include "LevelPathfindingComponent.h"
+#include "MovementControllerComponent.h"
 
 void LoadGame()
 {
@@ -38,7 +40,9 @@ void LoadGame()
 	level_go->AddComponent(level_visuals);
 	auto level_movement = std::make_shared<LevelMovementComponent>(level_go, level_layout);
 	level_go->AddComponent(level_movement);
-	
+	auto level_pathfinding = std::make_shared<LevelPathfindingComponent>(level_go, level_layout);
+	level_go->AddComponent(level_pathfinding);
+
 	scene->Add(level_go);
 
 	// PLAYER
@@ -47,7 +51,7 @@ void LoadGame()
 	auto playerRed_texture = std::make_shared<dae::Texture2DComponent>(playerRed_go, "Sprites/RedTank.png");
 	playerRed_texture->SetRenderPositionOffset(glm::vec2(16.f, 16.f));
 	playerRed_go->AddComponent(playerRed_texture);
-	playerRed_go->AddComponent(std::make_shared<MoveComponent>(playerRed_go, level_movement, 100.f));
+	playerRed_go->AddComponent(std::make_shared<MoveComponent>(playerRed_go, level_movement, 60.f));
 
 	scene->Add(playerRed_go);
 
@@ -55,6 +59,21 @@ void LoadGame()
 	auto movementInput = dae::InputAction(0, std::make_shared<MoveCommand>(playerRed_go, playerRed_go->GetComponent<MoveComponent>(), dae::Joystick::LeftStick), dae::Joystick::LeftStick);
 	inputM.AddInput(movementInput);
 
+	// ENEMY
+	const auto& enemy_startPosVec = level_layout->GetEnemyStartPositions();
+	for (size_t i = 0; i < enemy_startPosVec.size(); ++i)
+	{
+		const auto& enemy_startPos = level_layout->GetGridCenter(enemy_startPosVec[i]);
+		auto enemy_go = std::make_shared<dae::GameObject>(enemy_startPos.x, enemy_startPos.y, 0.f);
+		auto enemy_texture = std::make_shared<dae::Texture2DComponent>(enemy_go, "Sprites/BlueTank.png");
+		enemy_texture->SetRenderPositionOffset(glm::vec2(16.f, 16.f));
+		enemy_go->AddComponent(enemy_texture);
+		auto enemy_moveComp = std::make_shared<MoveComponent>(enemy_go, level_movement, 40.f);
+		enemy_go->AddComponent(enemy_moveComp);
+		enemy_go->AddComponent(std::make_shared<MovementControllerComponent>(enemy_go, playerRed_go, enemy_moveComp, level_pathfinding, level_layout));
+
+		scene->Add(enemy_go);
+	}
 }
 
 int main(int, char* [])

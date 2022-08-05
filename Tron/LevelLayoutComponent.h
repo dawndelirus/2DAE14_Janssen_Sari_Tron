@@ -18,6 +18,7 @@ public:
 	int GetGridIndex(const glm::vec2& pos) const;
 	glm::vec2 GetGridTopLeft(size_t idx) const;
 	glm::vec2 GetGridCenter(size_t idx) const;
+	std::vector<int> GetConnectingIndices(int idx);
 
 	const std::vector<int>& GetPlayerStartPositions() const;
 	const std::vector<int>& GetEnemyStartPositions() const;
@@ -42,6 +43,5 @@ private:
 	int m_TileWidth;
 	int m_TileHeight;
 	int m_GridWidth;
-
 };
 

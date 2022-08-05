@@ -171,17 +171,21 @@
   <ItemGroup>
     <ClCompile Include="LevelLayoutComponent.cpp" />
     <ClCompile Include="LevelMovementComponent.cpp" />
+    <ClCompile Include="LevelPathfindingComponent.cpp" />
     <ClCompile Include="LevelVisualComponent.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="MoveComponent.cpp" />
+    <ClCompile Include="MovementControllerComponent.cpp" />
     <ClCompile Include="Tron.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LevelLayoutComponent.h" />
     <ClInclude Include="LevelMovementComponent.h" />
+    <ClInclude Include="LevelPathfindingComponent.h" />
     <ClInclude Include="LevelVisualComponent.h" />
     <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="MoveComponent.h" />
+    <ClInclude Include="MovementControllerComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -39,6 +39,12 @@
     <ClCompile Include="LevelVisualComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="MovementControllerComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelPathfindingComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MoveComponent.h">
@@ -55,6 +61,12 @@
     </ClInclude>
     <ClInclude Include="LevelVisualComponent.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementControllerComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelPathfindingComponent.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

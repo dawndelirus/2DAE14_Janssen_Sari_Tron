@@ -112,6 +112,33 @@ glm::vec2 LevelLayoutComponent::GetGridCenter(size_t idx) const
     return gridPos;
 }
 
+std::vector<int> LevelLayoutComponent::GetConnectingIndices(int idx)
+{
+    std::vector<int> connectedIdx{};
+    int index = idx + 1;
+    if (IsWalkable(index))
+    {
+        connectedIdx.push_back(index);
+    }
+    index = idx - 1;
+    if (IsWalkable(index))
+    {
+        connectedIdx.push_back(index);
+    }
+    index = idx - m_GridWidth;
+	if (IsWalkable(index))
+	{
+		connectedIdx.push_back(index);
+	}
+    index = idx + m_GridWidth;
+    if (IsWalkable(index))
+    {
+        connectedIdx.push_back(index);
+    }
+
+    return connectedIdx;
+}
+
 const std::vector<int>& LevelLayoutComponent::GetPlayerStartPositions() const
 {
     return m_PlayerPositions;

@@ -18,7 +18,8 @@ void MoveComponent::Move(float x, float y, float magnitude)
 
 	if (abs(x) >= abs(y))
 	{
-		displacement.x = (x * magnitude * m_MovementSpeed) * dae::Clock::GetDeltaTime();
+		float sign = x / abs(x);
+		displacement.x = sign * magnitude * m_MovementSpeed * dae::Clock::GetDeltaTime();
 		if (displacement.x > 0.f)
 		{
 			GetGameObject()->SetLocalRotation(0.f);
@@ -30,7 +31,8 @@ void MoveComponent::Move(float x, float y, float magnitude)
 	}
 	else
 	{
-		displacement.y = -(y * magnitude * m_MovementSpeed) * dae::Clock::GetDeltaTime();
+		float sign = y / abs(y);
+		displacement.y = -(sign * magnitude * m_MovementSpeed * dae::Clock::GetDeltaTime());
 		if (displacement.y > 0.f)
 		{
 			GetGameObject()->SetLocalRotation(90.f);
@@ -40,7 +42,7 @@ void MoveComponent::Move(float x, float y, float magnitude)
 			GetGameObject()->SetLocalRotation(-90.f);
 		}
 	}
-	m_LevelMovement.lock()->MoveOnGrid(position, displacement);
 
+	m_LevelMovement.lock()->MoveOnGrid(position, displacement);
 	GetGameObject()->SetLocalPosition(position);
 }

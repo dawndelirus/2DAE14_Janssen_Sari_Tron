@@ -36,6 +36,7 @@ void LevelMovementComponent::MoveOnGrid(glm::vec3& position, const glm::vec2& di
 				{
 					position.x = gridCenter.x;
 				}
+				return;
 			}
 			else if (IsRightGridCenter(position, gridCenter))
 			{
@@ -45,8 +46,6 @@ void LevelMovementComponent::MoveOnGrid(glm::vec3& position, const glm::vec2& di
 					position.x = gridCenter.x;
 				}
 			}
-
-			return;
 		}
 
 		if (IsBelowGridCenter(position, gridCenter))
