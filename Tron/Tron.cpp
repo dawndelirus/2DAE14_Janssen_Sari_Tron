@@ -23,6 +23,9 @@
 #include "LevelMovementComponent.h"
 #include "LevelPathfindingComponent.h"
 #include "MovementControllerComponent.h"
+#include "HealthComponent.h"
+
+#include "BulletPoolComponent.h"
 
 void LoadGame()
 {
@@ -45,6 +48,10 @@ void LoadGame()
 
 	scene->Add(level_go);
 
+	// BULLET POOL
+	auto bulletPool_go = std::make_shared<dae::GameObject>();
+	bulletPool_go->AddComponent(std::make_shared<BulletPoolComponent>(bulletPool_go));
+
 	// PLAYER
 	auto player_startPos = level_layout->GetGridCenter(level_layout->GetPlayerStartPositions()[0]);
 	auto playerRed_go = std::make_shared<dae::GameObject>(player_startPos.x, player_startPos.y, 0.f);
@@ -52,6 +59,7 @@ void LoadGame()
 	playerRed_texture->SetRenderPositionOffset(glm::vec2(16.f, 16.f));
 	playerRed_go->AddComponent(playerRed_texture);
 	playerRed_go->AddComponent(std::make_shared<MoveComponent>(playerRed_go, level_movement, 60.f));
+	playerRed_go->AddComponent(std::make_shared<HealthComponent>(playerRed_go, 3));
 
 	scene->Add(playerRed_go);
 

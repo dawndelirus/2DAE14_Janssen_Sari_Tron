@@ -169,6 +169,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BulletComponent.cpp" />
+    <ClCompile Include="BulletPoolComponent.cpp" />
+    <ClCompile Include="GunComponent.cpp" />
+    <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="LevelLayoutComponent.cpp" />
     <ClCompile Include="LevelMovementComponent.cpp" />
     <ClCompile Include="LevelPathfindingComponent.cpp" />
@@ -179,6 +183,10 @@
     <ClCompile Include="Tron.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BulletComponent.h" />
+    <ClInclude Include="BulletPoolComponent.h" />
+    <ClInclude Include="GunComponent.h" />
+    <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="LevelLayoutComponent.h" />
     <ClInclude Include="LevelMovementComponent.h" />
     <ClInclude Include="LevelPathfindingComponent.h" />
