@@ -15,22 +15,28 @@ void LevelVisualComponent::CreateVisuals()
 
 	auto levelVisuals = std::make_shared<dae::GameObject>();
 
-	for (size_t i = 0; i < levelLayout->GetGridSize(); ++i)
+	auto& vec = levelLayout->GetVisualsVector();
+
+	for (size_t i = 0; i < levelLayout->GetVisualsGridSize(); ++i)
 	{
 		auto visualChild = std::make_shared<dae::GameObject>();
 		std::shared_ptr<dae::Texture2DComponent>texComp{};
 
-		if (levelLayout->IsWalkable(static_cast<int>(i)))
+		if (vec[static_cast<int>(i)] >= 2)
 		{
-			texComp = std::make_shared<dae::Texture2DComponent>(visualChild, "Level/yes.png");
+			texComp = std::make_shared<dae::Texture2DComponent>(visualChild, "Level/path.png");
 		}
-		else
+		else if(vec[static_cast<int>(i)] == 0)
 		{
-			texComp = std::make_shared<dae::Texture2DComponent>(visualChild, "Level/no.png");
+			texComp = std::make_shared<dae::Texture2DComponent>(visualChild, "Level/wall.png");
 		}
-		texComp->SetRenderPositionOffset(glm::vec2(8.f, 8.f));
+		else if(vec[static_cast<int>(i)] == 1)
+		{
+			texComp = std::make_shared<dae::Texture2DComponent>(visualChild, "Level/void.png");
+		}
+		texComp->SetRenderPositionOffset(glm::vec2(4.f, 4.f));
 
-		auto pos = levelLayout->GetGridCenter(i);
+		auto pos = levelLayout->GetGridCenterVisuals(static_cast<int>(i));
 
 		visualChild->AddComponent(texComp);
 		visualChild->SetParent(levelVisuals, visualChild, true);

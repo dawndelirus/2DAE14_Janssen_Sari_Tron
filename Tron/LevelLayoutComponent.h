@@ -15,6 +15,10 @@ public:
 	int GetTileWidth();
 	int GetTileHeight();
 
+	const std::vector<int>& GetVisualsVector();
+	int GetVisualsGridSize();
+	glm::vec2 GetGridCenterVisuals(int idx);
+
 	int GetGridIndex(const glm::vec2& pos) const;
 	glm::vec2 GetGridTopLeft(size_t idx) const;
 	glm::vec2 GetGridCenter(size_t idx) const;
@@ -29,14 +33,15 @@ public:
 private:
 	enum class Objects
 	{
-		Player = 2,
-		Enemy = 3
+		Player = 3,
+		Enemy = 4
 	};
 
 	void LoadLevel(std::string filePath);
 	void SaveObjectPositions(int number, int index);
 
 	std::vector<bool> m_LevelPath;
+	std::vector<int> m_VisualsPath;
 	std::vector<int> m_PlayerPositions;
 	std::vector<int> m_EnemyPositions;
 

@@ -10,10 +10,10 @@ BulletPoolComponent::BulletPoolComponent(std::shared_ptr<dae::GameObject> gameOb
 	}
 }
 
-void BulletPoolComponent::CreateBullet(glm::vec2 startPos, glm::vec2 direction, int bounces, BulletComponent::Source bulletSource)
-{
-	BulletComponent* newBullet = m_FirstAvailable;
-	m_FirstAvailable = newBullet->GetNext();
-
-	newBullet->InitializeBullet(startPos, direction, bounces, bulletSource);
-}
+//void BulletPoolComponent::CreateBullet(glm::vec2 startPos, glm::vec2 direction, int bounces, BulletComponent::Source bulletSource)
+//{
+//	BulletComponent* newBullet = m_FirstAvailable;
+//	m_FirstAvailable = newBullet->GetNext();
+//
+//	newBullet->InitializeBullet(startPos, direction, bounces, bulletSource);
+//}

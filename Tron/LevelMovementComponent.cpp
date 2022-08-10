@@ -29,6 +29,7 @@ void LevelMovementComponent::MoveOnGrid(glm::vec3& position, const glm::vec2& di
 
 		if (!levelLayout->IsWalkable(index))
 		{
+			// If next grid is non walkable, move to center of current grid
 			if (IsLeftGridCenter(position, gridCenter))
 			{
 				position -= glm::vec3(abs(displacement.x), 0.f, 0.f);
@@ -46,6 +47,7 @@ void LevelMovementComponent::MoveOnGrid(glm::vec3& position, const glm::vec2& di
 					position.x = gridCenter.x;
 				}
 			}
+			return;
 		}
 
 		if (IsBelowGridCenter(position, gridCenter))
@@ -85,6 +87,7 @@ void LevelMovementComponent::MoveOnGrid(glm::vec3& position, const glm::vec2& di
 
 		if (!levelLayout->IsWalkable(index))
 		{
+			// If next grid is non walkable, move to center of current grid
 			if (IsBelowGridCenter(position, gridCenter))
 			{
 				position -= glm::vec3(0.f, abs(displacement.y), 0.f);

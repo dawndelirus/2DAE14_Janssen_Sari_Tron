@@ -37,7 +37,7 @@ void LoadGame()
 
 	// LEVEL
 	auto level_go = std::make_shared<dae::GameObject>(100.f, 20.f, 0.f);
-	std::shared_ptr<LevelLayoutComponent> level_layout = std::make_shared<LevelLayoutComponent>(level_go, "../Data/LevelLayout0.csv", 16, 16);
+	std::shared_ptr<LevelLayoutComponent> level_layout = std::make_shared<LevelLayoutComponent>(level_go, "../Data/LevelLayout01.csv", 16, 16);
 	level_go->AddComponent(level_layout);
 	auto level_visuals = std::make_shared<LevelVisualComponent>(level_go, level_layout);
 	level_go->AddComponent(level_visuals);
@@ -48,9 +48,9 @@ void LoadGame()
 
 	scene->Add(level_go);
 
-	// BULLET POOL
-	auto bulletPool_go = std::make_shared<dae::GameObject>();
-	bulletPool_go->AddComponent(std::make_shared<BulletPoolComponent>(bulletPool_go));
+	//// BULLET POOL
+	//auto bulletPool_go = std::make_shared<dae::GameObject>();
+	//bulletPool_go->AddComponent(std::make_shared<BulletPoolComponent>(bulletPool_go));
 
 	// PLAYER
 	auto player_startPos = level_layout->GetGridCenter(level_layout->GetPlayerStartPositions()[0]);
