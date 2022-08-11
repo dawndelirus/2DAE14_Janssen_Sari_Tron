@@ -4,8 +4,9 @@
 #include <iostream>
 #include "Texture2DComponent.h"
 #include "ServiceLocator.h"
+#include "LevelLayoutComponent.h"
 
-BulletPoolComponent::BulletPoolComponent(std::shared_ptr<dae::GameObject> gameObject, const std::string& sceneName, int bulletAmount)
+BulletPoolComponent::BulletPoolComponent(std::shared_ptr<dae::GameObject> gameObject, std::shared_ptr<LevelLayoutComponent> levelLayout, const std::string& sceneName, int bulletAmount)
 	: BaseComponent(gameObject)
 	, m_FirstAvailable{}
 	, m_Bullets{}
@@ -17,7 +18,7 @@ BulletPoolComponent::BulletPoolComponent(std::shared_ptr<dae::GameObject> gameOb
 	for (size_t i = 0; i < bulletAmount; ++i)
 	{
 		auto bullet_go = std::make_shared<dae::GameObject>();
-		std::shared_ptr<BulletComponent> bulletComponent{ new BulletComponent(bullet_go) }; // new because can not create object from friend class using RAII
+		std::shared_ptr<BulletComponent> bulletComponent{ new BulletComponent(bullet_go, levelLayout) }; // new because can not create object from friend class using RAII
 		bullet_go->AddComponent(bulletComponent);
 		auto textureComponent = std::make_shared<dae::Texture2DComponent>(bullet_go, "Sprites/BulletPlayer.png");
 		textureComponent->SetRenderPositionOffset(glm::vec2(16.f, 16.f));

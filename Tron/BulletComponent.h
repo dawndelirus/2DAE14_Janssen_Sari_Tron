@@ -1,7 +1,9 @@
 #pragma once
 #include <BaseComponent.h>
+#include <memory>
 
 class BulletPoolComponent;
+class LevelLayoutComponent;
 
 class BulletComponent final : public dae::BaseComponent
 {
@@ -25,7 +27,9 @@ public:
 	void Render() const override {};
 
 private:
-	BulletComponent(std::shared_ptr<dae::GameObject> gameObject);
+	BulletComponent(std::shared_ptr<dae::GameObject> gameObject, std::shared_ptr<LevelLayoutComponent> levelLayout);
+
+	void Bounce(const glm::vec3& oldPosition, glm::vec3& newPosition);
 
 	union
 	{
@@ -34,6 +38,7 @@ private:
 	} m_BulletState;
 
 	Type m_Source;
+	std::weak_ptr<LevelLayoutComponent> m_LevelLayout;
 
 	float m_BulletSpeed;
 	int m_MaxBounces;

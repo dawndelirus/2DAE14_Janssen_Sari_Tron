@@ -99,6 +99,12 @@ const std::vector<int>& LevelLayoutComponent::GetVisualsVector()
     return m_VisualsPath;
 }
 
+bool LevelLayoutComponent::IsOnVisualPath(int index)
+{
+    assert(index < m_VisualsPath.size() && "Index is out of bounds in LevelLayoutComponent");
+    return m_VisualsPath[index];
+}
+
 int LevelLayoutComponent::GetVisualsGridSize()
 {
     return static_cast<int>(m_VisualsPath.size());
@@ -107,6 +113,14 @@ int LevelLayoutComponent::GetVisualsGridSize()
 int LevelLayoutComponent::GetVisualTileWidth()
 {
     return m_VisualTileWidth;
+}
+
+int LevelLayoutComponent::GetVisualGridIndex(const glm::vec2& pos)
+{
+    int x = static_cast<int>(pos.x - GetGameObject()->GetWorldPosition().x) / m_VisualTileWidth;
+    int y = static_cast<int>(pos.y - GetGameObject()->GetWorldPosition().y) / m_VisualTileWidth;
+
+    return y * (m_GridWidth * 2) + x;
 }
 
 glm::vec2 LevelLayoutComponent::GetGridCenterVisuals(int idx)

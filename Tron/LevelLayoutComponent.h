@@ -15,8 +15,10 @@ public:
 	int GetLevelTileWidth();
 
 	const std::vector<int>& GetVisualsVector();
+	bool IsOnVisualPath(int index);
 	int GetVisualsGridSize();
 	int GetVisualTileWidth();
+	int GetVisualGridIndex(const glm::vec2& pos);
 	glm::vec2 GetGridCenterVisuals(int idx);
 
 	int GetGridIndex(const glm::vec2& pos) const;

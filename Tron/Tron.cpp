@@ -52,7 +52,7 @@ void LoadGame()
 
 	// BULLET POOL
 	auto bulletPool_go = std::make_shared<dae::GameObject>();
-	auto bulletPool_comp = std::make_shared<BulletPoolComponent>(bulletPool_go, "Level0", 20);
+	auto bulletPool_comp = std::make_shared<BulletPoolComponent>(bulletPool_go, level_layout, "Level0", 20);
 	bulletPool_go->AddComponent(bulletPool_comp);
 
 	// PLAYER

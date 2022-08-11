@@ -19,16 +19,16 @@
     <Filter Include="Commands">
       <UniqueIdentifier>{c55e5780-045e-4003-b994-12f40dd13f7c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\Level">
+      <UniqueIdentifier>{5321f885-7a81-4978-8821-d1734c58e29f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Bullet">
+      <UniqueIdentifier>{c3feb3d6-ddff-46fa-83d8-6414c86bb66e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tron.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelLayoutComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelMovementComponent.cpp">
-      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="MoveComponent.cpp">
       <Filter>Components</Filter>
@@ -36,16 +36,7 @@
     <ClCompile Include="MoveCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
-    <ClCompile Include="LevelVisualComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="MovementControllerComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="BulletComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="BulletPoolComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="GunComponent.cpp">
@@ -54,36 +45,36 @@
     <ClCompile Include="HealthComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="LevelPathfindingComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="FireCommand.cpp">
       <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelLayoutComponent.cpp">
+      <Filter>Components\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelMovementComponent.cpp">
+      <Filter>Components\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelPathfindingComponent.cpp">
+      <Filter>Components\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelVisualComponent.cpp">
+      <Filter>Components\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletComponent.cpp">
+      <Filter>Components\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletPoolComponent.cpp">
+      <Filter>Components\Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MoveComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="LevelMovementComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelLayoutComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="MoveCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
-    <ClInclude Include="LevelVisualComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="MovementControllerComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="BulletComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="BulletPoolComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="GunComponent.h">
@@ -92,11 +83,26 @@
     <ClInclude Include="HealthComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="LevelPathfindingComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="FireCommand.h">
       <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelLayoutComponent.h">
+      <Filter>Components\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelMovementComponent.h">
+      <Filter>Components\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelPathfindingComponent.h">
+      <Filter>Components\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelVisualComponent.h">
+      <Filter>Components\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletComponent.h">
+      <Filter>Components\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletPoolComponent.h">
+      <Filter>Components\Bullet</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
