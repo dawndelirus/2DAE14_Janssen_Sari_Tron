@@ -34,7 +34,9 @@ void LevelVisualComponent::CreateVisuals()
 		{
 			texComp = std::make_shared<dae::Texture2DComponent>(visualChild, "Level/void.png");
 		}
-		texComp->SetRenderPositionOffset(glm::vec2(4.f, 4.f));
+
+		float tileWidth = static_cast<float>(levelLayout->GetVisualTileWidth());
+		texComp->SetRenderPositionOffset(glm::vec2(tileWidth / 2.f, tileWidth / 2.f));
 
 		auto pos = levelLayout->GetGridCenterVisuals(static_cast<int>(i));
 

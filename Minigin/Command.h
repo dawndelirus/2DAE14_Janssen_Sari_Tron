@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "BaseComponent.h"
 #include <memory>
 
 namespace dae
@@ -7,8 +7,8 @@ namespace dae
 	class Command
 	{
 	public:
-		Command(std::shared_ptr<GameObject> pGameObject)
-			: m_pGameObject{ pGameObject }
+		Command(std::shared_ptr<BaseComponent> pGameObject)
+			: m_Component{ pGameObject }
 		{}
 
 		virtual ~Command() = default;
@@ -21,12 +21,12 @@ namespace dae
 		virtual void Execute() = 0;
 
 	protected:
-		std::shared_ptr<GameObject> GetGameObject() const
+		std::shared_ptr<BaseComponent> GetComponent() const
 		{
-			return m_pGameObject;
+			return m_Component;
 		}
 
 	private:
-		std::shared_ptr<GameObject> m_pGameObject;
+		std::shared_ptr<BaseComponent> m_Component;
 	};
 }

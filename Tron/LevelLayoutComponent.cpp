@@ -5,8 +5,8 @@
 
 LevelLayoutComponent::LevelLayoutComponent(std::shared_ptr<dae::GameObject> gameObject, const std::string& filePath, int tileWidth, int tileHeight)
     : BaseComponent(gameObject)
-    , m_TileWidth{tileWidth}
-    , m_TileHeight{tileHeight}
+    , m_LevelTileWidth{tileWidth}
+    , m_VisualTileWidth{tileHeight}
     , m_GridWidth{}
 {
     LoadLevel(filePath);
@@ -89,14 +89,9 @@ bool LevelLayoutComponent::IsWalkable(int index)
     return m_LevelPath[index];
 }
 
-int LevelLayoutComponent::GetTileWidth()
+int LevelLayoutComponent::GetLevelTileWidth()
 {
-    return m_TileWidth;
-}
-
-int LevelLayoutComponent::GetTileHeight()
-{
-    return m_TileHeight;
+    return m_LevelTileWidth;
 }
 
 const std::vector<int>& LevelLayoutComponent::GetVisualsVector()
@@ -109,24 +104,28 @@ int LevelLayoutComponent::GetVisualsGridSize()
     return static_cast<int>(m_VisualsPath.size());
 }
 
+int LevelLayoutComponent::GetVisualTileWidth()
+{
+    return m_VisualTileWidth;
+}
+
 glm::vec2 LevelLayoutComponent::GetGridCenterVisuals(int idx)
 {
-    float tileWidth = m_TileWidth / 2.f;
-    float tileHeight = m_TileHeight / 2.f;
+    int tileScale = m_LevelTileWidth / m_VisualTileWidth;
 
     glm::vec2 gridPos{};
-    gridPos.x = static_cast<float>(static_cast<int>(idx) % (m_GridWidth * 2) * tileWidth);
-    gridPos.y = static_cast<float>(static_cast<int>(idx) / (m_GridWidth * 2) * tileHeight);
+    gridPos.x = static_cast<float>(static_cast<int>(idx) % (m_GridWidth * tileScale) * m_VisualTileWidth);
+    gridPos.y = static_cast<float>(static_cast<int>(idx) / (m_GridWidth * tileScale) * m_VisualTileWidth);
 
-    gridPos.x += tileWidth / 2.f + GetGameObject()->GetLocalPosition().x;
-    gridPos.y += tileHeight / 2.f + GetGameObject()->GetLocalPosition().y;
+    gridPos.x += m_VisualTileWidth / 2.f + GetGameObject()->GetLocalPosition().x;
+    gridPos.y += m_VisualTileWidth / 2.f + GetGameObject()->GetLocalPosition().y;
     return gridPos;
 }
 
 int LevelLayoutComponent::GetGridIndex(const glm::vec2& pos) const
 {
-    int x = static_cast<int>(pos.x - GetGameObject()->GetWorldPosition().x) / (m_TileWidth);
-    int y = static_cast<int>(pos.y - GetGameObject()->GetWorldPosition().y) / (m_TileHeight);
+    int x = static_cast<int>(pos.x - GetGameObject()->GetWorldPosition().x) / (m_LevelTileWidth);
+    int y = static_cast<int>(pos.y - GetGameObject()->GetWorldPosition().y) / (m_LevelTileWidth);
 
     return y * m_GridWidth + x;
 }
@@ -134,16 +133,16 @@ int LevelLayoutComponent::GetGridIndex(const glm::vec2& pos) const
 glm::vec2 LevelLayoutComponent::GetGridTopLeft(size_t idx) const
 {
     glm::vec2 gridPos{};
-    gridPos.x = (static_cast<float>(static_cast<int>(idx) % m_GridWidth) * m_TileWidth);
-    gridPos.y = (static_cast<float>(static_cast<int>(idx) / m_GridWidth) * m_TileHeight);
+    gridPos.x = (static_cast<float>(static_cast<int>(idx) % m_GridWidth) * m_LevelTileWidth);
+    gridPos.y = (static_cast<float>(static_cast<int>(idx) / m_GridWidth) * m_LevelTileWidth);
     return gridPos;
 }
 
 glm::vec2 LevelLayoutComponent::GetGridCenter(size_t idx) const
 {
     auto gridPos = GetGridTopLeft(idx);
-    gridPos.x += (m_TileWidth / 2.f) + GetGameObject()->GetLocalPosition().x;
-    gridPos.y += (m_TileHeight / 2.f) + GetGameObject()->GetLocalPosition().y;
+    gridPos.x += (m_LevelTileWidth / 2.f) + GetGameObject()->GetLocalPosition().x;
+    gridPos.y += (m_LevelTileWidth / 2.f) + GetGameObject()->GetLocalPosition().y;
     return gridPos;
 }
 

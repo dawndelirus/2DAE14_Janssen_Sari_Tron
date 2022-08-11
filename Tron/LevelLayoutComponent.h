@@ -6,17 +6,17 @@
 class LevelLayoutComponent final : public dae::BaseComponent
 {
 public:
-	LevelLayoutComponent(std::shared_ptr<dae::GameObject> gameObject, const std::string& filePath, int tileWidth, int tileHeight);
+	LevelLayoutComponent(std::shared_ptr<dae::GameObject> gameObject, const std::string& filePath, int levelTileWidth, int gridTileWidth);
 	~LevelLayoutComponent() = default;
 
 	bool IsWalkable(int index);
 	int GetGridSize();
 	int GetGridWidth();
-	int GetTileWidth();
-	int GetTileHeight();
+	int GetLevelTileWidth();
 
 	const std::vector<int>& GetVisualsVector();
 	int GetVisualsGridSize();
+	int GetVisualTileWidth();
 	glm::vec2 GetGridCenterVisuals(int idx);
 
 	int GetGridIndex(const glm::vec2& pos) const;
@@ -45,8 +45,8 @@ private:
 	std::vector<int> m_PlayerPositions;
 	std::vector<int> m_EnemyPositions;
 
-	int m_TileWidth;
-	int m_TileHeight;
+	int m_LevelTileWidth;
+	int m_VisualTileWidth;
 	int m_GridWidth;
 };
 

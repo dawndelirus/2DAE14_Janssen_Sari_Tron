@@ -5,18 +5,20 @@ BulletComponent::BulletComponent(std::shared_ptr<dae::GameObject> gameObject)
     : BaseComponent(gameObject)
     , m_BulletState{}
     , m_Source{}
-    , m_MaxBounces{}
-    , m_CurrentBounces{}
+    , m_BulletSpeed{}
+    , m_MaxBounces{0}
+    , m_CurrentBounces{-1}
 {
 }
 
-void BulletComponent::InitializeBullet(glm::vec2 startPos, glm::vec2 direction, int bounces, Source bulletSource)
+void BulletComponent::InitializeBullet(const glm::vec2& startPos, const glm::vec2& direction, int bounces, float bulletSpeed, Type bulletSource)
 {
     GetGameObject()->SetWorldPosition(glm::vec3(startPos.x, startPos.y, 0.f));
     m_BulletState.velocity = direction;
     m_MaxBounces = bounces;
-    m_CurrentBounces = 0;
+    m_CurrentBounces = bounces;
     m_Source = bulletSource;
+    m_BulletSpeed = bulletSpeed;
 }
 
 void BulletComponent::SetNext(BulletComponent* next)
@@ -38,9 +40,11 @@ void BulletComponent::Update()
 {
     if (!IsInUse())
     {
-        return;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+        return;
     }
 
     auto pos = GetGameObject()->GetWorldPosition();
-    GetGameObject()->SetWorldPosition(glm::vec3(pos.x + m_BulletState.velocity.x + dae::Clock::GetDeltaTime(), pos.y + m_BulletState.velocity.y + dae::Clock::GetDeltaTime(), 0.f));
+    pos.x += (m_BulletState.velocity.x * m_BulletSpeed * dae::Clock::GetDeltaTime());
+    pos.y += (m_BulletState.velocity.y * m_BulletSpeed * dae::Clock::GetDeltaTime());
+    GetGameObject()->SetWorldPosition(pos);
 }

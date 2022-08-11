@@ -1,13 +1,14 @@
 #pragma once
 #include <BaseComponent.h>
-#include "BulletPoolComponent.h"
+
+class BulletPoolComponent;
 
 class BulletComponent final : public dae::BaseComponent
 {
 public:
 	friend class BulletPoolComponent;
 
-	enum class Source
+	enum class Type
 	{
 		Player,
 		Enemy
@@ -15,7 +16,7 @@ public:
 
 	~BulletComponent() = default;
 
-	void InitializeBullet(glm::vec2 startPos, glm::vec2 direction, int bounces, Source bulletSource);
+	void InitializeBullet(const glm::vec2& startPos, const glm::vec2& direction, int bounces, float bulletSpeed, Type bulletSource);
 	void SetNext(BulletComponent* next);
 	BulletComponent* GetNext();
 	bool IsInUse();
@@ -32,10 +33,10 @@ private:
 		BulletComponent* next;
 	} m_BulletState;
 
-	Source m_Source;
+	Type m_Source;
 
+	float m_BulletSpeed;
 	int m_MaxBounces;
 	int m_CurrentBounces;
-
 };
 

@@ -171,6 +171,7 @@
   <ItemGroup>
     <ClCompile Include="BulletComponent.cpp" />
     <ClCompile Include="BulletPoolComponent.cpp" />
+    <ClCompile Include="FireCommand.cpp" />
     <ClCompile Include="GunComponent.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="LevelLayoutComponent.cpp" />
@@ -185,6 +186,7 @@
   <ItemGroup>
     <ClInclude Include="BulletComponent.h" />
     <ClInclude Include="BulletPoolComponent.h" />
+    <ClInclude Include="FireCommand.h" />
     <ClInclude Include="GunComponent.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="LevelLayoutComponent.h" />

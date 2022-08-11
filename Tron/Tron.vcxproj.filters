@@ -42,20 +42,23 @@
     <ClCompile Include="MovementControllerComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="LevelPathfindingComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HealthComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GunComponent.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="BulletComponent.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="BulletPoolComponent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="BulletComponent.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="GunComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelPathfindingComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="FireCommand.cpp">
+      <Filter>Commands</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -77,20 +80,23 @@
     <ClInclude Include="MovementControllerComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="LevelPathfindingComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HealthComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GunComponent.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="BulletComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="BulletPoolComponent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="BulletComponent.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="GunComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelPathfindingComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="FireCommand.h">
+      <Filter>Commands</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

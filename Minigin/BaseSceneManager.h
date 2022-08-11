@@ -15,7 +15,8 @@ namespace dae
 		BaseSceneManager& operator=(BaseSceneManager&& other) = delete;
 
 
-		virtual  Scene* CreateScene(const std::string&) = 0;
+		virtual Scene* CreateScene(const std::string&) = 0;
+		virtual Scene* GetScene(const std::string&) = 0;
 
 		virtual void Update() = 0;
 		virtual void Render() = 0;

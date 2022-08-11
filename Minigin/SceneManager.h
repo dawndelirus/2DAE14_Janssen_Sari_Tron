@@ -10,6 +10,7 @@ namespace dae
 	public:
 		SceneManager() = default;
 		Scene* CreateScene(const std::string& name);
+		Scene* GetScene(const std::string& name);
 
 		void Update();
 		void Render();

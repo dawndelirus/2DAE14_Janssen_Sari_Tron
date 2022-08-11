@@ -8,6 +8,7 @@ namespace dae
 	{
 	public:
 		virtual Scene* CreateScene(const std::string&) { return nullptr; };
+		virtual Scene* GetScene(const std::string&) { return nullptr; }
 		virtual void Update() {};
 		virtual void Render() {};
 	};
