@@ -26,10 +26,13 @@ public:
 	void Update() override;
 	void Render() const override {};
 
+	bool GetIsInPool() const;
+
 private:
 	BulletComponent(std::shared_ptr<dae::GameObject> gameObject, std::shared_ptr<LevelLayoutComponent> levelLayout);
 
 	void Bounce(const glm::vec3& oldPosition, glm::vec3& newPosition);
+	void SetIsInPool(bool isInPool);
 
 	union
 	{
@@ -43,5 +46,7 @@ private:
 	float m_BulletSpeed;
 	int m_MaxBounces;
 	int m_CurrentBounces;
+
+	bool m_IsInPool;
 };
 

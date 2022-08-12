@@ -10,6 +10,7 @@ BulletComponent::BulletComponent(std::shared_ptr<dae::GameObject> gameObject, st
     , m_BulletSpeed{}
     , m_MaxBounces{0}
     , m_CurrentBounces{-1}
+    , m_IsInPool{true}
 {
 }
 
@@ -21,6 +22,8 @@ void BulletComponent::InitializeBullet(const glm::vec2& startPos, const glm::vec
     m_CurrentBounces = bounces;
     m_Source = bulletSource;
     m_BulletSpeed = bulletSpeed;
+
+    m_IsInPool = false;
 }
 
 void BulletComponent::SetNext(BulletComponent* next)
@@ -53,6 +56,16 @@ void BulletComponent::Update()
     GetGameObject()->SetWorldPosition(newPos);
 }
 
+bool BulletComponent::GetIsInPool() const
+{
+    return m_IsInPool;
+}
+
+void BulletComponent::SetIsInPool(bool isInPool)
+{
+    m_IsInPool = isInPool;
+}
+
 void BulletComponent::Bounce(const glm::vec3& oldPosition, glm::vec3& newPosition)
 {
     int oldidx = m_LevelLayout.lock()->GetVisualGridIndex(oldPosition);
@@ -80,7 +93,7 @@ void BulletComponent::Bounce(const glm::vec3& oldPosition, glm::vec3& newPositio
         float x = m_LevelLayout.lock()->GetGridCenterVisuals(newIdx).x + m_LevelLayout.lock()->GetVisualTileWidth() / 2.f;
         float leftover = x - oldPosition.x;
 
-        x += abs(leftover);;
+        x -= abs(leftover);;
 
         newPosition.x = x;
         m_BulletState.velocity.x *= -1;

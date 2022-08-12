@@ -52,8 +52,10 @@ void LoadGame()
 
 	// BULLET POOL
 	auto bulletPool_go = std::make_shared<dae::GameObject>();
-	auto bulletPool_comp = std::make_shared<BulletPoolComponent>(bulletPool_go, level_layout, "Level0", 20);
+	auto bulletPool_comp = std::make_shared<BulletPoolComponent>(bulletPool_go, level_layout, "Level0", 30);
 	bulletPool_go->AddComponent(bulletPool_comp);
+
+	scene->Add(bulletPool_go);
 
 	// PLAYER
 	auto player_startPos = level_layout->GetGridCenter(level_layout->GetPlayerStartPositions()[0]);

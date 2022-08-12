@@ -19,6 +19,6 @@ public:
 private:
 	BulletComponent* m_FirstAvailable;
 
-	std::vector<dae::GameObject*> m_Bullets;
+	std::vector<BulletComponent*> m_Bullets;
 };
 

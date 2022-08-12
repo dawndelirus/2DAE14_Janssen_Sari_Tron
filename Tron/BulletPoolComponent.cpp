@@ -13,7 +13,7 @@ BulletPoolComponent::BulletPoolComponent(std::shared_ptr<dae::GameObject> gameOb
 {
 	auto pScene = dae::ServiceLocator::GetSceneManager().GetScene(sceneName);
 	
-	std::shared_ptr<BulletComponent> previous{};
+	BulletComponent* previous{};
 
 	for (size_t i = 0; i < bulletAmount; ++i)
 	{
@@ -27,16 +27,16 @@ BulletPoolComponent::BulletPoolComponent(std::shared_ptr<dae::GameObject> gameOb
 		if (i == 0)
 		{
 			m_FirstAvailable = bulletComponent.get();
-			previous = bulletComponent;
+			previous = bulletComponent.get();
 		}
 		else
 		{
 			bulletComponent->SetNext(nullptr);
 			previous->SetNext(bulletComponent.get());
-			previous = bulletComponent;
+			previous = bulletComponent.get();
 		}
 
-		m_Bullets.emplace_back(bullet_go.get());
+		m_Bullets.emplace_back(bulletComponent.get());
 		pScene->Add(bullet_go);
 	}
 }
@@ -59,11 +59,11 @@ void BulletPoolComponent::Update()
 {
 	for (size_t i = 0; i < m_Bullets.size(); ++i)
 	{
-		auto comp = m_Bullets[i]->GetComponent<BulletComponent>();
-		if (!comp->IsInUse())
+		if (!m_Bullets[i]->IsInUse() && !m_Bullets[i]->GetIsInPool())
 		{
-			comp->SetNext(m_FirstAvailable);
-			m_FirstAvailable = comp.get();
+			m_Bullets[i]->SetNext(m_FirstAvailable);
+			m_FirstAvailable = m_Bullets[i];
+			m_Bullets[i]->SetIsInPool(true);
 		}
 	}
 }
