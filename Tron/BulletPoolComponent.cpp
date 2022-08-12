@@ -47,10 +47,29 @@ void BulletPoolComponent::CreateBullet(const glm::vec2& startPos, const glm::vec
 	{
 		return;
 	}
-	std::cout << "FIRE!\n";
 
 	BulletComponent* newBullet = m_FirstAvailable;
 	m_FirstAvailable = newBullet->GetNext();
+
+	switch (bulletSource)
+	{
+	case BulletComponent::Type::Player:
+	{
+		auto bulletTex = newBullet->GetGameObject()->GetComponent<dae::Texture2DComponent>();
+		bulletTex->SetTexture("Sprites/BulletPlayer.png");
+		bulletTex->SetIsVisible(true);
+		break;
+	}
+	case BulletComponent::Type::Enemy:
+	{
+		auto bulletTex = newBullet->GetGameObject()->GetComponent<dae::Texture2DComponent>();
+		bulletTex->SetTexture("Sprites/BulletNPC.png");
+		bulletTex->SetIsVisible(true);
+		break;
+	}
+	default:
+		break;
+	}
 
 	newBullet->InitializeBullet(startPos, direction, bounces, bulletSpeed, bulletSource);
 }
@@ -64,6 +83,7 @@ void BulletPoolComponent::Update()
 			m_Bullets[i]->SetNext(m_FirstAvailable);
 			m_FirstAvailable = m_Bullets[i];
 			m_Bullets[i]->SetIsInPool(true);
+			m_Bullets[i]->GetGameObject()->GetComponent<dae::Texture2DComponent>()->SetIsVisible(false);
 		}
 	}
 }

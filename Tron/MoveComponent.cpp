@@ -3,9 +3,10 @@
 #include <iostream>
 #include "Clock.h"
 
-MoveComponent::MoveComponent(std::shared_ptr<dae::GameObject> gameObject, std::shared_ptr<LevelMovementComponent> levelMovement, float movementSpeed)
+MoveComponent::MoveComponent(std::shared_ptr<dae::GameObject> gameObject, std::weak_ptr<dae::GameObject> tankVisuals, std::shared_ptr<LevelMovementComponent> levelMovement, float movementSpeed)
 	: BaseComponent(gameObject)
 	, m_LevelMovement{levelMovement}
+	, m_TankVisuals{tankVisuals}
 	, m_MovementSpeed{movementSpeed}
 {
 }
@@ -22,11 +23,11 @@ void MoveComponent::Move(float x, float y, float magnitude)
 		displacement.x = sign * magnitude * m_MovementSpeed * dae::Clock::GetDeltaTime();
 		if (displacement.x > 0.f)
 		{
-			GetGameObject()->SetLocalRotation(0.f);
+			m_TankVisuals.lock()->SetLocalRotation(0.f);
 		}
 		else
 		{
-			GetGameObject()->SetLocalRotation(180.f);
+			m_TankVisuals.lock()->SetLocalRotation(180.f);
 		}
 	}
 	else
@@ -35,11 +36,11 @@ void MoveComponent::Move(float x, float y, float magnitude)
 		displacement.y = -(sign * magnitude * m_MovementSpeed * dae::Clock::GetDeltaTime());
 		if (displacement.y > 0.f)
 		{
-			GetGameObject()->SetLocalRotation(90.f);
+			m_TankVisuals.lock()->SetLocalRotation(90.f);
 		}
 		else
 		{
-			GetGameObject()->SetLocalRotation(-90.f);
+			m_TankVisuals.lock()->SetLocalRotation(-90.f);
 		}
 	}
 

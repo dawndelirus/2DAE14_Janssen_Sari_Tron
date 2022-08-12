@@ -19,9 +19,12 @@ namespace dae
 		void SetRenderPositionOffset(glm::vec2 renderPos);
 		int GetWidth();
 		int GetHeight();
+
+		void SetIsVisible(bool isVisible);
 	private:
 		std::shared_ptr<Texture2D> m_Texture;
 		glm::vec2 m_Offset;
+		bool m_IsVisible;
 	};
 
 }

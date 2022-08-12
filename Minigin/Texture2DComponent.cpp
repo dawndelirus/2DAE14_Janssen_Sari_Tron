@@ -16,6 +16,11 @@ dae::Texture2DComponent::Texture2DComponent(std::shared_ptr<dae::GameObject> gam
 
 void dae::Texture2DComponent::Render() const
 {
+	if (!m_IsVisible)
+	{
+		return;
+	}
+
 	glm::vec3 position = GetGameObject()->GetWorldPosition();
 	position.x -= m_Offset.x;
 	position.y -= m_Offset.y;
@@ -41,4 +46,9 @@ int dae::Texture2DComponent::GetWidth()
 int dae::Texture2DComponent::GetHeight()
 {
 	return m_Texture->GetHeight();
+}
+
+void dae::Texture2DComponent::SetIsVisible(bool isVisible)
+{
+	m_IsVisible = isVisible;
 }

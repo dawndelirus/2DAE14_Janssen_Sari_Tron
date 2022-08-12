@@ -60,19 +60,31 @@ void LoadGame()
 	// PLAYER
 	auto player_startPos = level_layout->GetGridCenter(level_layout->GetPlayerStartPositions()[0]);
 	auto playerRed_go = std::make_shared<dae::GameObject>(player_startPos.x, player_startPos.y, 0.f);
-	auto playerRed_texture = std::make_shared<dae::Texture2DComponent>(playerRed_go, "Sprites/RedTank.png");
+
+	// VISUALS
+	auto tank_go = std::make_shared<dae::GameObject>();
+	auto playerRed_texture = std::make_shared<dae::Texture2DComponent>(tank_go, "Sprites/RedTank.png");
 	playerRed_texture->SetRenderPositionOffset(glm::vec2(16.f, 16.f));
-	playerRed_go->AddComponent(playerRed_texture);
-	playerRed_go->AddComponent(std::make_shared<MoveComponent>(playerRed_go, level_movement, 60.f));
+	tank_go->AddComponent(playerRed_texture);
+	tank_go->SetParent(playerRed_go, tank_go, false);
+
+	playerRed_go->AddComponent(std::make_shared<MoveComponent>(playerRed_go, tank_go, level_movement, 60.f));
 	playerRed_go->AddComponent(std::make_shared<HealthComponent>(playerRed_go, 3));
-	playerRed_go->AddComponent(std::make_shared<GunComponent>(playerRed_go, bulletPool_comp, BulletComponent::Type::Player, 5, 1.f, 100.f));
+
+	// GUN
+	auto gun_go = std::make_shared<dae::GameObject>();
+	gun_go->AddComponent(std::make_shared<GunComponent>(gun_go, bulletPool_comp, BulletComponent::Type::Player, 5, 1.f, 100.f));
+	auto gun_texture = std::make_shared<dae::Texture2DComponent>(gun_go, "Sprites/RedTankGun.png");
+	gun_texture->SetRenderPositionOffset(glm::vec2(24.f, 24.f));
+	gun_go->AddComponent(gun_texture);
+	gun_go->SetParent(playerRed_go, gun_go, false);
 
 	scene->Add(playerRed_go);
 
 	// INPUT
 	auto movementInput = dae::InputAction(0, std::make_shared<MoveCommand>(playerRed_go->GetComponent<MoveComponent>(), dae::Joystick::LeftStick), dae::Joystick::LeftStick);
 	inputM.AddInput(movementInput);
-	auto fireInput = dae::InputAction(0, std::make_shared<FireCommand>(playerRed_go->GetComponent<GunComponent>(), dae::Joystick::RightStick), dae::Joystick::RightStick);
+	auto fireInput = dae::InputAction(0, std::make_shared<FireCommand>(gun_go->GetComponent<GunComponent>(), dae::Joystick::RightStick), dae::Joystick::RightStick);
 	inputM.AddInput(fireInput);
 
 	// ENEMY

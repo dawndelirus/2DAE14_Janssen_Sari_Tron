@@ -28,7 +28,7 @@ GameObject::GameObject()
 
 void GameObject::Update()
 {
-	for (auto child : m_ChildrenVec)
+	for (auto& child : m_ChildrenVec)
 	{
 		child->Update();
 	}
@@ -41,14 +41,14 @@ void GameObject::Update()
 
 void GameObject::Render() const
 {
-	for (auto child : m_ChildrenVec)
-	{
-		child->Render();
-	}
-
 	for (auto& component : m_ComponentVec)
 	{
 		component->Render();
+	}
+
+	for (auto& child : m_ChildrenVec)
+	{
+		child->Render();
 	}
 }
 
@@ -190,6 +190,10 @@ void dae::GameObject::SetLocalPosition(const glm::vec3& position)
 {
 	m_LocalTransform.SetPosition(position);
 	m_IsPositionDirty = true;
+	for (auto& child : m_ChildrenVec)
+	{
+		child->m_IsPositionDirty = true;
+	}
 }
 
 void dae::GameObject::SetWorldPosition(const glm::vec3& position)
@@ -206,6 +210,10 @@ void dae::GameObject::SetLocalRotation(float angleDeg)
 {
 	m_LocalTransform.SetRotation(angleDeg);
 	m_IsRotationDirty = true;
+	for (auto& child : m_ChildrenVec)
+	{
+		child->m_IsRotationDirty = true;
+	}
 }
 
 float dae::GameObject::GetWorldRotation()

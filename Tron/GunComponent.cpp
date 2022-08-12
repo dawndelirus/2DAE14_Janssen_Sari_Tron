@@ -22,6 +22,9 @@ void GunComponent::Update()
 
 void GunComponent::ShootBullet(const glm::vec2& direction)
 {
+	float angle = glm::orientedAngle(glm::vec2(direction.x, -direction.y), glm::vec2(1.f, 0.f));
+	GetGameObject()->SetLocalRotation(glm::degrees(angle));
+
 	if (m_CurrentFireCooldown <= 0.f)
 	{
 		m_BulletPool->CreateBullet(GetGameObject()->GetWorldPosition(), direction, m_Bounces, m_BulletSpeed, m_BulletType);
