@@ -2,14 +2,14 @@
 #include "LevelLayoutComponent.h"
 #include "Texture2DComponent.h"
 
-LevelVisualComponent::LevelVisualComponent(std::shared_ptr<dae::GameObject> gameObject, std::shared_ptr<LevelLayoutComponent> levelLayout)
+LevelVisualComponent::LevelVisualComponent(std::shared_ptr<dae::GameObject> gameObject, std::shared_ptr<LevelLayoutComponent> levelLayout, const std::string& wallFile, const std::string& voidFile, const std::string& pathFile)
 	: BaseComponent(gameObject)
-	, m_LevelLayout{levelLayout}
+	, m_LevelLayout(levelLayout)
 {
-	CreateVisuals();
+	CreateVisuals(wallFile, voidFile, pathFile);
 }
 
-void LevelVisualComponent::CreateVisuals()
+void LevelVisualComponent::CreateVisuals(const std::string& wallFile, const std::string& voidFile, const std::string& pathFile)
 {
 	std::shared_ptr<LevelLayoutComponent> levelLayout = m_LevelLayout.lock();
 
@@ -24,19 +24,18 @@ void LevelVisualComponent::CreateVisuals()
 
 		if (vec[static_cast<int>(i)] >= 2)
 		{
-			texComp = std::make_shared<dae::Texture2DComponent>(visualChild, "Level/path.png");
+			texComp = std::make_shared<dae::Texture2DComponent>(visualChild, pathFile);
 		}
 		else if(vec[static_cast<int>(i)] == 0)
 		{
-			texComp = std::make_shared<dae::Texture2DComponent>(visualChild, "Level/wall.png");
+			texComp = std::make_shared<dae::Texture2DComponent>(visualChild, wallFile);
 		}
 		else if(vec[static_cast<int>(i)] == 1)
 		{
-			texComp = std::make_shared<dae::Texture2DComponent>(visualChild, "Level/void.png");
+			texComp = std::make_shared<dae::Texture2DComponent>(visualChild, voidFile);
 		}
 
-		float tileWidth = static_cast<float>(levelLayout->GetVisualTileWidth());
-		texComp->SetRenderPositionOffset(glm::vec2(tileWidth / 2.f, tileWidth / 2.f));
+		texComp->SetRenderPositionOffset(glm::vec2(texComp->GetWidth() / 2.f, texComp->GetHeight() / 2.f));
 
 		auto pos = levelLayout->GetGridCenterVisuals(static_cast<int>(i));
 

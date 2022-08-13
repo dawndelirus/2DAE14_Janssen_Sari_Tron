@@ -77,7 +77,13 @@ void BulletComponent::Bounce(const glm::vec3& oldPosition, glm::vec3& newPositio
     }
 
     float gridWidth = m_LevelLayout.lock()->GetGridWidth() * 2.f;
-    if (oldidx - 1 == newIdx || (oldidx - gridWidth) - 1 == newIdx || (oldidx - gridWidth) + 1 == newIdx)
+
+
+    bool isBulletLeft = oldidx - 1 == newIdx || (oldidx - gridWidth) - 1 == newIdx || (oldidx - gridWidth) + 1 == newIdx;
+    bool isBulletRight = oldidx + 1 == newIdx || (oldidx + gridWidth) - 1 == newIdx || (oldidx + gridWidth) + 1 == newIdx;
+
+
+    if (isBulletLeft || isBulletRight)
     {
         float x = m_LevelLayout.lock()->GetGridCenterVisuals(newIdx).x + m_LevelLayout.lock()->GetVisualTileWidth() / 2.f;
         float leftover = x - oldPosition.x;
@@ -88,35 +94,23 @@ void BulletComponent::Bounce(const glm::vec3& oldPosition, glm::vec3& newPositio
         m_BulletState.velocity.x *= -1;
         --m_CurrentBounces;
     }
-    else if (oldidx + 1 == newIdx || (oldidx + gridWidth) - 1 == newIdx || (oldidx + gridWidth) + 1 == newIdx)
-    {
-        float x = m_LevelLayout.lock()->GetGridCenterVisuals(newIdx).x + m_LevelLayout.lock()->GetVisualTileWidth() / 2.f;
-        float leftover = x - oldPosition.x;
 
-        x -= abs(leftover);;
+    bool isBulletUp = oldidx - gridWidth == newIdx || (oldidx - gridWidth) - 1 == newIdx || (oldidx - gridWidth) + 1 == newIdx;
+    bool isBulletDown = oldidx + gridWidth == newIdx || (oldidx + gridWidth) - 1 == newIdx || (oldidx + gridWidth) + 1 == newIdx;
 
-        newPosition.x = x;
-        m_BulletState.velocity.x *= -1;
-        --m_CurrentBounces;
-    }
-
-    if (oldidx - gridWidth == newIdx || (oldidx - gridWidth) - 1 == newIdx || (oldidx - gridWidth) + 1 == newIdx)
+    if (isBulletUp || isBulletDown)
     {
         float y = m_LevelLayout.lock()->GetGridCenterVisuals(newIdx).y + m_LevelLayout.lock()->GetVisualTileWidth() / 2.f;
         float leftover = y - oldPosition.y;
-
-        y += abs(leftover);;
-
-        newPosition.y = y;
-        m_BulletState.velocity.y *= -1;
-        --m_CurrentBounces;
-    }
-    else if (oldidx + gridWidth == newIdx || (oldidx + gridWidth) - 1 == newIdx || (oldidx + gridWidth) + 1 == newIdx)
-    {
-        float y = m_LevelLayout.lock()->GetGridCenterVisuals(newIdx).y + m_LevelLayout.lock()->GetVisualTileWidth() / 2.f;
-        float leftover = y - oldPosition.y;
-
-        y -= abs(leftover);;
+        
+        if (isBulletUp)
+        {
+            y += abs(leftover);
+        }
+        else
+        {
+            y -= abs(leftover);
+        }
 
         newPosition.y = y;
         m_BulletState.velocity.y *= -1;

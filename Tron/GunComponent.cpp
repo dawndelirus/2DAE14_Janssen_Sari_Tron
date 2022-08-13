@@ -27,7 +27,7 @@ void GunComponent::ShootBullet(const glm::vec2& direction)
 
 	if (m_CurrentFireCooldown <= 0.f)
 	{
-		m_BulletPool->CreateBullet(GetGameObject()->GetWorldPosition(), direction, m_Bounces, m_BulletSpeed, m_BulletType);
+		m_BulletPool->CreateBullet(GetGameObject()->GetWorldPosition(), direction, m_Bounces, m_BulletSpeed);
 		m_CurrentFireCooldown = m_FireCooldown;
 	}
 }

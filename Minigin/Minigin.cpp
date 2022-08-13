@@ -53,14 +53,6 @@ void dae::Minigin::Initialize()
 	Renderer::GetInstance().Init(m_pWindow);
 }
 
-/**
- * Code constructing the scene world starts here
- */
-void dae::Minigin::LoadGame() const
-{
-}
-
-
 void dae::Minigin::Cleanup()
 {
 	Renderer::GetInstance().Destroy();

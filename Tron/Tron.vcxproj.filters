@@ -66,6 +66,12 @@
     <ClCompile Include="BulletPoolComponent.cpp">
       <Filter>Components\Bullet</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionHandlerComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MoveComponent.h">
@@ -103,6 +109,12 @@
     </ClInclude>
     <ClInclude Include="BulletPoolComponent.h">
       <Filter>Components\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionHandlerComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionComponent.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
