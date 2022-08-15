@@ -1,9 +1,13 @@
 #pragma once
+#include "BaseObserverEvent.h"
 
-enum class ObserverEvent
+struct GetHitObserverEvent : public dae::BaseObserverEvent
 {
-	TakeDamage,
-	HasDied,
-	SubjectDeleted,
-	BurgerDropped,
+	GetHitObserverEvent(int amount)
+		: amount{ amount } 
+	{}
+	GetHitObserverEvent()
+		: amount{ 1 } 
+	{}
+	int amount = 1;
 };

@@ -3,28 +3,110 @@
 
 CollisionHandlerComponent::CollisionHandlerComponent(std::shared_ptr<dae::GameObject> gameObject)
 	: BaseComponent(gameObject)
-	, m_CollisionLayers{}
+	, m_CollidersPerLayer{}
+	, m_CollisionWithLayers{}
 {
+	m_CollidersPerLayer.resize(static_cast<int>(Layer::NumberOfElements));
+	m_CollisionWithLayers.resize(static_cast<int>(Layer::NumberOfElements));
+
+	for (size_t i = 0; i < static_cast<int>(Layer::NumberOfElements); ++i)
+	{
+		for (size_t j = 0; j < static_cast<int>(Layer::NumberOfElements); ++j)
+		{
+			if (i == j)
+			{
+				continue;
+			}
+			m_CollisionWithLayers[i].emplace_back(static_cast<Layer>(j));
+		}
+	}
 }
 
 void CollisionHandlerComponent::Update()
 {
-	for (size_t i{}; i < m_CollisionLayers.size() - 1; ++i)
+	for (size_t i{}; i < m_CollidersPerLayer.size(); ++i)
 	{
-		for (auto layer0 : m_CollisionLayers[i])
+		for (size_t j{}; j < m_CollisionWithLayers[i].size(); ++j)
 		{
-			for (auto layer1 : m_CollisionLayers[i + 1])
+			// Avoid checking colision with layers that have been checked before
+			int collisionIndexToCheck = static_cast<int>(m_CollisionWithLayers[i][j]);
+			if (i >= collisionIndexToCheck)
 			{
-				if (IsOverlapping({layer0->GetPosition().x - layer0->GetWidth() / 2.f, layer0->GetPosition().y + layer0->GetHeight() / 2.f}
+				continue;
+			}
+
+			auto collisionVector0 = m_CollidersPerLayer[i];
+			auto collisionVector1 = m_CollidersPerLayer[collisionIndexToCheck];
+
+			// Loop over all the colliders in the collision layers
+			for (auto layer0 : collisionVector0)
+			{
+				for (auto layer1 : collisionVector1)
+				{
+					if (IsOverlapping({ layer0->GetPosition().x - layer0->GetWidth() / 2.f, layer0->GetPosition().y + layer0->GetHeight() / 2.f }
 						, { layer0->GetPosition().x + layer0->GetWidth() / 2.f, layer0->GetPosition().y - layer0->GetHeight() / 2.f }
 						, { layer1->GetPosition().x - layer1->GetWidth() / 2.f, layer1->GetPosition().y + layer1->GetHeight() / 2.f }
 						, { layer1->GetPosition().x + layer1->GetWidth() / 2.f, layer1->GetPosition().y - layer1->GetHeight() / 2.f }))
-				{
-					layer0->GetHit();
-					layer1->GetHit();
+					{
+						layer0->GetHit();
+						layer1->GetHit();
+					}
 				}
 			}
 		}
+	}
+
+	//for (size_t i{}; i < m_CollisionLayers.size() - 1; ++i)
+	//{
+	//	for (auto layer0 : m_CollisionLayers[i])
+	//	{
+	//		for (auto layer1 : m_CollisionLayers[i + 1])
+	//		{
+	//			if (IsOverlapping({layer0->GetPosition().x - layer0->GetWidth() / 2.f, layer0->GetPosition().y + layer0->GetHeight() / 2.f}
+	//					, { layer0->GetPosition().x + layer0->GetWidth() / 2.f, layer0->GetPosition().y - layer0->GetHeight() / 2.f }
+	//					, { layer1->GetPosition().x - layer1->GetWidth() / 2.f, layer1->GetPosition().y + layer1->GetHeight() / 2.f }
+	//					, { layer1->GetPosition().x + layer1->GetWidth() / 2.f, layer1->GetPosition().y - layer1->GetHeight() / 2.f }))
+	//			{
+	//				layer0->GetHit();
+	//				layer1->GetHit();
+	//			}
+	//		}
+	//	}
+	//}
+}
+
+void CollisionHandlerComponent::AddCollider(std::shared_ptr<CollisionComponent> collider, Layer layer)
+{
+	m_CollidersPerLayer[static_cast<int>(layer)].emplace_back(collider.get());
+}
+
+void CollisionHandlerComponent::AddCollisionIgnore(Layer layer1, Layer layer2)
+{
+	auto it = std::find(m_CollisionWithLayers[static_cast<int>(layer1)].begin(), m_CollisionWithLayers[static_cast<int>(layer1)].end(), layer2);
+	if (it != m_CollisionWithLayers[static_cast<int>(layer1)].end())
+	{
+		m_CollisionWithLayers[static_cast<int>(layer1)].erase(it);
+	}
+
+	it = std::find(m_CollisionWithLayers[static_cast<int>(layer2)].begin(), m_CollisionWithLayers[static_cast<int>(layer2)].end(), layer1);
+	if (it != m_CollisionWithLayers[static_cast<int>(layer2)].end())
+	{
+		m_CollisionWithLayers[static_cast<int>(layer2)].erase(it);
+	}
+}
+
+void CollisionHandlerComponent::RemoveCollisionIgnore(Layer layer1, Layer layer2)
+{
+	auto it = std::find(m_CollisionWithLayers[static_cast<int>(layer1)].begin(), m_CollisionWithLayers[static_cast<int>(layer1)].end(), layer2);
+	if (it == m_CollisionWithLayers[static_cast<int>(layer1)].end())
+	{
+		m_CollisionWithLayers[static_cast<int>(layer1)].emplace_back(layer2);
+	}
+
+	it = std::find(m_CollisionWithLayers[static_cast<int>(layer2)].begin(), m_CollisionWithLayers[static_cast<int>(layer2)].end(), layer1);
+	if (it == m_CollisionWithLayers[static_cast<int>(layer2)].end())
+	{
+		m_CollisionWithLayers[static_cast<int>(layer2)].emplace_back(layer1);
 	}
 }
 

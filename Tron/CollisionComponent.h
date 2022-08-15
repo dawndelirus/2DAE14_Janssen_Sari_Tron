@@ -1,7 +1,8 @@
 #pragma once
 #include <BaseComponent.h>
+#include "Subject.h"
 
-class CollisionComponent : public dae::BaseComponent
+class CollisionComponent : public dae::BaseComponent, public dae::Subject
 {
 public:
 	CollisionComponent(std::shared_ptr<dae::GameObject> gameObject, float width, float height);

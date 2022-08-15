@@ -20,7 +20,7 @@ namespace dae
 		void RemoveObserver(std::shared_ptr<Observer> observer);
 
 	protected:
-		void Notify(std::shared_ptr<GameObject> gameObject, ObserverEvent event);
+		void Notify(std::shared_ptr<GameObject> gameObject, std::shared_ptr<BaseObserverEvent> event);
 
 	private:
 		std::vector<std::shared_ptr<Observer>> m_Observers;

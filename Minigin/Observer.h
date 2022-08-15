@@ -1,5 +1,5 @@
 #pragma once
-#include "ObserverHelpers.h"
+#include "BaseObserverEvent.h"
 #include "GameObject.h"
 #include <memory>
 
@@ -9,6 +9,6 @@ namespace dae
 	{
 	public:
 		virtual ~Observer() = default;
-		virtual void Notify(std::shared_ptr<GameObject> gameObject, ObserverEvent event) = 0;
+		virtual void Notify(std::shared_ptr<GameObject> gameObject, std::shared_ptr<BaseObserverEvent> event) = 0;
 	};
 }

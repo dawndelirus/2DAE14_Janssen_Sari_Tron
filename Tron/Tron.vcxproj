@@ -186,6 +186,7 @@
     <ClCompile Include="Tron.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Minigin\ObserverHelpers.h" />
     <ClInclude Include="BulletComponent.h" />
     <ClInclude Include="BulletPoolComponent.h" />
     <ClInclude Include="CollisionComponent.h" />

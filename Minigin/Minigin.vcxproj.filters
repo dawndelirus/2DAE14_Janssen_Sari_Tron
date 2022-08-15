@@ -159,9 +159,6 @@
     <ClInclude Include="InputHelpers.h">
       <Filter>ServiceLocator\InputManager</Filter>
     </ClInclude>
-    <ClInclude Include="ObserverHelpers.h">
-      <Filter>Observer</Filter>
-    </ClInclude>
     <ClInclude Include="KeyboardControls.h">
       <Filter>ServiceLocator\InputManager</Filter>
     </ClInclude>
@@ -191,6 +188,12 @@
     </ClInclude>
     <ClInclude Include="ComponentIncludes.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseObserverEvent.h">
+      <Filter>Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="SubjectDeletedEvent.h">
+      <Filter>Observer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

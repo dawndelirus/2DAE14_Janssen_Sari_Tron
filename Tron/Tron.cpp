@@ -24,6 +24,8 @@
 #include "LevelPathfindingComponent.h"
 #include "MovementControllerComponent.h"
 #include "HealthComponent.h"
+#include "CollisionComponent.h"
+#include "CollisionHandlerComponent.h"
 
 #include "BulletPoolComponent.h"
 #include "GunComponent.h"
@@ -51,11 +53,20 @@ void LoadGame()
 
 	scene->Add(level_go);
 
+	// COLLISION HANDLER
+	auto collisionHandler_go = std::make_shared<dae::GameObject>();
+	auto collisionHandler = std::make_shared<CollisionHandlerComponent>(collisionHandler_go);
+	collisionHandler_go->AddComponent(collisionHandler);
+	collisionHandler->AddCollisionIgnore(CollisionHandlerComponent::Layer::Player, CollisionHandlerComponent::Layer::PlayerBullet);
+	collisionHandler->AddCollisionIgnore(CollisionHandlerComponent::Layer::EnemyBullet, CollisionHandlerComponent::Layer::PlayerBullet);
+
+	scene->Add(collisionHandler_go);
+
 	// BULLET POOL
 	auto bulletPool_go = std::make_shared<dae::GameObject>();
-	auto bulletPool_player_comp = std::make_shared<BulletPoolComponent>(bulletPool_go, level_layout, sceneName, "Sprites/BulletPlayer.png", BulletComponent::Type::Player, 20);
+	auto bulletPool_player_comp = std::make_shared<BulletPoolComponent>(bulletPool_go, level_layout, collisionHandler, sceneName, "Sprites/BulletPlayer.png", BulletComponent::Type::Player, CollisionHandlerComponent::Layer::Player, 20);
 	bulletPool_go->AddComponent(bulletPool_player_comp);
-	auto bulletPool_enemy_comp = std::make_shared<BulletPoolComponent>(bulletPool_go, level_layout, sceneName, "Sprites/BulletNPC.png", BulletComponent::Type::Enemy, 20);
+	auto bulletPool_enemy_comp = std::make_shared<BulletPoolComponent>(bulletPool_go, level_layout, collisionHandler, sceneName, "Sprites/BulletNPC.png", BulletComponent::Type::Enemy, CollisionHandlerComponent::Layer::Enemy, 20);
 	bulletPool_go->AddComponent(bulletPool_player_comp);
 
 	scene->Add(bulletPool_go);
@@ -71,16 +82,23 @@ void LoadGame()
 	tank_go->AddComponent(playerRed_texture);
 	tank_go->SetParent(playerRed_go, tank_go, false);
 
+	// MOVEMENT
 	playerRed_go->AddComponent(std::make_shared<MoveComponent>(playerRed_go, tank_go, level_movement, 60.f));
-	playerRed_go->AddComponent(std::make_shared<HealthComponent>(playerRed_go, 3));
 
 	// GUN
 	auto gun_go = std::make_shared<dae::GameObject>();
-	gun_go->AddComponent(std::make_shared<GunComponent>(gun_go, bulletPool_player_comp, BulletComponent::Type::Player, 5, 1.f, 100.f));
+	gun_go->AddComponent(std::make_shared<GunComponent>(gun_go, bulletPool_player_comp, BulletComponent::Type::Player, 5, 0.2f, 300.f));
 	auto gun_texture = std::make_shared<dae::Texture2DComponent>(gun_go, "Sprites/RedTankGun.png");
 	gun_texture->SetRenderPositionOffset(glm::vec2(gun_texture->GetWidth() / 2.f, gun_texture->GetHeight() / 2.f));
 	gun_go->AddComponent(gun_texture);
 	gun_go->SetParent(playerRed_go, gun_go, false);
+
+	// HEALTH
+	playerRed_go->AddComponent(std::make_shared<HealthComponent>(playerRed_go, 3, 1.f));
+	playerRed_go->AddComponent(std::make_shared<CollisionComponent>(playerRed_go, static_cast<float>(playerRed_texture->GetWidth()), static_cast<float>(playerRed_texture->GetHeight())));
+
+	playerRed_go->GetComponent<CollisionComponent>()->AddObserver(playerRed_go->GetComponent<HealthComponent>());
+	collisionHandler->AddCollider(playerRed_go->GetComponent<CollisionComponent>(), CollisionHandlerComponent::Layer::Player);
 
 	scene->Add(playerRed_go);
 
@@ -92,7 +110,7 @@ void LoadGame()
 
 	// ENEMY
 	const auto& enemy_startPosVec = level_layout->GetEnemyStartPositions();
-	for (size_t i = 0; i < enemy_startPosVec.size(); ++i)
+	for (size_t i = 0; i < 1; ++i)
 	{
 		const auto& enemy_startPos = level_layout->GetGridCenter(enemy_startPosVec[i]);
 		auto enemy_go = std::make_shared<dae::GameObject>(enemy_startPos.x, enemy_startPos.y, 0.f);
@@ -102,6 +120,12 @@ void LoadGame()
 		auto enemy_moveComp = std::make_shared<MoveComponent>(enemy_go, enemy_go, level_movement, 40.f);
 		enemy_go->AddComponent(enemy_moveComp);
 		enemy_go->AddComponent(std::make_shared<MovementControllerComponent>(enemy_go, playerRed_go, enemy_moveComp, level_pathfinding, level_layout));
+		
+		enemy_go->AddComponent(std::make_shared<HealthComponent>(enemy_go, 3, 1.f));
+		enemy_go->AddComponent(std::make_shared<CollisionComponent>(enemy_go, static_cast<float>(enemy_texture->GetWidth()), static_cast<float>(enemy_texture->GetHeight())));
+
+		enemy_go->GetComponent<CollisionComponent>()->AddObserver(enemy_go->GetComponent<HealthComponent>());
+		collisionHandler->AddCollider(enemy_go->GetComponent<CollisionComponent>(), CollisionHandlerComponent::Layer::Enemy);
 
 		scene->Add(enemy_go);
 	}

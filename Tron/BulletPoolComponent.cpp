@@ -5,9 +5,12 @@
 #include "Texture2DComponent.h"
 #include "ServiceLocator.h"
 #include "LevelLayoutComponent.h"
+#include "CollisionHandlerComponent.h"
+#include "CollisionComponent.h"
 
 BulletPoolComponent::BulletPoolComponent(std::shared_ptr<dae::GameObject> gameObject, std::shared_ptr<LevelLayoutComponent> levelLayout
-	, const std::string& sceneName, const std::string& texturePath, BulletComponent::Type bulletSource, int bulletAmount)
+	, std::shared_ptr<CollisionHandlerComponent> collisionHandler, const std::string& sceneName, const std::string& texturePath
+	, BulletComponent::Type bulletSource, CollisionHandlerComponent::Layer bulletLayer, int bulletAmount)
 	: BaseComponent(gameObject)
 	, m_FirstAvailable{}
 	, m_Bullets{}
@@ -25,6 +28,9 @@ BulletPoolComponent::BulletPoolComponent(std::shared_ptr<dae::GameObject> gameOb
 		auto textureComponent = std::make_shared<dae::Texture2DComponent>(bullet_go, texturePath);
 		textureComponent->SetRenderPositionOffset(glm::vec2(textureComponent->GetWidth() / 2.f, textureComponent->GetHeight() / 2.f));
 		bullet_go->AddComponent(textureComponent);
+		auto collider = std::make_shared<CollisionComponent>(bullet_go, static_cast<float>(textureComponent->GetWidth()), static_cast<float>(textureComponent->GetHeight()));
+		bullet_go->AddComponent(collider);
+		collisionHandler->AddCollider(collider, bulletLayer);
 
 		if (i == 0)
 		{
@@ -49,6 +55,9 @@ void BulletPoolComponent::CreateBullet(const glm::vec2& startPos, const glm::vec
 	{
 		return;
 	}
+
+	//auto it = std::find(m_Bullets.begin(), m_Bullets.end(), m_FirstAvailable);
+	//std::cout << it - m_Bullets.begin() << "\n";
 
 	BulletComponent* newBullet = m_FirstAvailable;
 	m_FirstAvailable = newBullet->GetNext();

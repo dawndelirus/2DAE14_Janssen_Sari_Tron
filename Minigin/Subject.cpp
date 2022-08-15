@@ -1,3 +1,4 @@
+#include "Subject.h"
 #include "MiniginPCH.h"
 #include "Subject.h"
 #include <algorithm>
@@ -16,7 +17,7 @@ void dae::Subject::RemoveObserver(std::shared_ptr<Observer> observer)
 	}
 }
 
-void dae::Subject::Notify(std::shared_ptr<GameObject> gameObject, ObserverEvent event)
+void dae::Subject::Notify(std::shared_ptr<GameObject> gameObject, std::shared_ptr<BaseObserverEvent> event)
 {
 	for (size_t i {}; i < m_Observers.size(); ++i)
 	{

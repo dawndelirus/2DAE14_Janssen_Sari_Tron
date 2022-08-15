@@ -209,6 +209,7 @@
     <ClInclude Include="..\3rdParty\imgui-1.87\imstb_textedit.h" />
     <ClInclude Include="..\3rdParty\imgui-1.87\imstb_truetype.h" />
     <ClInclude Include="BaseComponent.h" />
+    <ClInclude Include="BaseObserverEvent.h" />
     <ClInclude Include="BinToCharVec.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="ComponentIncludes.h" />
@@ -226,7 +227,6 @@
     <ClInclude Include="NullSceneManager.h" />
     <ClInclude Include="NullSoundSystem.h" />
     <ClInclude Include="Observer.h" />
-    <ClInclude Include="ObserverHelpers.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -241,6 +241,7 @@
     <ClInclude Include="SoundSystemEventArgs.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="Subject.h" />
+    <ClInclude Include="SubjectDeletedEvent.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="Texture2DComponent.h" />

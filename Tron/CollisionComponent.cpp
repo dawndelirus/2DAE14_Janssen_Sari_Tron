@@ -1,4 +1,5 @@
 #include "CollisionComponent.h"
+#include "ObserverHelpers.h"
 
 CollisionComponent::CollisionComponent(std::shared_ptr<dae::GameObject> gameObject, float width, float height)
 	: BaseComponent(gameObject)
@@ -9,7 +10,7 @@ CollisionComponent::CollisionComponent(std::shared_ptr<dae::GameObject> gameObje
 
 void CollisionComponent::GetHit()
 {
-	// TODO: COLLISIONCOMP: get hit
+	Notify(GetGameObject(), std::make_shared<GetHitObserverEvent>());
 }
 
 glm::vec2 CollisionComponent::GetPosition() const

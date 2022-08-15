@@ -2,6 +2,7 @@
 #include <BaseComponent.h>
 #include <string>
 #include "BulletComponent.h"
+#include "CollisionHandlerComponent.h"
 
 class LevelLayoutComponent;
 
@@ -9,7 +10,8 @@ class BulletPoolComponent final : public dae::BaseComponent
 {
 public:
 	BulletPoolComponent(std::shared_ptr<dae::GameObject> gameObject, std::shared_ptr<LevelLayoutComponent> levelLayout
-		, const std::string& sceneName, const std::string& texturePath, BulletComponent::Type bulletSource, int bulletAmount);
+		, std::shared_ptr<CollisionHandlerComponent> collisionHandler, const std::string& sceneName, const std::string& texturePath
+		, BulletComponent::Type bulletSource, CollisionHandlerComponent::Layer bulletLayer, int bulletAmount);
 	~BulletPoolComponent() = default;
 
 	void CreateBullet(const glm::vec2& startPos, const glm::vec2& direction, int bounces, float bulletSpeed);
