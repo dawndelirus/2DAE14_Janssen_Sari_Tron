@@ -34,8 +34,8 @@
 void LoadGame()
 {
 	std::string sceneName{ "Level0" };
-	auto scene = dae::ServiceLocator::GetSceneManager().CreateScene(sceneName);
-	auto& inputM = dae::ServiceLocator::GetInputManager();
+	dae::Scene* scene = dae::ServiceLocator::GetSceneManager().CreateScene(sceneName);
+	dae::BaseInputManager& inputM = dae::ServiceLocator::GetInputManager();
 	
 	//dae::ServiceLocator::GetSoundSystem().RegisterMusic(0, "../Data/01_BGM#01.mp3");
 	//dae::ServiceLocator::GetSoundSystem().PlayMusic(0, 1, 0);
@@ -110,22 +110,30 @@ void LoadGame()
 
 	// ENEMY
 	const auto& enemy_startPosVec = level_layout->GetEnemyStartPositions();
+	//for (size_t i = 0; i < enemy_startPosVec.size(); ++i)
 	for (size_t i = 0; i < 1; ++i)
 	{
-		const auto& enemy_startPos = level_layout->GetGridCenter(enemy_startPosVec[i]);
-		auto enemy_go = std::make_shared<dae::GameObject>(enemy_startPos.x, enemy_startPos.y, 0.f);
-		auto enemy_texture = std::make_shared<dae::Texture2DComponent>(enemy_go, "Sprites/BlueTank.png");
-		enemy_texture->SetRenderPositionOffset(glm::vec2(enemy_texture->GetWidth() / 2.f, enemy_texture->GetHeight() / 2.f));
-		enemy_go->AddComponent(enemy_texture);
-		auto enemy_moveComp = std::make_shared<MoveComponent>(enemy_go, enemy_go, level_movement, 40.f);
-		enemy_go->AddComponent(enemy_moveComp);
-		enemy_go->AddComponent(std::make_shared<MovementControllerComponent>(enemy_go, playerRed_go, enemy_moveComp, level_pathfinding, level_layout));
-		
-		enemy_go->AddComponent(std::make_shared<HealthComponent>(enemy_go, 3, 1.f));
-		enemy_go->AddComponent(std::make_shared<CollisionComponent>(enemy_go, static_cast<float>(enemy_texture->GetWidth()), static_cast<float>(enemy_texture->GetHeight())));
+		const glm::vec2& enemy_startPos = level_layout->GetGridCenter(enemy_startPosVec[i]);
+		std::shared_ptr<dae::GameObject> enemy_go = std::make_shared<dae::GameObject>(enemy_startPos.x, enemy_startPos.y, 0.f);
+		std::shared_ptr<dae::Texture2DComponent> enemy_texture = std::make_shared<dae::Texture2DComponent>(enemy_go, "Sprites/BlueTank.png");
+		float textureWidth = static_cast<float>(enemy_texture->GetWidth());
+		float textureHeight = static_cast<float>(enemy_texture->GetHeight());
+		enemy_texture->SetRenderPositionOffset(glm::vec2(textureWidth / 2.f, textureHeight / 2.f));
 
-		enemy_go->GetComponent<CollisionComponent>()->AddObserver(enemy_go->GetComponent<HealthComponent>());
-		collisionHandler->AddCollider(enemy_go->GetComponent<CollisionComponent>(), CollisionHandlerComponent::Layer::Enemy);
+		std::shared_ptr<MoveComponent> enemy_moveComponent = std::make_shared<MoveComponent>(enemy_go, enemy_go, level_movement, 40.f);
+		std::shared_ptr<MovementControllerComponent> enemy_moveController = std::make_shared<MovementControllerComponent>(enemy_go, playerRed_go, enemy_moveComponent, level_pathfinding, level_layout);
+
+		std::shared_ptr<HealthComponent> enemy_healthComponent = std::make_shared<HealthComponent>(enemy_go, 3, 1.f);
+		std::shared_ptr<CollisionComponent> enemy_collider = std::make_shared<CollisionComponent>(enemy_go, textureWidth, textureHeight);
+		
+		enemy_go->AddComponent(enemy_texture);
+		enemy_go->AddComponent(enemy_moveComponent);
+		enemy_go->AddComponent(enemy_moveController);
+		enemy_go->AddComponent(enemy_healthComponent);
+		enemy_go->AddComponent(enemy_collider);
+
+		enemy_collider->AddObserver(enemy_healthComponent);
+		collisionHandler->AddCollider(enemy_collider, CollisionHandlerComponent::Layer::Enemy);
 
 		scene->Add(enemy_go);
 	}
