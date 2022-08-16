@@ -1,6 +1,7 @@
 #include "BulletComponent.h"
 #include "Clock.h"
 #include "LevelLayoutComponent.h"
+#include "ObserverHelpers.h"
 
 BulletComponent::BulletComponent(std::shared_ptr<dae::GameObject> gameObject, std::shared_ptr<LevelLayoutComponent> levelLayout)
     : BaseComponent(gameObject)
@@ -59,6 +60,15 @@ void BulletComponent::Update()
 bool BulletComponent::GetIsInPool() const
 {
     return m_IsInPool;
+}
+
+void BulletComponent::Notify(std::shared_ptr<dae::GameObject> gameObject, std::shared_ptr<dae::BaseObserverEvent> event)
+{
+    auto observerEvent = std::dynamic_pointer_cast<GetHitObserverEvent>(event);
+    if (observerEvent != nullptr)
+    {
+        m_CurrentBounces = -1;
+    }
 }
 
 void BulletComponent::SetIsInPool(bool isInPool)

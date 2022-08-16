@@ -32,6 +32,8 @@ BulletPoolComponent::BulletPoolComponent(std::shared_ptr<dae::GameObject> gameOb
 		bullet_go->AddComponent(collider);
 		collisionHandler->AddCollider(collider, bulletLayer);
 
+		collider->AddObserver(bulletComponent);
+
 		if (i == 0)
 		{
 			m_FirstAvailable = bulletComponent.get();
@@ -56,14 +58,12 @@ void BulletPoolComponent::CreateBullet(const glm::vec2& startPos, const glm::vec
 		return;
 	}
 
-	//auto it = std::find(m_Bullets.begin(), m_Bullets.end(), m_FirstAvailable);
-	//std::cout << it - m_Bullets.begin() << "\n";
-
 	BulletComponent* newBullet = m_FirstAvailable;
 	m_FirstAvailable = newBullet->GetNext();
 	newBullet->GetGameObject()->GetComponent<dae::Texture2DComponent>()->SetIsVisible(true);
 	newBullet->InitializeBullet(startPos, direction, bounces, bulletSpeed, m_BulletType);
 }
+
 
 void BulletPoolComponent::Update()
 {

@@ -1,11 +1,12 @@
 #pragma once
 #include <BaseComponent.h>
 #include <memory>
+#include "Observer.h"
 
 class BulletPoolComponent;
 class LevelLayoutComponent;
 
-class BulletComponent final : public dae::BaseComponent
+class BulletComponent final : public dae::BaseComponent, public dae::Observer
 {
 public:
 	friend class BulletPoolComponent;
@@ -27,6 +28,8 @@ public:
 	void Render() const override {};
 
 	bool GetIsInPool() const;
+
+	void Notify(std::shared_ptr<dae::GameObject> gameObject, std::shared_ptr<dae::BaseObserverEvent> event);
 
 private:
 	BulletComponent(std::shared_ptr<dae::GameObject> gameObject, std::shared_ptr<LevelLayoutComponent> levelLayout);
