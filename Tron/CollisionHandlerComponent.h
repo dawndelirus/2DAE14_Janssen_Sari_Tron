@@ -22,6 +22,8 @@ public:
 	void Render() const override {};
 
 	void AddCollider(std::shared_ptr<CollisionComponent> collider, Layer layer);
+	void RemoveCollider(std::shared_ptr<CollisionComponent> collider, Layer layer);
+
 	void AddCollisionIgnore(Layer layer1, Layer layer2);
 	void RemoveCollisionIgnore(Layer layer1, Layer layer2);
 

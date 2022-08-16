@@ -80,6 +80,15 @@ void CollisionHandlerComponent::AddCollider(std::shared_ptr<CollisionComponent> 
 	m_CollidersPerLayer[static_cast<int>(layer)].emplace_back(collider.get());
 }
 
+void CollisionHandlerComponent::RemoveCollider(std::shared_ptr<CollisionComponent> collider, Layer layer)
+{
+	auto it = std::find(m_CollidersPerLayer[static_cast<int>(layer)].begin(), m_CollidersPerLayer[static_cast<int>(layer)].end(), collider.get());
+	if (it != m_CollidersPerLayer[static_cast<int>(layer)].end())
+	{
+		m_CollidersPerLayer[static_cast<int>(layer)].erase(it);
+	}
+}
+
 void CollisionHandlerComponent::AddCollisionIgnore(Layer layer1, Layer layer2)
 {
 	auto it = std::find(m_CollisionWithLayers[static_cast<int>(layer1)].begin(), m_CollisionWithLayers[static_cast<int>(layer1)].end(), layer2);

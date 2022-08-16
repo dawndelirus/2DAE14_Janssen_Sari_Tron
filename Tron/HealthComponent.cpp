@@ -29,12 +29,12 @@ void HealthComponent::TakeDamage(int amount)
 		{
 			m_CurrentHealth = 0;
 			std::cout << "AAAh I died!\n";
-			Notify(GetGameObject(), std::make_shared<DiedObserverEvent>());
+			Subject::Notify(GetGameObject(), std::make_shared<DiedObserverEvent>());
 		}
 		else
 		{
 			std::cout << m_CurrentHealth << "\n";
-			Notify(GetGameObject(), std::make_shared<TakeDamageObserverEvent>(m_CurrentHealth));
+			Subject::Notify(GetGameObject(), std::make_shared<TakeDamageObserverEvent>(m_CurrentHealth));
 		}
 	}
 }

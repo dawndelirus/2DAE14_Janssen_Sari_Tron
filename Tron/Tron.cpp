@@ -31,6 +31,8 @@
 #include "GunComponent.h"
 #include "FireCommand.h"
 
+#include "EnemyControllerComponent.h"
+
 void LoadGame()
 {
 	std::string sceneName{ "Level0" };
@@ -109,9 +111,13 @@ void LoadGame()
 	inputM.AddInput(fireInput);
 
 	// ENEMY
+	auto enemyController_go = std::make_shared<dae::GameObject>();
+	auto enemyController = std::make_shared<EnemyControllerComponent>(enemyController_go, collisionHandler);
+
+
 	const auto& enemy_startPosVec = level_layout->GetEnemyStartPositions();
-	//for (size_t i = 0; i < enemy_startPosVec.size(); ++i)
-	for (size_t i = 0; i < 1; ++i)
+	for (size_t i = 0; i < enemy_startPosVec.size(); ++i)
+	//for (size_t i = 0; i < 1; ++i)
 	{
 		const glm::vec2& enemy_startPos = level_layout->GetGridCenter(enemy_startPosVec[i]);
 		std::shared_ptr<dae::GameObject> enemy_go = std::make_shared<dae::GameObject>(enemy_startPos.x, enemy_startPos.y, 0.f);
@@ -134,6 +140,10 @@ void LoadGame()
 
 		enemy_collider->AddObserver(enemy_healthComponent);
 		collisionHandler->AddCollider(enemy_collider, CollisionHandlerComponent::Layer::Enemy);
+
+
+		enemyController->AddEnemies(enemy_go);
+		enemy_healthComponent->AddObserver(enemyController);
 
 		scene->Add(enemy_go);
 	}
