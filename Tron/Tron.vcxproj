@@ -174,9 +174,11 @@
     <ClCompile Include="CollisionComponent.cpp" />
     <ClCompile Include="CollisionHandlerComponent.cpp" />
     <ClCompile Include="EnemyControllerComponent.cpp" />
+    <ClCompile Include="EnemyTankComponent.cpp" />
     <ClCompile Include="FireCommand.cpp" />
     <ClCompile Include="GunComponent.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
+    <ClCompile Include="HealthDisplayComponent.cpp" />
     <ClCompile Include="LevelLayoutComponent.cpp" />
     <ClCompile Include="LevelMovementComponent.cpp" />
     <ClCompile Include="LevelPathfindingComponent.cpp" />
@@ -187,15 +189,16 @@
     <ClCompile Include="Tron.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Minigin\ObserverHelpers.h" />
     <ClInclude Include="BulletComponent.h" />
     <ClInclude Include="BulletPoolComponent.h" />
     <ClInclude Include="CollisionComponent.h" />
     <ClInclude Include="CollisionHandlerComponent.h" />
     <ClInclude Include="EnemyControllerComponent.h" />
+    <ClInclude Include="EnemyTankComponent.h" />
     <ClInclude Include="FireCommand.h" />
     <ClInclude Include="GunComponent.h" />
     <ClInclude Include="HealthComponent.h" />
+    <ClInclude Include="HealthDisplayComponent.h" />
     <ClInclude Include="LevelLayoutComponent.h" />
     <ClInclude Include="LevelMovementComponent.h" />
     <ClInclude Include="LevelPathfindingComponent.h" />
@@ -203,6 +206,7 @@
     <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="MoveComponent.h" />
     <ClInclude Include="MovementControllerComponent.h" />
+    <ClInclude Include="ObserverHelpers.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -65,8 +65,11 @@ void LevelLayoutComponent::SaveObjectPositions(int number, int index)
     case static_cast<int>(Objects::Player):
         m_PlayerPositions.emplace_back(index);
         break;
-    case static_cast<int>(Objects::Enemy):
-        m_EnemyPositions.emplace_back(index);
+    case static_cast<int>(Objects::TankEnemy):
+        m_EnemyTankPositions.emplace_back(index);
+        break;
+    case static_cast<int>(Objects::RecognizerEnemy):
+        m_EnemyRecognizerPositions.emplace_back(index);
         break;
     default:
         break;
@@ -192,7 +195,12 @@ const std::vector<int>& LevelLayoutComponent::GetPlayerStartPositions() const
     return m_PlayerPositions;
 }
 
-const std::vector<int>& LevelLayoutComponent::GetEnemyStartPositions() const
+const std::vector<int>& LevelLayoutComponent::GetEnemyTankStartPositions() const
 {
-    return m_EnemyPositions;
+    return m_EnemyTankPositions;
+}
+
+const std::vector<int>& LevelLayoutComponent::GetEnemyRecognizerStartPositions() const
+{
+    return m_EnemyRecognizerPositions;
 }

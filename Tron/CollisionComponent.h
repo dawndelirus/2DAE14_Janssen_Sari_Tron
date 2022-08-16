@@ -1,5 +1,6 @@
 #pragma once
 #include <BaseComponent.h>
+#include "CollisionHandlerComponent.h"
 #include "Subject.h"
 
 class CollisionComponent : public dae::BaseComponent, public dae::Subject
@@ -11,7 +12,7 @@ public:
 	void Update() override {};
 	void Render() const override {};
 
-	void GetHit();
+	void GetHit(CollisionHandlerComponent::Layer layer);
 
 	glm::vec2 GetPosition() const;
 	float GetWidth();

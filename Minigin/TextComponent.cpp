@@ -4,8 +4,7 @@
 #include "Renderer.h"
 #include "Font.h"
 #include "Texture2D.h"
-
-#include"TransformComponent.h"
+#include "ObserverEvents.h"
 
 dae::TextComponent::TextComponent(std::shared_ptr<dae::GameObject> gameObject, const std::string& text, const std::shared_ptr<Font>& font, const glm::vec3& textColor)
 	: BaseComponent(gameObject)
@@ -43,6 +42,15 @@ void dae::TextComponent::Render() const
 	{
 		auto pos = GetGameObject()->GetWorldPosition();
 		dae::Renderer::GetInstance().RenderTexture(*m_TextTexture, pos.x, pos.y);
+	}
+}
+
+void dae::TextComponent::Notify(std::shared_ptr<GameObject> gameObject, std::shared_ptr<BaseObserverEvent> event)
+{
+	auto observerEvent = std::dynamic_pointer_cast<TextChangedObserverEvent>(event);
+	if (observerEvent != nullptr)
+	{
+		SetText(observerEvent->text);
 	}
 }
 

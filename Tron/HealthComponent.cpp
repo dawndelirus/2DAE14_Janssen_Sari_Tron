@@ -34,7 +34,7 @@ void HealthComponent::TakeDamage(int amount)
 		else
 		{
 			std::cout << m_CurrentHealth << "\n";
-			Subject::Notify(GetGameObject(), std::make_shared<TakeDamageObserverEvent>(m_CurrentHealth));
+			Subject::Notify(GetGameObject(), std::make_shared<HealthChangedObserverEvent>(m_CurrentHealth));
 		}
 	}
 }
@@ -49,7 +49,7 @@ void HealthComponent::Update()
 
 void HealthComponent::Notify(std::shared_ptr<dae::GameObject> gameObject, std::shared_ptr<dae::BaseObserverEvent> event)
 {
-	auto observerEvent = std::dynamic_pointer_cast<GetHitObserverEvent>(event);
+	auto observerEvent = std::dynamic_pointer_cast<TakeDamageObserverEvent>(event);
 	if (observerEvent != nullptr)
 	{
 		TakeDamage(observerEvent->amount);

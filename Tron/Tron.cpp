@@ -32,6 +32,7 @@
 #include "FireCommand.h"
 
 #include "EnemyControllerComponent.h"
+#include "EnemyTankComponent.h"
 
 void LoadGame()
 {
@@ -66,9 +67,9 @@ void LoadGame()
 
 	// BULLET POOL
 	auto bulletPool_go = std::make_shared<dae::GameObject>();
-	auto bulletPool_player_comp = std::make_shared<BulletPoolComponent>(bulletPool_go, level_layout, collisionHandler, sceneName, "Sprites/BulletPlayer.png", BulletComponent::Type::Player, CollisionHandlerComponent::Layer::Player, 20);
+	auto bulletPool_player_comp = std::make_shared<BulletPoolComponent>(bulletPool_go, level_layout, collisionHandler, sceneName, "Sprites/BulletPlayer.png", BulletComponent::Type::Player, CollisionHandlerComponent::Layer::PlayerBullet, 20);
 	bulletPool_go->AddComponent(bulletPool_player_comp);
-	auto bulletPool_enemy_comp = std::make_shared<BulletPoolComponent>(bulletPool_go, level_layout, collisionHandler, sceneName, "Sprites/BulletNPC.png", BulletComponent::Type::Enemy, CollisionHandlerComponent::Layer::Enemy, 20);
+	auto bulletPool_enemy_comp = std::make_shared<BulletPoolComponent>(bulletPool_go, level_layout, collisionHandler, sceneName, "Sprites/BulletNPC.png", BulletComponent::Type::Enemy, CollisionHandlerComponent::Layer::EnemyBullet, 20);
 	bulletPool_go->AddComponent(bulletPool_player_comp);
 
 	scene->Add(bulletPool_go);
@@ -115,12 +116,14 @@ void LoadGame()
 	auto enemyController = std::make_shared<EnemyControllerComponent>(enemyController_go, collisionHandler);
 
 
-	const auto& enemy_startPosVec = level_layout->GetEnemyStartPositions();
+	const auto& enemy_startPosVec = level_layout->GetEnemyTankStartPositions();
 	for (size_t i = 0; i < enemy_startPosVec.size(); ++i)
 	//for (size_t i = 0; i < 1; ++i)
 	{
 		const glm::vec2& enemy_startPos = level_layout->GetGridCenter(enemy_startPosVec[i]);
 		std::shared_ptr<dae::GameObject> enemy_go = std::make_shared<dae::GameObject>(enemy_startPos.x, enemy_startPos.y, 0.f);
+		auto enemyTankComp = std::make_shared<EnemyTankComponent>(enemy_go);
+
 		std::shared_ptr<dae::Texture2DComponent> enemy_texture = std::make_shared<dae::Texture2DComponent>(enemy_go, "Sprites/BlueTank.png");
 		float textureWidth = static_cast<float>(enemy_texture->GetWidth());
 		float textureHeight = static_cast<float>(enemy_texture->GetHeight());
@@ -137,8 +140,10 @@ void LoadGame()
 		enemy_go->AddComponent(enemy_moveController);
 		enemy_go->AddComponent(enemy_healthComponent);
 		enemy_go->AddComponent(enemy_collider);
+		enemy_go->AddComponent(enemyTankComp);
 
-		enemy_collider->AddObserver(enemy_healthComponent);
+		enemy_collider->AddObserver(enemyTankComp);
+		enemyTankComp->AddObserver(enemy_healthComponent);
 		collisionHandler->AddCollider(enemy_collider, CollisionHandlerComponent::Layer::Enemy);
 
 

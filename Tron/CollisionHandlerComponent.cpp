@@ -48,8 +48,8 @@ void CollisionHandlerComponent::Update()
 						, { layer1->GetPosition().x - layer1->GetWidth() / 2.f, layer1->GetPosition().y + layer1->GetHeight() / 2.f }
 						, { layer1->GetPosition().x + layer1->GetWidth() / 2.f, layer1->GetPosition().y - layer1->GetHeight() / 2.f }))
 					{
-						layer0->GetHit();
-						layer1->GetHit();
+						layer0->GetHit(static_cast<CollisionHandlerComponent::Layer>(collisionIndexToCheck));
+						layer1->GetHit(static_cast<CollisionHandlerComponent::Layer>(i));
 					}
 				}
 			}

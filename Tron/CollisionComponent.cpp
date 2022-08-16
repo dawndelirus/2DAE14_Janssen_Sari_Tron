@@ -8,9 +8,9 @@ CollisionComponent::CollisionComponent(std::shared_ptr<dae::GameObject> gameObje
 {
 }
 
-void CollisionComponent::GetHit()
+void CollisionComponent::GetHit(CollisionHandlerComponent::Layer layer)
 {
-	Notify(GetGameObject(), std::make_shared<GetHitObserverEvent>());
+	Notify(GetGameObject(), std::make_shared<GetHitObserverEvent>(layer));
 }
 
 glm::vec2 CollisionComponent::GetPosition() const

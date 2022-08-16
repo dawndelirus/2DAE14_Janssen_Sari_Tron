@@ -27,7 +27,8 @@ public:
 	std::vector<int> GetConnectingIndices(int idx);
 
 	const std::vector<int>& GetPlayerStartPositions() const;
-	const std::vector<int>& GetEnemyStartPositions() const;
+	const std::vector<int>& GetEnemyTankStartPositions() const;
+	const std::vector<int>& GetEnemyRecognizerStartPositions() const;
 
 	void Update() override {}
 	void Render() const override {}
@@ -36,7 +37,8 @@ private:
 	enum class Objects
 	{
 		Player = 3,
-		Enemy = 4
+		TankEnemy = 4,
+		RecognizerEnemy = 5
 	};
 
 	void LoadLevel(std::string filePath);
@@ -45,7 +47,8 @@ private:
 	std::vector<bool> m_LevelPath;
 	std::vector<int> m_VisualsPath;
 	std::vector<int> m_PlayerPositions;
-	std::vector<int> m_EnemyPositions;
+	std::vector<int> m_EnemyTankPositions;
+	std::vector<int> m_EnemyRecognizerPositions;
 
 	int m_LevelTileWidth;
 	int m_VisualTileWidth;

@@ -241,7 +241,7 @@
     <ClInclude Include="SoundSystemEventArgs.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="Subject.h" />
-    <ClInclude Include="SubjectDeletedEvent.h" />
+    <ClInclude Include="ObserverEvents.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="Texture2DComponent.h" />

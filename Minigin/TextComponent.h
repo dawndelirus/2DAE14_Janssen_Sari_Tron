@@ -2,6 +2,7 @@
 #include "BaseComponent.h"
 #include "Transform.h"
 #include "glmWrapper.h"
+#include "Observer.h"
 #include <string>
 
 namespace dae
@@ -10,7 +11,7 @@ namespace dae
 	class Texture2D;
 	class GameObject;
 
-	class TextComponent final : public BaseComponent
+	class TextComponent final : public BaseComponent, public Observer
 	{
 	public:
 		explicit TextComponent(std::shared_ptr<dae::GameObject> gameObject, const std::string& text, const std::shared_ptr<Font>& font, const glm::vec3& textColor);
@@ -19,8 +20,11 @@ namespace dae
 		virtual void Update() override;
 		virtual void Render() const override;
 
-		void SetText(const std::string& text);
+		void Notify(std::shared_ptr<GameObject> gameObject, std::shared_ptr<BaseObserverEvent> event);
+
 	private:
+		void SetText(const std::string& text);
+		
 		bool m_NeedsUpdate;
 		std::string m_Text;
 		std::shared_ptr<Font> m_Font;

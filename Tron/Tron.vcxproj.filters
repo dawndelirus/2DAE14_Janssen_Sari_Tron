@@ -22,8 +22,11 @@
     <Filter Include="Components\Level">
       <UniqueIdentifier>{5321f885-7a81-4978-8821-d1734c58e29f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\Bullet">
+    <Filter Include="Components\Shoot">
       <UniqueIdentifier>{c3feb3d6-ddff-46fa-83d8-6414c86bb66e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Collision">
+      <UniqueIdentifier>{c07668de-34be-48e5-b497-faf1c3919e0e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -37,9 +40,6 @@
       <Filter>Commands</Filter>
     </ClCompile>
     <ClCompile Include="MovementControllerComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="GunComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="HealthComponent.cpp">
@@ -61,18 +61,27 @@
       <Filter>Components\Level</Filter>
     </ClCompile>
     <ClCompile Include="BulletComponent.cpp">
-      <Filter>Components\Bullet</Filter>
+      <Filter>Components\Shoot</Filter>
     </ClCompile>
     <ClCompile Include="BulletPoolComponent.cpp">
-      <Filter>Components\Bullet</Filter>
+      <Filter>Components\Shoot</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionHandlerComponent.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="GunComponent.cpp">
+      <Filter>Components\Shoot</Filter>
     </ClCompile>
     <ClCompile Include="CollisionComponent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Components\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionHandlerComponent.cpp">
+      <Filter>Components\Collision</Filter>
     </ClCompile>
     <ClCompile Include="EnemyControllerComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyTankComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthDisplayComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -84,9 +93,6 @@
       <Filter>Commands</Filter>
     </ClInclude>
     <ClInclude Include="MovementControllerComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="GunComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="HealthComponent.h">
@@ -108,21 +114,30 @@
       <Filter>Components\Level</Filter>
     </ClInclude>
     <ClInclude Include="BulletComponent.h">
-      <Filter>Components\Bullet</Filter>
+      <Filter>Components\Shoot</Filter>
     </ClInclude>
     <ClInclude Include="BulletPoolComponent.h">
-      <Filter>Components\Bullet</Filter>
+      <Filter>Components\Shoot</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionHandlerComponent.h">
+    <ClInclude Include="ObserverHelpers.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GunComponent.h">
+      <Filter>Components\Shoot</Filter>
     </ClInclude>
     <ClInclude Include="CollisionComponent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Components\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="..\Minigin\ObserverHelpers.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="CollisionHandlerComponent.h">
+      <Filter>Components\Collision</Filter>
     </ClInclude>
     <ClInclude Include="EnemyControllerComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyTankComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthDisplayComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
