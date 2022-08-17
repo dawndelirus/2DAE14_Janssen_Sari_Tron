@@ -91,7 +91,7 @@ std::shared_ptr<dae::GameObject> LoadPlayer(dae::Scene* scene, std::shared_ptr<d
 	return player_go;
 }
 
-void LoadEnemies(dae::Scene* scene, std::shared_ptr<dae::GameObject> level_go, std::shared_ptr<dae::GameObject> player_go
+void LoadEnemies(dae::Scene* scene, std::shared_ptr<dae::GameObject> level_go, std::vector<std::shared_ptr<dae::GameObject>> player_go
 	, std::shared_ptr<BulletPoolComponent> bulletPool, std::shared_ptr<CollisionHandlerComponent> collisionHandler
 	, std::shared_ptr<ScoreComponent> score_comp)
 {
@@ -183,7 +183,6 @@ void LoadEnemies(dae::Scene* scene, std::shared_ptr<dae::GameObject> level_go, s
 
 		scene->Add(enemy_go);
 	}
-
 }
 
 void LoadLevel0(const std::string& sceneName)
@@ -265,7 +264,7 @@ void LoadLevel0(const std::string& sceneName)
 	scene->Add(hud_go);
 
 	// ENEMIES
-	LoadEnemies(scene, level_go, player_go, bulletPool_enemy_comp, collisionHandler, score_comp);
+	LoadEnemies(scene, level_go, { player_go }, bulletPool_enemy_comp, collisionHandler, score_comp);
 }
 
 void LoadGame()
