@@ -18,7 +18,7 @@ void LevelMovementComponent::MoveOnGrid(glm::vec3& position, const glm::vec2& di
 	{
 		if (displacement.x > 0.f)
 		{
-			assert((static_cast<size_t>(index) < levelLayout->GetGridSize() - 1) && "Player is on the edge of the grid");
+			assert((index < levelLayout->GetGridSize() - 1) && "Player is on the edge of the grid");
 			++index;
 		}
 		else if (displacement.x < 0.f)
@@ -81,7 +81,7 @@ void LevelMovementComponent::MoveOnGrid(glm::vec3& position, const glm::vec2& di
 		}
 		else if (displacement.y > 0.f)
 		{
-			assert((static_cast<size_t>(index + levelLayout->GetGridWidth()) < levelLayout->GetGridSize()) && "Player is on the edge of the grid");
+			assert((index + levelLayout->GetGridWidth() < levelLayout->GetGridSize()) && "Player is on the edge of the grid");
 			index += levelLayout->GetGridWidth();
 		}
 

@@ -64,6 +64,11 @@ bool BulletComponent::GetIsInPool() const
 
 void BulletComponent::Notify(std::shared_ptr<dae::GameObject> gameObject, std::shared_ptr<dae::BaseObserverEvent> event)
 {
+    if (!IsInUse())
+    {
+        return;
+    }
+    
     auto observerEvent = std::dynamic_pointer_cast<GetHitObserverEvent>(event);
     if (observerEvent != nullptr)
     {

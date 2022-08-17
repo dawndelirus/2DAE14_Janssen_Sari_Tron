@@ -17,8 +17,8 @@ namespace dae
 		explicit TextComponent(std::shared_ptr<dae::GameObject> gameObject, const std::string& text, const std::shared_ptr<Font>& font, const glm::vec3& textColor);
 		~TextComponent() = default;
 
-		virtual void Update() override;
-		virtual void Render() const override;
+		void Update() override;
+		void Render() const override;
 
 		void Notify(std::shared_ptr<GameObject> gameObject, std::shared_ptr<BaseObserverEvent> event);
 

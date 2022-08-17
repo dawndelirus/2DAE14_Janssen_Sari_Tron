@@ -29,7 +29,7 @@ void CollisionHandlerComponent::Update()
 		for (size_t j{}; j < m_CollisionWithLayers[i].size(); ++j)
 		{
 			// Avoid checking colision with layers that have been checked before
-			int collisionIndexToCheck = static_cast<int>(m_CollisionWithLayers[i][j]);
+			size_t collisionIndexToCheck = static_cast<size_t>(m_CollisionWithLayers[i][j]);
 			if (i >= collisionIndexToCheck)
 			{
 				continue;

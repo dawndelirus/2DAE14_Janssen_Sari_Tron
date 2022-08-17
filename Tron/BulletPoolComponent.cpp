@@ -20,13 +20,15 @@ BulletPoolComponent::BulletPoolComponent(std::shared_ptr<dae::GameObject> gameOb
 	
 	BulletComponent* previous{};
 
-	for (size_t i = 0; i < bulletAmount; ++i)
+	for (size_t i = 0; i < static_cast<size_t>(bulletAmount); ++i)
 	{
 		auto bullet_go = std::make_shared<dae::GameObject>();
 		std::shared_ptr<BulletComponent> bulletComponent{ new BulletComponent(bullet_go, levelLayout) }; // new because can not create object from friend class using RAII
 		bullet_go->AddComponent(bulletComponent);
 		auto textureComponent = std::make_shared<dae::Texture2DComponent>(bullet_go, texturePath);
 		textureComponent->SetRenderPositionOffset(glm::vec2(textureComponent->GetWidth() / 2.f, textureComponent->GetHeight() / 2.f));
+		textureComponent->SetIsVisible(false);
+
 		bullet_go->AddComponent(textureComponent);
 		auto collider = std::make_shared<CollisionComponent>(bullet_go, static_cast<float>(textureComponent->GetWidth()), static_cast<float>(textureComponent->GetHeight()));
 		bullet_go->AddComponent(collider);

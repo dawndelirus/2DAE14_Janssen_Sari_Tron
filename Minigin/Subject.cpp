@@ -5,12 +5,12 @@
 
 void dae::Subject::AddObserver(std::shared_ptr<Observer> observer)
 {
-	m_Observers.push_back(observer);
+	m_Observers.push_back(observer.get());
 }
 
 void dae::Subject::RemoveObserver(std::shared_ptr<Observer> observer)
 {
-	auto it = std::find(m_Observers.begin(), m_Observers.end(), observer);
+	auto it = std::find(m_Observers.begin(), m_Observers.end(), observer.get());
 	if (it != m_Observers.end())
 	{
 		m_Observers.erase(it);

@@ -186,6 +186,8 @@
     <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="MoveComponent.cpp" />
     <ClCompile Include="MovementControllerComponent.cpp" />
+    <ClCompile Include="ScoreComponent.cpp" />
+    <ClCompile Include="ScoreDisplayComponent.cpp" />
     <ClCompile Include="Tron.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -207,6 +209,8 @@
     <ClInclude Include="MoveComponent.h" />
     <ClInclude Include="MovementControllerComponent.h" />
     <ClInclude Include="ObserverHelpers.h" />
+    <ClInclude Include="ScoreComponent.h" />
+    <ClInclude Include="ScoreDisplayComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

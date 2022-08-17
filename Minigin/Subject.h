@@ -23,6 +23,6 @@ namespace dae
 		void Notify(std::shared_ptr<GameObject> gameObject, std::shared_ptr<BaseObserverEvent> event);
 
 	private:
-		std::vector<std::shared_ptr<Observer>> m_Observers;
+		std::vector<Observer*> m_Observers;
 	};
 }

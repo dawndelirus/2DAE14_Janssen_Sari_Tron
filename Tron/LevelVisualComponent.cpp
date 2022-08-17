@@ -17,7 +17,7 @@ void LevelVisualComponent::CreateVisuals(const std::string& wallFile, const std:
 
 	auto& vec = levelLayout->GetVisualsVector();
 
-	for (size_t i = 0; i < levelLayout->GetVisualsGridSize(); ++i)
+	for (size_t i = 0; i < static_cast<size_t>(levelLayout->GetVisualsGridSize()); ++i)
 	{
 		auto visualChild = std::make_shared<dae::GameObject>();
 		std::shared_ptr<dae::Texture2DComponent>texComp{};

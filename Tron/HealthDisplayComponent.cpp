@@ -11,9 +11,8 @@ HealthDisplayComponent::HealthDisplayComponent(std::shared_ptr<dae::GameObject> 
 
 void HealthDisplayComponent::Notify(std::shared_ptr<dae::GameObject> gameObject, std::shared_ptr<dae::BaseObserverEvent> event)
 {
-	auto observerEvent = std::dynamic_pointer_cast<HealthChangedObserverEvent>(event);
-	if (observerEvent != nullptr)
+	if (auto observerEvent = std::dynamic_pointer_cast<HealthChangedObserverEvent>(event); observerEvent != nullptr)
 	{
-		Subject::Notify(nullptr, std::make_shared<dae::TextChangedObserverEvent>("Remaining lives: " + std::to_string(observerEvent->currentHp)));
+		Subject::Notify(nullptr, std::make_shared<dae::TextChangedObserverEvent>("Lives: " + std::to_string(observerEvent->currentHp)));
 	}
 }

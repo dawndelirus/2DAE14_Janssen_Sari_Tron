@@ -6,7 +6,7 @@
 class EnemyTankComponent : public dae::BaseComponent, public dae::Subject, public dae::Observer
 {
 public:
-	EnemyTankComponent(std::shared_ptr<dae::GameObject> gameObject);
+	EnemyTankComponent(std::shared_ptr<dae::GameObject> gameObject, int points);
 	~EnemyTankComponent() = default;
 
 	void Notify(std::shared_ptr<dae::GameObject> gameObject, std::shared_ptr<dae::BaseObserverEvent> event) override;
@@ -15,6 +15,6 @@ public:
 	void Render() const override {}
 
 private:
-
+	int m_Points;
 };
 

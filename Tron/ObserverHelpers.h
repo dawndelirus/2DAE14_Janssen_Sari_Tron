@@ -26,7 +26,23 @@ struct HealthChangedObserverEvent final : public dae::BaseObserverEvent
 	int currentHp = 0;
 };
 
+struct ScoreChangedObserverEvent final : public dae::BaseObserverEvent
+{
+	ScoreChangedObserverEvent(int currentScore)
+		: currentScore{ currentScore }
+	{}
+	int currentScore = 0;
+};
+
 struct DiedObserverEvent final : public dae::BaseObserverEvent
 {
 	DiedObserverEvent() = default;
+};
+
+struct EnemyKilledObserverEvent final : public dae::BaseObserverEvent
+{
+	EnemyKilledObserverEvent(int points)
+		: points{ points }
+	{}
+	int points = 0;
 };

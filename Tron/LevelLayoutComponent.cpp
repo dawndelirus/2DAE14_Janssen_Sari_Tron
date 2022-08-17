@@ -88,7 +88,7 @@ int LevelLayoutComponent::GetGridSize()
 
 bool LevelLayoutComponent::IsWalkable(int index)
 {
-    assert(index < m_LevelPath.size() && "Index is out of bounds in LevelLayoutComponent");
+    assert(static_cast<size_t>(index) < m_LevelPath.size() && "Index is out of bounds in LevelLayoutComponent");
     return m_LevelPath[index];
 }
 
@@ -104,7 +104,10 @@ const std::vector<int>& LevelLayoutComponent::GetVisualsVector()
 
 bool LevelLayoutComponent::IsOnVisualPath(int index)
 {
-    assert(index < m_VisualsPath.size() && "Index is out of bounds in LevelLayoutComponent");
+    if (static_cast<size_t>(index) > m_VisualsPath.size() || index < 0)
+    {
+        return false;
+    }
     return m_VisualsPath[index];
 }
 
