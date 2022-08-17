@@ -33,6 +33,7 @@
 
 #include "EnemyControllerComponent.h"
 #include "EnemyTankComponent.h"
+#include "EnemyRecognizerComponent.h"
 
 #include "HealthDisplayComponent.h"
 #include "TextComponent.h"
@@ -105,10 +106,11 @@ void LoadEnemies(dae::Scene* scene, std::shared_ptr<dae::GameObject> level_go, s
 
 	scene->Add(enemyController_go);
 
-	const auto& enemy_startPosVec = level_layout->GetEnemyTankStartPositions();
-	for (size_t i = 0; i < enemy_startPosVec.size(); ++i)
+	// BLUE TANKS
+	const auto& enemyTank_startPosVec = level_layout->GetEnemyTankStartPositions();
+	for (size_t i = 0; i < enemyTank_startPosVec.size(); ++i)
 	{
-		const glm::vec2& enemy_startPos = level_layout->GetGridCenter(enemy_startPosVec[i]);
+		const glm::vec2& enemy_startPos = level_layout->GetGridCenter(enemyTank_startPosVec[i]);
 		std::shared_ptr<dae::GameObject> enemy_go = std::make_shared<dae::GameObject>(enemy_startPos.x, enemy_startPos.y, 0.f);
 		auto enemyTankComp = std::make_shared<EnemyTankComponent>(enemy_go, 100);
 		
@@ -142,6 +144,46 @@ void LoadEnemies(dae::Scene* scene, std::shared_ptr<dae::GameObject> level_go, s
 
 		scene->Add(enemy_go);
 	}
+
+	// RECOGNIZERS
+	const auto& enemyRecognizer_startPosVec = level_layout->GetEnemyRecognizerStartPositions();
+	for (size_t i = 0; i < enemyRecognizer_startPosVec.size(); ++i)
+	{
+		const glm::vec2& enemy_startPos = level_layout->GetGridCenter(enemyRecognizer_startPosVec[i]);
+		std::shared_ptr<dae::GameObject> enemy_go = std::make_shared<dae::GameObject>(enemy_startPos.x, enemy_startPos.y, 0.f);
+		auto enemyRecComp = std::make_shared<EnemyRecognizerComponent>(enemy_go, 250);
+
+		std::shared_ptr<dae::Texture2DComponent> enemy_texture = std::make_shared<dae::Texture2DComponent>(enemy_go, "Sprites/Recognizer.png");
+		float textureWidth = static_cast<float>(enemy_texture->GetWidth());
+		float textureHeight = static_cast<float>(enemy_texture->GetHeight());
+		enemy_texture->SetRenderPositionOffset(glm::vec2(textureWidth / 2.f, textureHeight / 2.f));
+
+		std::shared_ptr<MoveComponent> enemy_moveComponent = std::make_shared<MoveComponent>(enemy_go, enemy_go, level_movement, 80.f);
+		std::shared_ptr<MovementControllerComponent> enemy_moveController = std::make_shared<MovementControllerComponent>(enemy_go, player_go, enemy_moveComponent, level_pathfinding, level_layout);
+
+		std::shared_ptr<HealthComponent> enemy_healthComponent = std::make_shared<HealthComponent>(enemy_go, 3, 1.f);
+		std::shared_ptr<CollisionComponent> enemy_collider = std::make_shared<CollisionComponent>(enemy_go, textureWidth, textureHeight);
+
+		enemy_go->AddComponent(enemy_texture);
+		enemy_go->AddComponent(enemy_moveComponent);
+		enemy_go->AddComponent(enemy_moveController);
+		enemy_go->AddComponent(enemy_healthComponent);
+		enemy_go->AddComponent(enemy_collider);
+		enemy_go->AddComponent(enemyRecComp);
+
+		enemy_collider->AddObserver(enemyRecComp);
+		enemyRecComp->AddObserver(enemy_healthComponent);
+		collisionHandler->AddCollider(enemy_collider, CollisionHandlerComponent::Layer::Enemy);
+
+		enemy_healthComponent->AddObserver(enemyRecComp);
+		enemyRecComp->AddObserver(score_comp);
+
+		enemyController->AddEnemies(enemy_go);
+		enemy_healthComponent->AddObserver(enemyController);
+
+		scene->Add(enemy_go);
+	}
+
 }
 
 void LoadLevel0(const std::string& sceneName)
@@ -154,7 +196,7 @@ void LoadLevel0(const std::string& sceneName)
 
 	// LEVEL
 	auto level_go = std::make_shared<dae::GameObject>(100.f, 20.f, 0.f);
-	std::shared_ptr<LevelLayoutComponent> level_layout = std::make_shared<LevelLayoutComponent>(level_go, "../Data/LevelLayout0.csv", 16, 8);
+	std::shared_ptr<LevelLayoutComponent> level_layout = std::make_shared<LevelLayoutComponent>(level_go, "../Data/LevelLayout1.csv", 16, 8);
 	auto level_visuals = std::make_shared<LevelVisualComponent>(level_go, level_layout, "Level/wall.png", "Level/void.png", "Level/path.png");
 	auto level_movement = std::make_shared<LevelMovementComponent>(level_go, level_layout);
 	auto level_pathfinding = std::make_shared<LevelPathfindingComponent>(level_go, level_layout);
