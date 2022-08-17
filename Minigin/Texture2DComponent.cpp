@@ -9,7 +9,9 @@
 
 dae::Texture2DComponent::Texture2DComponent(std::shared_ptr<dae::GameObject> gameObject, const std::string& fileName)
 	: BaseComponent(gameObject)
+	, m_Texture{}
 	, m_Offset{}
+	, m_IsVisible{true}
 {
 	m_Texture = ResourceManager::GetInstance().LoadTexture(fileName);
 }
