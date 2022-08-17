@@ -112,7 +112,6 @@ void LoadEnemies(dae::Scene* scene, std::shared_ptr<dae::GameObject> level_go, s
 	{
 		const glm::vec2& enemy_startPos = level_layout->GetGridCenter(enemyTank_startPosVec[i]);
 		std::shared_ptr<dae::GameObject> enemy_go = std::make_shared<dae::GameObject>(enemy_startPos.x, enemy_startPos.y, 0.f);
-		auto enemyTankComp = std::make_shared<EnemyTankComponent>(enemy_go, 100);
 		
 		std::shared_ptr<dae::Texture2DComponent> enemy_texture = std::make_shared<dae::Texture2DComponent>(enemy_go, "Sprites/BlueTank.png");
 		float textureWidth = static_cast<float>(enemy_texture->GetWidth());
@@ -121,6 +120,8 @@ void LoadEnemies(dae::Scene* scene, std::shared_ptr<dae::GameObject> level_go, s
 
 		std::shared_ptr<MoveComponent> enemy_moveComponent = std::make_shared<MoveComponent>(enemy_go, enemy_go, level_movement, 40.f);
 		std::shared_ptr<MovementControllerComponent> enemy_moveController = std::make_shared<MovementControllerComponent>(enemy_go, player_go, enemy_moveComponent, level_pathfinding, level_layout);
+
+		std::shared_ptr<EnemyTankComponent> enemyTankComp = std::make_shared<EnemyTankComponent>(enemy_go, enemy_moveController, 100);
 
 		std::shared_ptr<HealthComponent> enemy_healthComponent = std::make_shared<HealthComponent>(enemy_go, 3, 1.f);
 		std::shared_ptr<CollisionComponent> enemy_collider = std::make_shared<CollisionComponent>(enemy_go, textureWidth, textureHeight);
@@ -233,7 +234,7 @@ void LoadLevel0(const std::string& sceneName)
 	auto hud_go = std::make_shared<dae::GameObject>();
 
 	// HEALTH
-	auto healthDisplay_go = std::make_shared<dae::GameObject>(10.f, 10.f, 0.f);
+	auto healthDisplay_go = std::make_shared<dae::GameObject>(5.f, 10.f, 0.f);
 	auto healthDisplay_comp = std::make_shared<HealthDisplayComponent>(healthDisplay_go);
 	std::string startText = "Lives: " + std::to_string(player_go->GetComponent<HealthComponent>()->GetCurrentHealth());
 	
@@ -246,7 +247,7 @@ void LoadLevel0(const std::string& sceneName)
 	healthDisplay_go->SetParent(hud_go, healthDisplay_go, true);
 
 	// SCORE
-	auto score_go = std::make_shared<dae::GameObject>(10.f, 30.f, 0.f);
+	auto score_go = std::make_shared<dae::GameObject>(5.f, 30.f, 0.f);
 	auto score_comp = std::make_shared<ScoreComponent>(score_go);
 	startText = "Score: " + std::to_string(score_comp->GetScore());
 	auto scoreDisplay_comp = std::make_shared<ScoreDisplayComponent>(score_go);

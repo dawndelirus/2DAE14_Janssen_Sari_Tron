@@ -1,9 +1,10 @@
 #include "EnemyTankComponent.h"
 #include "ObserverHelpers.h"
-#include <iostream>
+#include "MovementControllerComponent.h"
 
-EnemyTankComponent::EnemyTankComponent(std::shared_ptr<dae::GameObject> gameObject, int points)
+EnemyTankComponent::EnemyTankComponent(std::shared_ptr<dae::GameObject> gameObject, std::shared_ptr<MovementControllerComponent> movementController, int points)
 	: BaseComponent(gameObject)
+	, m_MovementController{movementController}
 	, m_Points{points}
 {
 }
@@ -19,4 +20,9 @@ void EnemyTankComponent::Notify(std::shared_ptr<dae::GameObject> gameObject, std
 	{
 		Subject::Notify(gameObject, std::make_shared<EnemyKilledObserverEvent>(m_Points));
 	}
+}
+
+void EnemyTankComponent::Update()
+{
+	//auto target = m_MovementController.lock()->GetTarget();
 }

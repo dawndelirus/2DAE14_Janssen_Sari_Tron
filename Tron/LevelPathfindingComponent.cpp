@@ -119,6 +119,13 @@ std::vector<int> LevelPathfindingComponent::FindPath(int startIdx, int endIdx)
 				currentRecord = closedList[i];
 				break;
 			}
+
+			if (path.size() > m_LevelLayout.lock()->GetGridSize())
+			{
+				path.clear();
+				path.push_back(startIdx);
+				return path;
+			}
 		}
 	}
 
