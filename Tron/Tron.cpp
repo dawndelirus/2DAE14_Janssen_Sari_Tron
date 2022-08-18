@@ -121,11 +121,14 @@ void LoadEnemies(dae::Scene* scene, std::shared_ptr<dae::GameObject> level_go, s
 		std::shared_ptr<MoveComponent> enemy_moveComponent = std::make_shared<MoveComponent>(enemy_go, enemy_go, level_movement, 40.f);
 		std::shared_ptr<MovementControllerComponent> enemy_moveController = std::make_shared<MovementControllerComponent>(enemy_go, player_go, enemy_moveComponent, level_pathfinding, level_layout);
 
-		std::shared_ptr<EnemyTankComponent> enemyTankComp = std::make_shared<EnemyTankComponent>(enemy_go, enemy_moveController, 100);
+		std::shared_ptr<GunComponent> gunComp = std::make_shared<GunComponent>(enemy_go, bulletPool, BulletComponent::Type::Enemy, 0, 1.f, 300.f);
+		std::shared_ptr<EnemyTankComponent> enemyTankComp = std::make_shared<EnemyTankComponent>(enemy_go, enemy_moveController, gunComp, level_layout, 100);
 
 		std::shared_ptr<HealthComponent> enemy_healthComponent = std::make_shared<HealthComponent>(enemy_go, 3, 1.f);
 		std::shared_ptr<CollisionComponent> enemy_collider = std::make_shared<CollisionComponent>(enemy_go, textureWidth, textureHeight);
 
+
+		enemy_go->AddComponent(gunComp);
 		enemy_go->AddComponent(enemy_texture);
 		enemy_go->AddComponent(enemy_moveComponent);
 		enemy_go->AddComponent(enemy_moveController);
@@ -214,16 +217,23 @@ void LoadLevel0(const std::string& sceneName)
 	collisionHandler_go->AddComponent(collisionHandler);
 	collisionHandler->AddCollisionIgnore(CollisionHandlerComponent::Layer::Player, CollisionHandlerComponent::Layer::PlayerBullet);
 	collisionHandler->AddCollisionIgnore(CollisionHandlerComponent::Layer::EnemyBullet, CollisionHandlerComponent::Layer::PlayerBullet);
+	collisionHandler->AddCollisionIgnore(CollisionHandlerComponent::Layer::EnemyBullet, CollisionHandlerComponent::Layer::Enemy);
 
 	scene->Add(collisionHandler_go);
 
 	// BULLET POOL
 	auto bulletPool_go = std::make_shared<dae::GameObject>();
+	auto bulletPool_player_go = std::make_shared<dae::GameObject>();
+	auto bulletPool_enemy_go = std::make_shared<dae::GameObject>();
+
 	auto bulletPool_player_comp = std::make_shared<BulletPoolComponent>(bulletPool_go, level_layout, collisionHandler, sceneName, "Sprites/BulletPlayer.png", BulletComponent::Type::Player, CollisionHandlerComponent::Layer::PlayerBullet, 20);
 	auto bulletPool_enemy_comp = std::make_shared<BulletPoolComponent>(bulletPool_go, level_layout, collisionHandler, sceneName, "Sprites/BulletNPC.png", BulletComponent::Type::Enemy, CollisionHandlerComponent::Layer::EnemyBullet, 20);
 	
-	bulletPool_go->AddComponent(bulletPool_player_comp);
-	bulletPool_go->AddComponent(bulletPool_player_comp);
+	bulletPool_player_go->AddComponent(bulletPool_player_comp);
+	bulletPool_enemy_go->AddComponent(bulletPool_enemy_comp);
+
+	bulletPool_player_go->SetParent(bulletPool_go, bulletPool_player_go, true);
+	bulletPool_enemy_go->SetParent(bulletPool_go, bulletPool_enemy_go, true);
 
 	scene->Add(bulletPool_go);
 

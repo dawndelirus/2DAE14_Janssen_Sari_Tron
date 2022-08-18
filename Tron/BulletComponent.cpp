@@ -18,7 +18,7 @@ BulletComponent::BulletComponent(std::shared_ptr<dae::GameObject> gameObject, st
 void BulletComponent::InitializeBullet(const glm::vec2& startPos, const glm::vec2& direction, int bounces, float bulletSpeed, Type bulletSource)
 {
     GetGameObject()->SetWorldPosition(glm::vec3(startPos.x, startPos.y, 0.f));
-    m_BulletState.velocity = direction;
+    m_BulletState.velocity = glm::normalize(glm::vec2(direction.x, direction.y));
     m_MaxBounces = bounces;
     m_CurrentBounces = bounces;
     m_Source = bulletSource;

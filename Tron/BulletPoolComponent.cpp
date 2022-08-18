@@ -71,12 +71,15 @@ void BulletPoolComponent::Update()
 {
 	for (size_t i = 0; i < m_Bullets.size(); ++i)
 	{
-		if (!m_Bullets[i]->IsInUse() && !m_Bullets[i]->GetIsInPool())
+		if (!m_Bullets[i]->IsInUse())
 		{
-			m_Bullets[i]->SetNext(m_FirstAvailable);
-			m_FirstAvailable = m_Bullets[i];
-			m_Bullets[i]->SetIsInPool(true);
-			m_Bullets[i]->GetGameObject()->GetComponent<dae::Texture2DComponent>()->SetIsVisible(false);
+			if (!m_Bullets[i]->GetIsInPool())
+			{
+				m_Bullets[i]->SetNext(m_FirstAvailable);
+				m_FirstAvailable = m_Bullets[i];
+				m_Bullets[i]->SetIsInPool(true);
+				m_Bullets[i]->GetGameObject()->GetComponent<dae::Texture2DComponent>()->SetIsVisible(false);
+			}
 		}
 	}
 }

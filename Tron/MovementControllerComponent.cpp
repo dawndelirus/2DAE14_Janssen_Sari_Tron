@@ -16,7 +16,7 @@ MovementControllerComponent::MovementControllerComponent(std::shared_ptr<dae::Ga
 		m_TargetObjects.emplace_back(targetObjects[i]);
 	}
 
-	GetShortestPath();
+	GetPathToClosestTarget();
 
 	if (m_Path.size() < 1)
 	{
@@ -50,7 +50,7 @@ void MovementControllerComponent::MoveToTarget()
 	// Recalculate target
 	if (m_Layout.lock()->GetGridIndex(position) == m_Layout.lock()->GetGridIndex(m_Target))
 	{
-		GetShortestPath();
+		GetPathToClosestTarget();
 
 		if (m_Path.size() <= 1)
 		{
@@ -66,28 +66,25 @@ std::shared_ptr<dae::GameObject> MovementControllerComponent::GetTarget() const
 	return m_TargetObject.lock();
 }
 
-void MovementControllerComponent::GetShortestPath()
+void MovementControllerComponent::GetPathToClosestTarget()
 {
 	auto& position = GetGameObject()->GetWorldPosition();
-
-	m_Path.clear();
-	std::vector<int> path{};
+	int index = m_Layout.lock()->GetGridIndex(position);
+	
+	// get closest target using manhattan distance from pathfinding
+	float lowestCost{FLT_MAX};
 	for (size_t i = 0; i < m_TargetObjects.size(); ++i)
 	{
 		auto& targetPos = m_TargetObjects[i].lock()->GetWorldPosition();
-		path = m_Pathfinding.lock()->FindPath(m_Layout.lock()->GetGridIndex(position), m_Layout.lock()->GetGridIndex(targetPos));
-		if (m_Path.size() > 0)
+		float cost = m_Pathfinding.lock()->GetHeuristicCost(index, m_Layout.lock()->GetGridIndex(targetPos));
+		if (cost < lowestCost)
 		{
-			if (path.size() < m_Path.size())
-			{
-				m_Path = path;
-				m_TargetObject = m_TargetObjects[i];
-			}
-		}
-		else
-		{
-			m_Path = path;
+			lowestCost = cost;
 			m_TargetObject = m_TargetObjects[i];
 		}
 	}
+
+	// get path to closest target
+	auto& targetPos = m_TargetObject.lock()->GetWorldPosition();
+	m_Path = m_Pathfinding.lock()->FindPath(m_Layout.lock()->GetGridIndex(position), m_Layout.lock()->GetGridIndex(targetPos));
 }

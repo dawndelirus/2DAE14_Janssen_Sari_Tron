@@ -19,7 +19,7 @@ public:
 	std::shared_ptr<dae::GameObject> GetTarget() const;
 
 private:
-	void GetShortestPath();
+	void GetPathToClosestTarget();
 
 	std::vector<std::weak_ptr<dae::GameObject>> m_TargetObjects;
 	std::weak_ptr<dae::GameObject> m_TargetObject;

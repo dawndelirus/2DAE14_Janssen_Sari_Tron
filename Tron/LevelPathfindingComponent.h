@@ -10,6 +10,7 @@ public:
 	void Update() override {};
 	void Render() const override {};
 	std::vector<int> FindPath(int startIdx, int endIdx);
+	float GetHeuristicCost(int startIdx, int endIdx) const;
 
 private:
 	struct NodeRecord
@@ -33,6 +34,5 @@ private:
 		};
 	};
 
-	float GetHeuristicCost(int startIdx, int endIdx) const;
 	std::weak_ptr<LevelLayoutComponent> m_LevelLayout;
 };

@@ -135,6 +135,7 @@ std::vector<int> LevelPathfindingComponent::FindPath(int startIdx, int endIdx)
 
 float LevelPathfindingComponent::GetHeuristicCost(int startIdx, int endIdx) const
 {
+	// Manhatan distance
 	glm::vec2 toDestination = m_LevelLayout.lock()->GetGridCenter(endIdx) - m_LevelLayout.lock()->GetGridCenter(startIdx);
 	return static_cast<float>(abs(toDestination.x + abs(toDestination.y)));
 }
