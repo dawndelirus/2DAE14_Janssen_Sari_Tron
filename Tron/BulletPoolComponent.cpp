@@ -14,7 +14,9 @@ BulletPoolComponent::BulletPoolComponent(std::shared_ptr<dae::GameObject> gameOb
 	: BaseComponent(gameObject)
 	, m_FirstAvailable{}
 	, m_Bullets{}
+	, m_CollisionHandler{collisionHandler}
 	, m_BulletType{bulletSource}
+	, m_BulletLayer{bulletLayer}
 {
 	auto pScene = dae::ServiceLocator::GetSceneManager().GetScene(sceneName);
 	
@@ -32,7 +34,6 @@ BulletPoolComponent::BulletPoolComponent(std::shared_ptr<dae::GameObject> gameOb
 		bullet_go->AddComponent(textureComponent);
 		auto collider = std::make_shared<CollisionComponent>(bullet_go, static_cast<float>(textureComponent->GetWidth()), static_cast<float>(textureComponent->GetHeight()));
 		bullet_go->AddComponent(collider);
-		collisionHandler->AddCollider(collider, bulletLayer);
 
 		collider->AddObserver(bulletComponent);
 
@@ -49,6 +50,7 @@ BulletPoolComponent::BulletPoolComponent(std::shared_ptr<dae::GameObject> gameOb
 		}
 
 		m_Bullets.emplace_back(bulletComponent.get());
+		m_BulletCollisions.emplace_back(collider);
 		pScene->Add(bullet_go);
 	}
 }
@@ -64,6 +66,14 @@ void BulletPoolComponent::CreateBullet(const glm::vec2& startPos, const glm::vec
 	m_FirstAvailable = newBullet->GetNext();
 	newBullet->GetGameObject()->GetComponent<dae::Texture2DComponent>()->SetIsVisible(true);
 	newBullet->InitializeBullet(startPos, direction, bounces, bulletSpeed, m_BulletType);
+	
+	for (size_t i = 0; i < m_Bullets.size(); ++i)
+	{
+		if (m_Bullets[i] == newBullet)
+		{
+			m_CollisionHandler->AddCollider(m_BulletCollisions[i].lock(), m_BulletLayer);
+		}
+	}
 }
 
 
@@ -71,15 +81,14 @@ void BulletPoolComponent::Update()
 {
 	for (size_t i = 0; i < m_Bullets.size(); ++i)
 	{
-		if (!m_Bullets[i]->IsInUse())
+		if (!m_Bullets[i]->IsInUse() && !m_Bullets[i]->GetIsInPool())
 		{
-			if (!m_Bullets[i]->GetIsInPool())
-			{
-				m_Bullets[i]->SetNext(m_FirstAvailable);
-				m_FirstAvailable = m_Bullets[i];
-				m_Bullets[i]->SetIsInPool(true);
-				m_Bullets[i]->GetGameObject()->GetComponent<dae::Texture2DComponent>()->SetIsVisible(false);
-			}
+			m_Bullets[i]->SetNext(m_FirstAvailable);
+			m_FirstAvailable = m_Bullets[i];
+			m_Bullets[i]->SetIsInPool(true);
+			m_Bullets[i]->GetGameObject()->GetComponent<dae::Texture2DComponent>()->SetIsVisible(false);
+
+			m_CollisionHandler->RemoveCollider(m_BulletCollisions[i].lock(), m_BulletLayer);
 		}
 	}
 }

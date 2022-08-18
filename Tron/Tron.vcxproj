@@ -189,6 +189,7 @@
     <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="MoveComponent.cpp" />
     <ClCompile Include="MovementControllerComponent.cpp" />
+    <ClCompile Include="PlayerComponent.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
     <ClCompile Include="ScoreDisplayComponent.cpp" />
     <ClCompile Include="Tron.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="MoveComponent.h" />
     <ClInclude Include="MovementControllerComponent.h" />
     <ClInclude Include="ObserverHelpers.h" />
+    <ClInclude Include="PlayerComponent.h" />
     <ClInclude Include="ScoreComponent.h" />
     <ClInclude Include="ScoreDisplayComponent.h" />
   </ItemGroup>

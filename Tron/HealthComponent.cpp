@@ -1,7 +1,6 @@
 #include "HealthComponent.h"
 #include "ObserverHelpers.h"
 #include "Clock.h"
-#include <iostream>
 
 HealthComponent::HealthComponent(std::shared_ptr<dae::GameObject> gameObject, int maxHealth, float invulnerability)
 	: BaseComponent(gameObject)
@@ -29,7 +28,6 @@ void HealthComponent::TakeDamage(int amount)
 		if (m_CurrentHealth <= 0)
 		{
 			m_CurrentHealth = 0;
-			std::cout << "AAAh I died!\n";
 			Subject::Notify(GetGameObject(), std::make_shared<DiedObserverEvent>());
 		}
 	}
@@ -49,11 +47,6 @@ void HealthComponent::Notify(std::shared_ptr<dae::GameObject> gameObject, std::s
 	{
 		TakeDamage(observerEvent->amount);
 	}
-
-	//if (auto observerEvent = std::dynamic_pointer_cast<GetHitObserverEvent>(event); observerEvent != nullptr)
-	//{
-	//	TakeDamage(1);
-	//}
 }
 
 int HealthComponent::GetCurrentHealth() const

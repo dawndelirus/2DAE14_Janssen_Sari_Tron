@@ -23,6 +23,10 @@ private:
 	BulletComponent* m_FirstAvailable;
 
 	std::vector<BulletComponent*> m_Bullets;
+	std::vector<std::weak_ptr<CollisionComponent>> m_BulletCollisions;
+
+	std::shared_ptr<CollisionHandlerComponent> m_CollisionHandler;
 	BulletComponent::Type m_BulletType;
+	CollisionHandlerComponent::Layer m_BulletLayer;
 };
 
