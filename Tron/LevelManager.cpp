@@ -5,7 +5,7 @@
 void LevelManager::Initialize()
 {
 	// create main menu
-	m_CurrentGamemode = GameMode::Versus;
+	m_CurrentGamemode = GameMode::Single;
 	m_CurrentLevel = 2;
 	LoadLevel();
 }
@@ -181,9 +181,9 @@ std::shared_ptr<dae::GameObject> LevelManager::LoadPlayer(std::shared_ptr<dae::G
 	scene->Add(player_go);
 
 	// INPUT
-	auto movementInput = dae::InputAction(playerIdx, std::make_shared<MoveCommand>(player_go->GetComponent<MoveComponent>(), dae::Joystick::LeftStick), dae::Joystick::LeftStick);
+	auto movementInput = dae::InputAction(playerIdx, std::make_shared<MoveCommand>(player_go->GetComponent<MoveComponent>(), dae::Joystick::LeftStick, playerIdx), dae::Joystick::LeftStick);
 	inputM.AddInput(movementInput);
-	auto fireInput = dae::InputAction(playerIdx, std::make_shared<FireCommand>(gun_go->GetComponent<GunComponent>(), dae::Joystick::RightStick), dae::Joystick::RightStick);
+	auto fireInput = dae::InputAction(playerIdx, std::make_shared<FireCommand>(gun_go->GetComponent<GunComponent>(), dae::Joystick::RightStick, playerIdx), dae::Joystick::RightStick);
 	inputM.AddInput(fireInput);
 
 	// HEALTH DISPLAY
@@ -253,9 +253,9 @@ std::shared_ptr<dae::GameObject> LevelManager::LoadPlayerVersus(std::shared_ptr<
 	scene->Add(player_go);
 
 	// INPUT
-	auto movementInput = dae::InputAction(playerIdx, std::make_shared<MoveCommand>(player_go->GetComponent<MoveComponent>(), dae::Joystick::LeftStick), dae::Joystick::LeftStick);
+	auto movementInput = dae::InputAction(playerIdx, std::make_shared<MoveCommand>(player_go->GetComponent<MoveComponent>(), dae::Joystick::LeftStick, playerIdx), dae::Joystick::LeftStick);
 	inputM.AddInput(movementInput);
-	auto fireInput = dae::InputAction(playerIdx, std::make_shared<FireCommand>(gun_go->GetComponent<GunComponent>(), dae::Joystick::RightStick), dae::Joystick::RightStick);
+	auto fireInput = dae::InputAction(playerIdx, std::make_shared<FireCommand>(gun_go->GetComponent<GunComponent>(), dae::Joystick::RightStick, playerIdx), dae::Joystick::RightStick);
 	inputM.AddInput(fireInput);
 
 	// HEALTH DISPLAY

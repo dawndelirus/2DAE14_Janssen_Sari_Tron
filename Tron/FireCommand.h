@@ -7,11 +7,12 @@ class GunComponent;
 class FireCommand : public dae::Command
 {
 public:
-	FireCommand(std::shared_ptr<GunComponent> bulletPool, dae::Joystick joystick);
+	FireCommand(std::shared_ptr<GunComponent> bulletPool, dae::Joystick joystick, int playerIdx);
 	~FireCommand() = default;
 	void Execute() override;
 
 private:
 	dae::Joystick m_Joystick{};
+	int m_PlayerIdx{};
 };
 
