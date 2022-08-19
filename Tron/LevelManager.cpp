@@ -2,15 +2,98 @@
 #include "GameInfo.h"
 #include "ServiceLocator.h"
 
+#include "GameObject.h"
+#include "Texture2DComponent.h"
+#include "BaseSceneManager.h"
+#include "TextComponent.h"
+#include "ResourceManager.h"
+
+#include "MoveComponent.h"
+#include "MoveCommand.h"
+
+#include "BulletPoolComponent.h"
+#include "GunComponent.h"
+#include "FireCommand.h"
+
+#include "StartGameCommand.h"
+#include "QuitGameCommand.h"
+#include "SwapGamemodeCommand.h"
+
+#include "LevelLayoutComponent.h"
+#include "LevelVisualComponent.h"
+#include "LevelMovementComponent.h"
+#include "LevelPathfindingComponent.h"
+
+#include "CollisionComponent.h"
+#include "CollisionHandlerComponent.h"
+
+#include "ScoreComponent.h"
+#include "ScoreDisplayComponent.h"
+
+#include "HealthComponent.h"
+#include "HealthDisplayComponent.h"
+
+#include "MovementControllerComponent.h"
+#include "EnemyControllerComponent.h"
+#include "EnemyTankComponent.h"
+#include "EnemyRecognizerComponent.h"
+
+#include "PlayerComponent.h"
+
+
 void LevelManager::Initialize()
 {
+	CreateMainMenu();
+	dae::ServiceLocator::GetSceneManager().SetActiveScene("MainMenu");
+
 	// create main menu
 	// set main manu active
 
-	m_CurrentGamemode = GameMode::Single;
-	m_CurrentLevel = 1;
-	LoadLevel();
-	dae::ServiceLocator::GetSceneManager().SetActiveScene("Level" + std::to_string(m_CurrentLevel));
+	//m_CurrentGamemode = GameMode::Single;
+	//m_CurrentLevel = 1;
+	//LoadLevel();
+	//dae::ServiceLocator::GetSceneManager().SetActiveScene("Level" + std::to_string(m_CurrentLevel));
+}
+
+void LevelManager::CreateMainMenu()
+{
+	dae::Scene* scene = dae::ServiceLocator::GetSceneManager().CreateScene("MainMenu");
+	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 40);
+	auto smallFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
+	auto& inputM = dae::ServiceLocator::GetInputManager();
+
+	std::string text = "A to start";
+	auto start_go = std::make_shared<dae::GameObject>(glm::vec3{240.f, 60.f, 0.f});
+	start_go->AddComponent(std::make_shared<dae::TextComponent>(start_go, text, font, glm::vec3(0.f, 255.f, 100.f)));
+
+	text = "B to quit";
+	auto quit_go = std::make_shared<dae::GameObject>(glm::vec3{ 250.f, 160.f, 0.f });
+	quit_go->AddComponent(std::make_shared<dae::TextComponent>(quit_go, text, font, glm::vec3(255.f, 50.f, 50.f)));
+
+	text = "Y to change";
+	auto cycle_go = std::make_shared<dae::GameObject>(glm::vec3{ 230.f, 260.f, 0.f });
+	cycle_go->AddComponent(std::make_shared<dae::TextComponent>(cycle_go, text, font, glm::vec3(255.f, 255.f, 50.f)));
+
+	text = "Gamemode: ";
+	auto gamemode_go = std::make_shared<dae::GameObject>(glm::vec3{ 200.f, 320.f, 0.f });
+	gamemode_go->AddComponent(std::make_shared<dae::TextComponent>(gamemode_go, text, smallFont, glm::vec3(255.f, 255.f, 255.f)));
+
+	text = "Singleplayer";
+	auto mode_go = std::make_shared<dae::GameObject>(glm::vec3{ 330.f, 320.f, 0.f });
+	mode_go->AddComponent(std::make_shared<dae::TextComponent>(mode_go, text, smallFont, glm::vec3(255.f, 255.f, 255.f)));
+
+	scene->Add(start_go);
+	scene->Add(quit_go);
+	scene->Add(cycle_go);
+	scene->Add(gamemode_go);
+	scene->Add(mode_go);
+
+	auto startInput = dae::InputAction(0, dae::ButtonState::downThisFrame, std::make_shared<StartGameCommand>(nullptr), dae::ControllerButton::ButtonA, dae::KeyboardKey::K_SPACE);
+	inputM.AddInput(startInput);
+	auto quitInput = dae::InputAction(0, dae::ButtonState::releasedThisFrame, std::make_shared<QuitGameCommand>(nullptr), dae::ControllerButton::ButtonB, dae::KeyboardKey::K_Esc);
+	inputM.AddInput(quitInput);
+	auto swapInput = dae::InputAction(0, dae::ButtonState::releasedThisFrame, std::make_shared<SwapGamemodeCommand>(mode_go->GetComponent<dae::TextComponent>()), dae::ControllerButton::ButtonY, dae::KeyboardKey::K_Tab);
+	inputM.AddInput(swapInput);
 }
 
 void LevelManager::LoadLevel()
@@ -117,6 +200,13 @@ void LevelManager::LoadLevel()
 	controller->AddObserver(score_comp);
 }
 
+void LevelManager::StartGame()
+{
+	dae::ServiceLocator::GetInputManager().ClearInput();
+	LoadLevel();
+	dae::ServiceLocator::GetSceneManager().SetActiveScene("Level" + std::to_string(m_CurrentLevel));
+}
+
 void LevelManager::LevelClear()
 {
 	dae::ServiceLocator::GetInputManager().ClearInput();
@@ -142,6 +232,29 @@ void LevelManager::LevelFail()
 void LevelManager::AddLevelPath(const std::string& levelPath)
 {
 	m_LevelPahts.emplace_back(levelPath);
+}
+
+LevelManager::GameMode LevelManager::CycleGameMode()
+{
+	if (m_CurrentGamestate == GameState::MainMenu)
+	{
+		switch (m_CurrentGamemode)
+		{
+		case LevelManager::GameMode::Single:
+			m_CurrentGamemode = LevelManager::GameMode::Coop;
+			break;
+		case LevelManager::GameMode::Coop:
+			m_CurrentGamemode = LevelManager::GameMode::Versus;
+			break;
+		case LevelManager::GameMode::Versus:
+			m_CurrentGamemode = LevelManager::GameMode::Single;
+			break;
+		default:
+			break;
+		}
+	}
+
+	return m_CurrentGamemode;
 }
 
 std::shared_ptr<dae::GameObject> LevelManager::LoadPlayer(std::shared_ptr<dae::GameObject> level_go, std::shared_ptr<dae::GameObject> hud_go, std::shared_ptr<BulletPoolComponent> bulletPool, std::shared_ptr<CollisionHandlerComponent> collisionHandler, const std::string& playerPath, const std::string& gunPath, int playerIdx)
@@ -301,8 +414,8 @@ std::shared_ptr<EnemyControllerComponent> LevelManager::LoadEnemies(dae::Scene* 
 
 	// BLUE TANKS
 	const auto& enemyTank_startPosVec = level_layout->GetEnemyTankStartPositions();
-	//for (size_t i = 0; i < enemyTank_startPosVec.size(); ++i)
-	for (size_t i = 0; i < 1; ++i)
+	for (size_t i = 0; i < enemyTank_startPosVec.size(); ++i)
+	//for (size_t i = 0; i < 1; ++i)
 	{
 		auto enemy = CreateEnemy(level_go, player_go, "Sprites/BlueTank.png", enemyTank_startPosVec[i], 30.f);
 

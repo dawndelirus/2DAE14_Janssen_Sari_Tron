@@ -73,39 +73,59 @@ void XBox360Controller::Update()
 {
 	m_pImpl->Update();
 
-	for (auto& command : m_CommandsPressed)
+	for (auto size = m_CommandsPressed.size(); auto& command : m_CommandsPressed)
 	{
 		const PlayerButton& playerButton = command.first;
 		if (IsPressed(playerButton.second, playerButton.first))
 		{
 			command.second->Execute();
 		}
+
+		if (m_CommandsPressed.size() != size) // incase input gets deleted through a command
+		{
+			break;
+		}
 	}
 
-	for (auto& command : m_CommandsDown)
+	for (auto size = m_CommandsDown.size(); auto& command : m_CommandsDown)
 	{
 		const PlayerButton& playerButton = command.first;
 		if (IsDownThisFrame(playerButton.second, playerButton.first))
 		{
 			command.second->Execute();
 		}
+
+		if (m_CommandsDown.size() != size) // incase input gets deleted through a command
+		{
+			break;
+		}
 	}
 
-	for (auto& command : m_CommandsReleased)
+	for (auto size = m_CommandsReleased.size(); auto& command : m_CommandsReleased)
 	{
 		const PlayerButton& playerButton = command.first;
 		if (IsReleasedThisFrame(playerButton.second, playerButton.first))
 		{
 			command.second->Execute();
 		}
+
+		if (m_CommandsReleased.size() != size) // incase input gets deleted through a command
+		{
+			break;
+		}
 	}
 
-	for (auto& command : m_CommandsJoystick)
+	for (auto size = m_CommandsJoystick.size(); auto& command : m_CommandsJoystick)
 	{
 		auto joystickPos = GetJoystickPosition(command.first.second, command.first.first);
 		if (abs(joystickPos.z) > 0.f)
 		{
 			command.second->Execute();
+		}
+
+		if (m_CommandsJoystick.size() != size) // incase input gets deleted through a command
+		{
+			break;
 		}
 	}
 

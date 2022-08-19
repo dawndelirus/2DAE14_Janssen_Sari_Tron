@@ -190,8 +190,11 @@
     <ClCompile Include="MoveComponent.cpp" />
     <ClCompile Include="MovementControllerComponent.cpp" />
     <ClCompile Include="PlayerComponent.cpp" />
+    <ClCompile Include="QuitGameCommand.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
     <ClCompile Include="ScoreDisplayComponent.cpp" />
+    <ClCompile Include="StartGameCommand.cpp" />
+    <ClCompile Include="SwapGamemodeCommand.cpp" />
     <ClCompile Include="Tron.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -217,8 +220,11 @@
     <ClInclude Include="MovementControllerComponent.h" />
     <ClInclude Include="ObserverHelpers.h" />
     <ClInclude Include="PlayerComponent.h" />
+    <ClInclude Include="QuitGameCommand.h" />
     <ClInclude Include="ScoreComponent.h" />
     <ClInclude Include="ScoreDisplayComponent.h" />
+    <ClInclude Include="StartGameCommand.h" />
+    <ClInclude Include="SwapGamemodeCommand.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

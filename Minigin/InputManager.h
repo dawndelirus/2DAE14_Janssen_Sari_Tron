@@ -8,13 +8,14 @@ namespace dae
 	class InputManager final : public BaseInputManager
 	{
 	public:
-		InputManager() = default;
+		InputManager();
 		~InputManager() = default;
 
 		bool ProcessInput() override;
 		void AddInput(InputAction action) override;
 		void RemoveInput(InputAction action) override;
 		void ClearInput() override;
+		void Quit() override;
 
 		glm::vec3 GetJoystickPosition(Joystick stick, int playerIndex = 0) const override;
 		bool IsControllerButton(ButtonState state, ControllerButton button, int playerIndex = 0) const override;
@@ -23,5 +24,7 @@ namespace dae
 	private:
 		std::unique_ptr<XBox360Controller> m_Controller{std::make_unique<XBox360Controller>()};
 		std::unique_ptr<KeyboardControls> m_Keyboard{std::make_unique<KeyboardControls>()};
+
+		bool m_HasQuit;
 	};
 }

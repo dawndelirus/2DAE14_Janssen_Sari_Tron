@@ -1,38 +1,16 @@
 #pragma once
 #include "Singleton.h"
+#include "GameObject.h"
+#include "Scene.h"
+
 #include <vector>
 #include <string>
 #include <memory>
-#include "Texture2DComponent.h"
-#include "ServiceLocator.h"
-#include "BaseSceneManager.h"
 
-#include "MoveComponent.h"
-#include "MoveCommand.h"
-
-#include "LevelLayoutComponent.h"
-#include "LevelVisualComponent.h"
-#include "LevelMovementComponent.h"
-#include "LevelPathfindingComponent.h"
-#include "MovementControllerComponent.h"
-#include "HealthComponent.h"
-#include "CollisionComponent.h"
-#include "CollisionHandlerComponent.h"
-
-#include "BulletPoolComponent.h"
-#include "GunComponent.h"
-#include "FireCommand.h"
-
-#include "EnemyControllerComponent.h"
-#include "EnemyTankComponent.h"
-#include "EnemyRecognizerComponent.h"
-
-#include "HealthDisplayComponent.h"
-#include "TextComponent.h"
-#include "ResourceManager.h"
-#include "ScoreComponent.h"
-#include "ScoreDisplayComponent.h"
-#include "PlayerComponent.h"
+class CollisionHandlerComponent;
+class BulletPoolComponent;
+class EnemyControllerComponent;
+class ScoreComponent;
 
 class LevelManager final : public dae::Singleton<LevelManager>
 {
@@ -46,10 +24,13 @@ public:
 	
 	void Initialize();
 
+	void StartGame();
 	void LevelClear();
 	void LevelFail();
 
 	void AddLevelPath(const std::string& levelPath);
+
+	GameMode CycleGameMode();
 
 private:
 	enum class GameState
@@ -59,6 +40,8 @@ private:
 		PauseMenu,
 		HighScore
 	};
+
+	void CreateMainMenu();
 
 	void LoadLevel();
 

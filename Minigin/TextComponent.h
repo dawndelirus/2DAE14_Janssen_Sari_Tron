@@ -21,9 +21,9 @@ namespace dae
 		void Render() const override;
 
 		void Notify(std::shared_ptr<GameObject> gameObject, std::shared_ptr<BaseObserverEvent> event);
+		void SetText(const std::string& text);
 
 	private:
-		void SetText(const std::string& text);
 		
 		bool m_NeedsUpdate;
 		std::string m_Text;

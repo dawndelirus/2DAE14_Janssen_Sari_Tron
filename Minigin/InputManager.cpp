@@ -2,21 +2,26 @@
 #include "InputManager.h"
 #include "backends/imgui_impl_sdl.h"
 
+dae::InputManager::InputManager()
+	: m_HasQuit{false}
+{
+}
+
 bool dae::InputManager::ProcessInput()
 {
 	m_Controller->Update();
 	m_Keyboard->Update();
 
 	SDL_Event e;
-	while (SDL_PollEvent(&e)) {
-		if (e.type == SDL_QUIT) {
+	while (SDL_PollEvent(&e)) 
+	{
+		if (e.type == SDL_QUIT) 
+		{
 			return false;
 		}
-		
-		ImGui_ImplSDL2_ProcessEvent(&e);
 	}
 
-	return true;
+	return !m_HasQuit;
 }
 
 void dae::InputManager::AddInput(InputAction action)
@@ -96,4 +101,9 @@ bool dae::InputManager::IsKeyboardKey(ButtonState state, KeyboardKey key) const
 	}
 
 	return false;
+}
+
+void dae::InputManager::Quit()
+{
+	m_HasQuit = true;
 }
