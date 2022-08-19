@@ -1,5 +1,10 @@
 #include "GameInfo.h"
 
+void GameInfo::Initialize(int playerAmount)
+{
+	m_PlayerHealth.resize(playerAmount);
+}
+
 void GameInfo::SetPlayerHealth(int playerIdx, int playerHealth)
 {
 	if (playerIdx < m_PlayerHealth.size())

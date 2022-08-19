@@ -109,13 +109,8 @@ namespace dae
 			: InputAction(idx, ButtonState::none, command, ControllerButton::Empty, KeyboardKey::Empty, stick)
 		{}
 
-		InputAction(int idx, ButtonState state, std::shared_ptr<Command> command, ControllerButton button, KeyboardKey key, Joystick stick)
-			: playerIndex{ idx }
-			, buttonState{ state }
-			, command{ command }
-			, controllerButtonCode{ button }
-			, keyboardKeyCode{ key }
-			, joystickCode{ stick }
+		InputAction(int idx, ButtonState state, std::shared_ptr<Command> command, ControllerButton button, KeyboardKey key)
+			: InputAction(idx, state, command, button, key, Joystick::Empty)
 		{}
 
 		int playerIndex{ 0 };
@@ -125,5 +120,23 @@ namespace dae
 		ControllerButton controllerButtonCode{ControllerButton::Empty};
 		KeyboardKey keyboardKeyCode{ KeyboardKey::Empty };
 		Joystick joystickCode{ Joystick::Empty };
+		
+		struct KeyboardDir
+		{
+			KeyboardKey up;
+			KeyboardKey down;
+			KeyboardKey left;
+			KeyboardKey right;
+		};
+
+	private:
+		InputAction(int idx, ButtonState state, std::shared_ptr<Command> command, ControllerButton button, KeyboardKey key, Joystick stick)
+			: playerIndex{ idx }
+			, buttonState{ state }
+			, command{ command }
+			, controllerButtonCode{ button }
+			, keyboardKeyCode{ key }
+			, joystickCode{ stick }
+		{}
 	};
 }
