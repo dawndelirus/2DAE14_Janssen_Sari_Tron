@@ -4,6 +4,8 @@
 #include "Texture2DComponent.h"
 #include "CollisionHandlerComponent.h"
 #include "CollisionComponent.h"
+#include "LevelManager.h"
+#include "GameInfo.h"
 #include <assert.h>
 
 EnemyControllerComponent::EnemyControllerComponent(std::shared_ptr<dae::GameObject> gameObject, std::shared_ptr<CollisionHandlerComponent> collisionHandler)
@@ -33,5 +35,11 @@ void EnemyControllerComponent::Notify(std::shared_ptr<dae::GameObject> gameObjec
 		m_CollisionHandler.lock()->RemoveCollider(collider, CollisionHandlerComponent::Layer::Enemy);
 
 		--m_NumOfEnemies;
+
+		if (m_NumOfEnemies <= 0)
+		{
+			Subject::Notify(GetGameObject(), std::make_shared<EnemiesDeadObserverEvent>());
+			LevelManager::GetInstance().LevelClear();
+		}
 	}
 }

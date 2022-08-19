@@ -6,6 +6,16 @@ using namespace dae;
 
 unsigned int Scene::m_IdCounter = 0;
 
+void dae::Scene::SetIsDeleted(bool isDeleted)
+{
+	m_IsDeleted = isDeleted;
+}
+
+bool dae::Scene::IsDeleted()
+{
+	return m_IsDeleted;
+}
+
 Scene::Scene(const std::string& name) : m_Name(name) {}
 
 Scene::~Scene() = default;

@@ -6,10 +6,12 @@ MovementControllerComponent::MovementControllerComponent(std::shared_ptr<dae::Ga
 	, std::shared_ptr<LevelLayoutComponent> levelLayout)
 	: BaseComponent(gameObject)
 	, m_TargetObjects()
+	, m_TargetObject()
 	, m_MoveComponent(moveComponent)
 	, m_Pathfinding(pathfinding)
 	, m_Layout(levelLayout)
 	, m_Path()
+	, m_Target()
 {
 	for (size_t i = 0; i < targetObjects.size(); ++i)
 	{
@@ -48,7 +50,7 @@ void MovementControllerComponent::MoveToTarget()
 	auto& position = GetGameObject()->GetWorldPosition();
 
 	// Recalculate target
-	if (m_Layout.lock()->GetGridIndex(position) == m_Layout.lock()->GetGridIndex(m_Target))
+	if (m_Layout.lock()->GetGridIndex(position) == m_Layout.lock()->GetGridIndex(m_Target) || m_Path.size() <= 1)
 	{
 		GetPathToClosestTarget();
 

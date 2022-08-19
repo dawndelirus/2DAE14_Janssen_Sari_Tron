@@ -22,6 +22,9 @@ namespace dae
 
 		const std::string& GetName() { return m_Name; }
 
+		void SetIsDeleted(bool isDeleted);
+		bool IsDeleted();
+
 	private: 
 		explicit Scene(const std::string& name);
 
@@ -29,6 +32,7 @@ namespace dae
 		std::vector<std::shared_ptr<GameObject>> m_Objects{};
 
 		static unsigned int m_IdCounter; 
+		bool m_IsDeleted;
 	};
 
 }

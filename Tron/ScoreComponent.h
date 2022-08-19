@@ -9,6 +9,7 @@ public:
 	~ScoreComponent() = default;
 
 	int GetScore() const;
+	void SetScore(int score);
 
 	void Update() override {}
 	void Render() const override {}

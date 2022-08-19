@@ -4,17 +4,27 @@
 
 void dae::SceneManager::Update()
 {
-	for(auto& scene : m_Scenes)
+	if (m_ActiveScene != nullptr)
 	{
-		scene->Update();
+		m_ActiveScene->Update();
 	}
+
+	for (size_t i = m_Scenes.size() - 1; i > 0; --i)
+	{
+		if (m_Scenes[i]->IsDeleted())
+		{
+			m_Scenes[i] = m_Scenes.back();
+			m_Scenes.pop_back();
+		}
+	}
+
 }
 
 void dae::SceneManager::Render()
 {
-	for (const auto& scene : m_Scenes)
+	if (m_ActiveScene != nullptr)
 	{
-		scene->Render();
+		m_ActiveScene->Render();
 	}
 }
 
@@ -55,12 +65,12 @@ void dae::SceneManager::RemoveScene(const std::string& name)
 	{
 		if (m_Scenes[i]->GetName() == name)
 		{
-			m_Scenes.erase(m_Scenes.begin() + i);
-
 			if (m_ActiveScene->GetName() == name)
 			{
 				m_ActiveScene = nullptr;
 			}
+
+			m_Scenes[i]->SetIsDeleted(true);
 
 			return;
 		}

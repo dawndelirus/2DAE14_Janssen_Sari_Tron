@@ -46,3 +46,8 @@ struct EnemyKilledObserverEvent final : public dae::BaseObserverEvent
 	{}
 	int points = 0;
 };
+
+struct EnemiesDeadObserverEvent final : public dae::BaseObserverEvent
+{
+	EnemiesDeadObserverEvent() = default;
+};

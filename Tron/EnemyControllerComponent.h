@@ -1,11 +1,11 @@
 #pragma once
 #include <BaseComponent.h>
-#include "Observer.h"
+#include "Subject.h"
 
 class HealthComponent;
 class CollisionHandlerComponent;
 
-class EnemyControllerComponent : public dae::BaseComponent, public dae::Observer
+class EnemyControllerComponent : public dae::BaseComponent, public dae::Observer, public dae::Subject
 {
 public:
 	EnemyControllerComponent(std::shared_ptr<dae::GameObject> gameObject, std::shared_ptr<CollisionHandlerComponent> collisionHandler);

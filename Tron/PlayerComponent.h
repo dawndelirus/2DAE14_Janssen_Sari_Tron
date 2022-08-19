@@ -5,7 +5,7 @@
 class PlayerComponent : public dae::BaseComponent, public dae::Observer, public dae::Subject
 {
 public:
-	PlayerComponent(std::shared_ptr<dae::GameObject> gameObject);
+	PlayerComponent(std::shared_ptr<dae::GameObject> gameObject, int playerIndex);
 	~PlayerComponent() = default;
 
 	void Notify(std::shared_ptr<dae::GameObject> gameObject, std::shared_ptr<dae::BaseObserverEvent> event) override;
@@ -14,5 +14,6 @@ public:
 	void Render() const override {};
 
 private:
+	int m_PlayerIndex;
 };
 

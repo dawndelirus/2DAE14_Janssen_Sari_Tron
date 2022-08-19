@@ -5,15 +5,17 @@
 
 void dae::Subject::AddObserver(std::shared_ptr<Observer> observer)
 {
-	m_Observers.push_back(observer.get());
+	m_Observers.push_back(observer);
 }
 
 void dae::Subject::RemoveObserver(std::shared_ptr<Observer> observer)
 {
-	auto it = std::find(m_Observers.begin(), m_Observers.end(), observer.get());
-	if (it != m_Observers.end())
+	for (size_t i = 0; i < m_Observers.size(); ++i)
 	{
-		m_Observers.erase(it);
+		if (m_Observers[i].lock() == observer)
+		{
+			m_Observers.erase(m_Observers.begin() + i);
+		}
 	}
 }
 
@@ -21,6 +23,9 @@ void dae::Subject::Notify(std::shared_ptr<GameObject> gameObject, std::shared_pt
 {
 	for (size_t i {}; i < m_Observers.size(); ++i)
 	{
-		m_Observers[i]->Notify(gameObject, event);
+		if (!m_Observers[i].expired())
+		{
+			m_Observers[i].lock()->Notify(gameObject, event);
+		}
 	}
 }

@@ -70,9 +70,11 @@ private:
 		, std::shared_ptr<BulletPoolComponent> bulletPool, std::shared_ptr<CollisionHandlerComponent> collisionHandler
 		, const std::string& playerPath, const std::string& gunPath, int playerIdx);
 
-	void LoadEnemies(dae::Scene* scene, std::shared_ptr<dae::GameObject> level_go, std::vector<std::shared_ptr<dae::GameObject>> player_go
+	std::shared_ptr<EnemyControllerComponent> LoadEnemies(dae::Scene* scene, std::shared_ptr<dae::GameObject> level_go, std::vector<std::shared_ptr<dae::GameObject>> player_go
 		, std::shared_ptr<BulletPoolComponent> bulletPool, std::shared_ptr<CollisionHandlerComponent> collisionHandler
 		, std::shared_ptr<ScoreComponent> score_comp);
+
+	std::shared_ptr<dae::GameObject> CreateEnemy(std::shared_ptr<dae::GameObject> level_go, std::vector<std::shared_ptr<dae::GameObject>> targets, const std::string& image, int startIdx, float movementSpeed);
 
 	GameMode m_CurrentGamemode{};
 	GameState m_CurrentGamestate{};
