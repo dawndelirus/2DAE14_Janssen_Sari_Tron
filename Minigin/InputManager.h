@@ -14,6 +14,7 @@ namespace dae
 		bool ProcessInput() override;
 		void AddInput(InputAction action) override;
 		void RemoveInput(InputAction action) override;
+		void ClearInput() override;
 
 		glm::vec3 GetJoystickPosition(Joystick stick, int playerIndex = 0) const override;
 		bool IsControllerButton(ButtonState state, ControllerButton button, int playerIndex = 0) const override;

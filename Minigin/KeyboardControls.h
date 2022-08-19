@@ -14,6 +14,7 @@ namespace dae
 		void Update();
 		void AddInput(KeyboardKey key, std::shared_ptr<Command> command, ButtonState state);
 		void RemoveInput(KeyboardKey key, ButtonState state);
+		void ClearInput();
 
 		bool IsPressed(KeyboardKey key) const;
 		bool IsDownThisFrame(KeyboardKey key) const;

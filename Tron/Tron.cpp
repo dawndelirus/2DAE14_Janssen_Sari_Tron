@@ -7,7 +7,6 @@
 #endif
 
 #include <functional>
-#include <memory>
 
 #include "Minigin.h"
 #include "LevelManager.h"
@@ -26,11 +25,6 @@ void LoadGame()
 	levelManager.AddLevelPath("../Data/LevelLayout2.csv");
 
 	levelManager.Initialize();
-
-	// set player info
-	//LoadLevel0("Level0");
-	// amountPlayer, sceneName, levelPath
-	// get player info
 }
 
 int main(int, char* [])

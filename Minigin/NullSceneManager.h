@@ -4,12 +4,14 @@
 
 namespace dae
 {
-	class NullSceneManager : public BaseSceneManager
+	class NullSceneManager final: public BaseSceneManager
 	{
 	public:
-		virtual Scene* CreateScene(const std::string&) { return nullptr; };
-		virtual Scene* GetScene(const std::string&) { return nullptr; }
-		virtual void Update() {};
-		virtual void Render() {};
+		Scene* CreateScene(const std::string&) override { return nullptr; };
+		Scene* GetScene(const std::string&) override { return nullptr; }
+		void Update() override {};
+		void Render() override {};
+		void SetActiveScene(const std::string&) override {};
+		void RemoveScene(const std::string&) override {};
 	};
 }

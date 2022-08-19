@@ -1,15 +1,19 @@
 #include "LevelManager.h"
 #include "GameInfo.h"
+#include "ServiceLocator.h"
 
 void LevelManager::Initialize()
 {
 	// create main menu
+	m_CurrentGamemode = GameMode::Versus;
 	m_CurrentLevel = 2;
-	LoadLevel("Level");
+	LoadLevel();
 }
 
-void LevelManager::LoadLevel(const std::string& sceneName)
+void LevelManager::LoadLevel()
 {
+	const std::string& sceneName{ "Level" };
+
 	dae::Scene* scene = dae::ServiceLocator::GetSceneManager().CreateScene(sceneName);
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
 
@@ -46,7 +50,7 @@ void LevelManager::LoadLevel(const std::string& sceneName)
 	auto bulletPool_enemy_go = std::make_shared<dae::GameObject>();
 
 	auto bulletPool_player_comp = std::make_shared<BulletPoolComponent>(bulletPool_go, level_layout, collisionHandler, sceneName, "Sprites/BulletPlayer.png", BulletComponent::Type::Player, CollisionHandlerComponent::Layer::PlayerBullet, 50);
-	auto bulletPool_enemy_comp = std::make_shared<BulletPoolComponent>(bulletPool_go, level_layout, collisionHandler, sceneName, "Sprites/BulletNPC.png", BulletComponent::Type::Enemy, CollisionHandlerComponent::Layer::EnemyBullet, 20);
+	auto bulletPool_enemy_comp = std::make_shared<BulletPoolComponent>(bulletPool_go, level_layout, collisionHandler, sceneName, "Sprites/BulletNPC.png", BulletComponent::Type::Enemy, CollisionHandlerComponent::Layer::EnemyBullet, 50);
 
 	bulletPool_player_go->AddComponent(bulletPool_player_comp);
 	bulletPool_enemy_go->AddComponent(bulletPool_enemy_comp);
@@ -61,28 +65,28 @@ void LevelManager::LoadLevel(const std::string& sceneName)
 
 	// PLAYER
 	std::vector<std::shared_ptr<dae::GameObject>> players{};
+	auto player_go = LoadPlayer(level_go, hud_go, bulletPool_player_comp, collisionHandler, "Sprites/RedTank.png", "Sprites/RedTankGun.png", 0);
+	players.emplace_back(player_go);
 
 	switch (m_CurrentGamemode)
 	{
+	case LevelManager::GameMode::Single:
+		break;
 	case LevelManager::GameMode::Coop:
 	{
-		auto player_go = LoadPlayer(scene, level_go, hud_go, bulletPool_player_comp, collisionHandler, "Sprites/GreenTank.png", "Sprites/GreenTankGun.png", 0);
-		players.emplace_back(player_go);
-	}
-	case LevelManager::GameMode::Single:
-	{
-		auto player_go = LoadPlayer(scene, level_go, hud_go, bulletPool_player_comp, collisionHandler, "Sprites/RedTank.png", "Sprites/RedTankGun.png", 0);
-		players.emplace_back(player_go);
+		auto player = LoadPlayer(level_go, hud_go, bulletPool_player_comp, collisionHandler, "Sprites/GreenTank.png", "Sprites/GreenTankGun.png", 1);
+		players.emplace_back(player);
 		break;
 	}
 	case LevelManager::GameMode::Versus:
+		LoadPlayerVersus(level_go, hud_go, bulletPool_enemy_comp, collisionHandler, "Sprites/BlueTank.png", "Sprites/GreenTankGun.png", 1);
 		break;
 	default:
 		break;
 	}
 
 	// SCORE
-	auto score_go = std::make_shared<dae::GameObject>(5.f, 30.f, 0.f);
+	auto score_go = std::make_shared<dae::GameObject>(5.f, 60.f, 0.f);
 	auto score_comp = std::make_shared<ScoreComponent>(score_go);
 	std::string startText = "Score: " + std::to_string(score_comp->GetScore());
 	auto scoreDisplay_comp = std::make_shared<ScoreDisplayComponent>(score_go);
@@ -105,20 +109,21 @@ void LevelManager::LoadLevel(const std::string& sceneName)
 
 void LevelManager::LevelClear()
 {
-	// clear input
-	// delete level
-
+	dae::ServiceLocator::GetInputManager().ClearInput();
+	dae::ServiceLocator::GetSceneManager().RemoveScene("Level");
+	
 	++m_CurrentLevel;
 	m_CurrentLevel %= m_LevelPahts.size();
-
-	// load level
+	
+	LoadLevel();
 }
 
 void LevelManager::LevelFail()
 {
-	// clear input
-	// delete level
-	// delete highscore scene if available
+	dae::ServiceLocator::GetInputManager().ClearInput();
+	dae::ServiceLocator::GetSceneManager().RemoveScene("Level");
+	
+	dae::ServiceLocator::GetSceneManager().RemoveScene("HighScore");
 	// create highscore scene
 }
 
@@ -127,12 +132,14 @@ void LevelManager::AddLevelPath(const std::string& levelPath)
 	m_LevelPahts.emplace_back(levelPath);
 }
 
-std::shared_ptr<dae::GameObject> LevelManager::LoadPlayer(dae::Scene* scene, std::shared_ptr<dae::GameObject> level_go, std::shared_ptr<dae::GameObject> hud_go, std::shared_ptr<BulletPoolComponent> bulletPool, std::shared_ptr<CollisionHandlerComponent> collisionHandler, const std::string& playerPath, const std::string& gunPath, int playerIdx)
+std::shared_ptr<dae::GameObject> LevelManager::LoadPlayer(std::shared_ptr<dae::GameObject> level_go, std::shared_ptr<dae::GameObject> hud_go, std::shared_ptr<BulletPoolComponent> bulletPool, std::shared_ptr<CollisionHandlerComponent> collisionHandler, const std::string& playerPath, const std::string& gunPath, int playerIdx)
 {
 	dae::BaseInputManager& inputM = dae::ServiceLocator::GetInputManager();
 
 	std::shared_ptr<LevelLayoutComponent> level_layout = level_go->GetComponent<LevelLayoutComponent>();
 	std::shared_ptr<LevelMovementComponent> level_movement = level_go->GetComponent<LevelMovementComponent>();
+
+	dae::Scene* scene = dae::ServiceLocator::GetSceneManager().GetScene("Level");
 
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
 
@@ -180,7 +187,79 @@ std::shared_ptr<dae::GameObject> LevelManager::LoadPlayer(dae::Scene* scene, std
 	inputM.AddInput(fireInput);
 
 	// HEALTH DISPLAY
-	auto healthDisplay_go = std::make_shared<dae::GameObject>(5.f, 10.f, 0.f);
+	auto healthDisplay_go = std::make_shared<dae::GameObject>(5.f, 10.f + (playerIdx * 20.f), 0.f);
+	auto healthDisplay_comp = std::make_shared<HealthDisplayComponent>(healthDisplay_go);
+	std::string startText = "Lives: " + std::to_string(player_go->GetComponent<HealthComponent>()->GetCurrentHealth());
+
+	healthDisplay_go->AddComponent(healthDisplay_comp);
+	healthDisplay_go->AddComponent(std::make_shared<dae::TextComponent>(healthDisplay_go, startText, font, glm::vec3{ 255.f, 255.f, 255.f }));
+
+	player_go->GetComponent<HealthComponent>()->AddObserver(healthDisplay_comp);
+	healthDisplay_comp->AddObserver(healthDisplay_go->GetComponent<dae::TextComponent>());
+
+	healthDisplay_go->SetParent(hud_go, healthDisplay_go, true);
+
+	return player_go;
+}
+
+std::shared_ptr<dae::GameObject> LevelManager::LoadPlayerVersus(std::shared_ptr<dae::GameObject> level_go, std::shared_ptr<dae::GameObject> hud_go, std::shared_ptr<BulletPoolComponent> bulletPool, std::shared_ptr<CollisionHandlerComponent> collisionHandler, const std::string& playerPath, const std::string& gunPath, int playerIdx)
+{
+	// TODO: VERSUS: make player function like enemy
+
+	dae::BaseInputManager& inputM = dae::ServiceLocator::GetInputManager();
+
+	std::shared_ptr<LevelLayoutComponent> level_layout = level_go->GetComponent<LevelLayoutComponent>();
+	std::shared_ptr<LevelMovementComponent> level_movement = level_go->GetComponent<LevelMovementComponent>();
+
+	dae::Scene* scene = dae::ServiceLocator::GetSceneManager().GetScene("Level");
+
+	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
+
+	// PLAYER
+	const glm::vec2& player_startPos = level_layout->GetGridCenter(level_layout->GetPlayerStartPositions()[playerIdx]);
+	std::shared_ptr<dae::GameObject> player_go = std::make_shared<dae::GameObject>(player_startPos.x, player_startPos.y, 0.f);
+	std::shared_ptr<PlayerComponent> player_comp = std::make_shared<PlayerComponent>(player_go);
+	player_go->AddComponent(player_comp);
+
+	// VISUALS
+	std::shared_ptr<dae::GameObject> visuals_go = std::make_shared<dae::GameObject>();
+	std::shared_ptr<dae::Texture2DComponent> player_texture = std::make_shared<dae::Texture2DComponent>(visuals_go, playerPath);
+	player_texture->SetRenderPositionOffset(glm::vec2(player_texture->GetWidth() / 2.f, player_texture->GetHeight() / 2.f));
+
+	visuals_go->AddComponent(player_texture);
+	visuals_go->SetParent(player_go, visuals_go, false);
+
+	// MOVEMENT
+	player_go->AddComponent(std::make_shared<MoveComponent>(player_go, visuals_go, level_movement, 60.f));
+
+	// GUN + VISUALS
+	std::shared_ptr<dae::GameObject> gun_go = std::make_shared<dae::GameObject>();
+	std::shared_ptr<dae::Texture2DComponent> gun_texture = std::make_shared<dae::Texture2DComponent>(gun_go, gunPath);
+	gun_texture->SetRenderPositionOffset(glm::vec2(gun_texture->GetWidth() / 2.f, gun_texture->GetHeight() / 2.f));
+
+	gun_go->AddComponent(std::make_shared<GunComponent>(gun_go, bulletPool, BulletComponent::Type::Enemy, 5, 0.5f, 200.f));
+	gun_go->AddComponent(gun_texture);
+	gun_go->SetParent(player_go, gun_go, false);
+
+	// HEALTH
+	player_go->AddComponent(std::make_shared<HealthComponent>(player_go, GameInfo::GetInstance().GetPlayerHealth(playerIdx), 1.f));
+	player_go->AddComponent(std::make_shared<CollisionComponent>(player_go, static_cast<float>(player_texture->GetWidth()), static_cast<float>(player_texture->GetHeight())));
+
+	collisionHandler->AddCollider(player_go->GetComponent<CollisionComponent>(), CollisionHandlerComponent::Layer::Enemy);
+
+	player_go->GetComponent<CollisionComponent>()->AddObserver(player_comp);
+	player_comp->AddObserver(player_go->GetComponent<HealthComponent>());
+
+	scene->Add(player_go);
+
+	// INPUT
+	auto movementInput = dae::InputAction(playerIdx, std::make_shared<MoveCommand>(player_go->GetComponent<MoveComponent>(), dae::Joystick::LeftStick), dae::Joystick::LeftStick);
+	inputM.AddInput(movementInput);
+	auto fireInput = dae::InputAction(playerIdx, std::make_shared<FireCommand>(gun_go->GetComponent<GunComponent>(), dae::Joystick::RightStick), dae::Joystick::RightStick);
+	inputM.AddInput(fireInput);
+
+	// HEALTH DISPLAY
+	auto healthDisplay_go = std::make_shared<dae::GameObject>(5.f, 10.f + (playerIdx * 20.f), 0.f);
 	auto healthDisplay_comp = std::make_shared<HealthDisplayComponent>(healthDisplay_go);
 	std::string startText = "Lives: " + std::to_string(player_go->GetComponent<HealthComponent>()->GetCurrentHealth());
 

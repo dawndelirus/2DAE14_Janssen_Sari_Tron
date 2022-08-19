@@ -12,12 +12,6 @@ bool dae::InputManager::ProcessInput()
 		if (e.type == SDL_QUIT) {
 			return false;
 		}
-		if (e.type == SDL_KEYDOWN) {
-			
-		}
-		if (e.type == SDL_MOUSEBUTTONDOWN) {
-			
-		}
 		
 		ImGui_ImplSDL2_ProcessEvent(&e);
 	}
@@ -55,6 +49,12 @@ void dae::InputManager::RemoveInput(InputAction action)
 	{
 		m_Controller->RemoveInput(action.joystickCode, action.playerIndex);
 	}
+}
+
+void dae::InputManager::ClearInput()
+{
+	m_Controller->ClearInput();
+	m_Keyboard->ClearInput();
 }
 
 glm::vec3 dae::InputManager::GetJoystickPosition(Joystick stick, int playerIndex) const

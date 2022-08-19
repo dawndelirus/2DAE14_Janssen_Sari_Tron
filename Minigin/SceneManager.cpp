@@ -48,3 +48,21 @@ void dae::SceneManager::SetActiveScene(const std::string& name)
 		}
 	}
 }
+
+void dae::SceneManager::RemoveScene(const std::string& name)
+{
+	for (size_t i = 0; i < m_Scenes.size(); ++i)
+	{
+		if (m_Scenes[i]->GetName() == name)
+		{
+			m_Scenes.erase(m_Scenes.begin() + i);
+
+			if (m_ActiveScene->GetName() == name)
+			{
+				m_ActiveScene = nullptr;
+			}
+
+			return;
+		}
+	}
+}

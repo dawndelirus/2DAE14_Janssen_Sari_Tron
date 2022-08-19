@@ -9,12 +9,13 @@ namespace dae
 	{
 	public:
 		SceneManager() = default;
-		Scene* CreateScene(const std::string& name);
-		Scene* GetScene(const std::string& name);
-		void SetActiveScene(const std::string& name);
+		Scene* CreateScene(const std::string& name) override;
+		Scene* GetScene(const std::string& name) override;
+		void SetActiveScene(const std::string& name) override;
+		void RemoveScene(const std::string& name) override;
 
-		void Update();
-		void Render();
+		void Update() override;
+		void Render() override;
 	private:
 		std::vector<std::shared_ptr<Scene>> m_Scenes;
 		std::shared_ptr<Scene> m_ActiveScene;

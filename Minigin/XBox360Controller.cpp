@@ -153,6 +153,14 @@ void dae::XBox360Controller::RemoveInput(Joystick stick, int playerIndex)
 	m_CommandsJoystick.erase(std::make_pair(playerIndex, stick));
 }
 
+void dae::XBox360Controller::ClearInput()
+{
+	m_CommandsJoystick.clear();
+	m_CommandsPressed.clear();
+	m_CommandsDown.clear();
+	m_CommandsReleased.clear();
+}
+
 XBox360Controller::XBox360ControllerImpl::XBox360ControllerImpl()
 {
 	{

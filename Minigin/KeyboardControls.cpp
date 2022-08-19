@@ -93,6 +93,13 @@ void dae::KeyboardControls::RemoveInput(KeyboardKey key, ButtonState state)
 	}
 }
 
+void dae::KeyboardControls::ClearInput()
+{
+	m_CommandsPressed.clear();
+	m_CommandsDown.clear();
+	m_CommandsReleased.clear();
+}
+
 bool dae::KeyboardControls::IsPressed(KeyboardKey key) const
 {
 	return m_pImpl->IsPressed(key);

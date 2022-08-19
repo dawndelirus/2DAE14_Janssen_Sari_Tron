@@ -46,8 +46,6 @@ public:
 	
 	void Initialize();
 
-	void LoadLevel(const std::string& sceneName);
-
 	void LevelClear();
 	void LevelFail();
 
@@ -62,7 +60,13 @@ private:
 		HighScore
 	};
 
-	std::shared_ptr<dae::GameObject> LoadPlayer(dae::Scene* scene, std::shared_ptr<dae::GameObject> level_go, std::shared_ptr<dae::GameObject> hud_go
+	void LoadLevel();
+
+	std::shared_ptr<dae::GameObject> LoadPlayer(std::shared_ptr<dae::GameObject> level_go, std::shared_ptr<dae::GameObject> hud_go
+		, std::shared_ptr<BulletPoolComponent> bulletPool, std::shared_ptr<CollisionHandlerComponent> collisionHandler
+		, const std::string& playerPath, const std::string& gunPath, int playerIdx);
+
+	std::shared_ptr<dae::GameObject> LoadPlayerVersus(std::shared_ptr<dae::GameObject> level_go, std::shared_ptr<dae::GameObject> hud_go
 		, std::shared_ptr<BulletPoolComponent> bulletPool, std::shared_ptr<CollisionHandlerComponent> collisionHandler
 		, const std::string& playerPath, const std::string& gunPath, int playerIdx);
 
