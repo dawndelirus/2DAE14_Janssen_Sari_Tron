@@ -105,11 +105,11 @@
     <ClCompile Include="StartGameCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
-    <ClCompile Include="QuitGameCommand.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SwapGamemodeCommand.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="QuitGameCommand.cpp">
+      <Filter>Commands</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -188,11 +188,11 @@
     <ClInclude Include="StartGameCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
-    <ClInclude Include="QuitGameCommand.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SwapGamemodeCommand.h">
-      <Filter>Header Files</Filter>
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="QuitGameCommand.h">
+      <Filter>Commands</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

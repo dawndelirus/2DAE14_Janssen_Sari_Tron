@@ -36,27 +36,42 @@ void dae::KeyboardControls::Update()
 {
 	m_pImpl->Update();
 
-	for (auto& command : m_CommandsPressed)
+	for (auto size = m_CommandsPressed.size(); auto& command : m_CommandsPressed)
 	{
 		if (IsPressed(command.first))
 		{
 			command.second->Execute();
 		}
+
+		if (size != m_CommandsPressed.size())
+		{
+			break;
+		}
 	}
 
-	for (auto& command : m_CommandsDown)
+	for (auto size = m_CommandsDown.size(); auto& command : m_CommandsDown)
 	{
 		if (IsDownThisFrame(command.first))
 		{
 			command.second->Execute();
 		}
+
+		if (size != m_CommandsDown.size())
+		{
+			break;
+		}
 	}
 
-	for (auto& command : m_CommandsReleased)
+	for (auto size = m_CommandsReleased.size(); auto& command : m_CommandsReleased)
 	{
 		if (IsReleasedThisFrame(command.first))
 		{
 			command.second->Execute();
+		}
+
+		if (size != m_CommandsReleased.size())
+		{
+			break;
 		}
 	}
 }

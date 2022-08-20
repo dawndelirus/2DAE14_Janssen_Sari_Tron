@@ -50,7 +50,7 @@ void MovementControllerComponent::MoveToTarget()
 	auto& position = GetGameObject()->GetWorldPosition();
 
 	// Recalculate target
-	if (m_Layout.lock()->GetGridIndex(position) == m_Layout.lock()->GetGridIndex(m_Target) || m_Path.size() <= 1)
+	if (m_Layout.lock()->GetGridIndex(position) == m_Layout.lock()->GetGridIndex(m_Target) || m_Path.size() <= 1 || !IsStillOnPath())
 	{
 		GetPathToClosestTarget();
 
@@ -89,4 +89,12 @@ void MovementControllerComponent::GetPathToClosestTarget()
 	// get path to closest target
 	auto& targetPos = m_TargetObject.lock()->GetWorldPosition();
 	m_Path = m_Pathfinding.lock()->FindPath(m_Layout.lock()->GetGridIndex(position), m_Layout.lock()->GetGridIndex(targetPos));
+}
+
+bool MovementControllerComponent::IsStillOnPath()
+{
+	auto& position = GetGameObject()->GetWorldPosition();
+	int index = m_Layout.lock()->GetGridIndex(position);
+
+	return m_Path.size() > 0 && (index == m_Path[0] || index == m_Path[1]);
 }

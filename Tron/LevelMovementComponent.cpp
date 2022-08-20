@@ -130,6 +130,14 @@ void LevelMovementComponent::MoveOnGrid(glm::vec3& position, const glm::vec2& di
 			position.x = gridCenter.x;
 		}
 	}
+
+	if (levelLayout->GetGridIndex(position) == levelLayout->GetTeleportIdx())
+	{
+		int newIdx = levelLayout->GetRandomWalkableGridIdx();
+		glm::vec2 gridPos = levelLayout->GetGridCenter(newIdx);
+		position.x = gridPos.x;
+		position.y = gridPos.y;
+	}
 }
 
 bool LevelMovementComponent::IsBelowGridCenter(const glm::vec2& position, const glm::vec2& gridCenter)

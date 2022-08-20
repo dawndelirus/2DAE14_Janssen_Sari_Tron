@@ -8,6 +8,7 @@ LevelLayoutComponent::LevelLayoutComponent(std::shared_ptr<dae::GameObject> game
     , m_LevelTileWidth{tileWidth}
     , m_VisualTileWidth{tileHeight}
     , m_GridWidth{}
+    , m_Teleporter{}
 {
     LoadLevel(filePath);
 }
@@ -74,6 +75,11 @@ void LevelLayoutComponent::SaveObjectPositions(int number, int index)
     default:
         break;
     }
+
+    if (number == 3)
+    {
+        m_Teleporter = index;
+    }
 }
 
 int LevelLayoutComponent::GetGridWidth()
@@ -95,6 +101,25 @@ bool LevelLayoutComponent::IsWalkable(int index)
 int LevelLayoutComponent::GetLevelTileWidth()
 {
     return m_LevelTileWidth;
+}
+
+int LevelLayoutComponent::GetRandomWalkableGridIdx()
+{
+    int teleportAttempts{ 20 };
+    for (size_t i{}; i < teleportAttempts; ++i)
+    {
+        int randomIdx = rand() % static_cast<int>(m_LevelPath.size());
+        if (IsWalkable(randomIdx))
+        {
+            return randomIdx;
+        }
+    }
+    return m_Teleporter;
+}
+
+int LevelLayoutComponent::GetTeleportIdx() const
+{
+    return m_Teleporter;
 }
 
 const std::vector<int>& LevelLayoutComponent::GetVisualsVector()

@@ -2,14 +2,14 @@
 #include "LevelLayoutComponent.h"
 #include "Texture2DComponent.h"
 
-LevelVisualComponent::LevelVisualComponent(std::shared_ptr<dae::GameObject> gameObject, std::shared_ptr<LevelLayoutComponent> levelLayout, const std::string& wallFile, const std::string& voidFile, const std::string& pathFile)
+LevelVisualComponent::LevelVisualComponent(std::shared_ptr<dae::GameObject> gameObject, std::shared_ptr<LevelLayoutComponent> levelLayout, const std::string& wallFile, const std::string& voidFile, const std::string& pathFile, const std::string& teleportFile)
 	: BaseComponent(gameObject)
 	, m_LevelLayout(levelLayout)
 {
-	CreateVisuals(wallFile, voidFile, pathFile);
+	CreateVisuals(wallFile, voidFile, pathFile, teleportFile);
 }
 
-void LevelVisualComponent::CreateVisuals(const std::string& wallFile, const std::string& voidFile, const std::string& pathFile)
+void LevelVisualComponent::CreateVisuals(const std::string& wallFile, const std::string& voidFile, const std::string& pathFile, const std::string& teleportFile)
 {
 	std::shared_ptr<LevelLayoutComponent> levelLayout = m_LevelLayout.lock();
 
@@ -22,17 +22,21 @@ void LevelVisualComponent::CreateVisuals(const std::string& wallFile, const std:
 		auto visualChild = std::make_shared<dae::GameObject>();
 		std::shared_ptr<dae::Texture2DComponent>texComp{};
 
-		if (vec[static_cast<int>(i)] >= 2)
-		{
-			texComp = std::make_shared<dae::Texture2DComponent>(visualChild, pathFile);
-		}
-		else if(vec[static_cast<int>(i)] == 0)
+		if(vec[static_cast<int>(i)] == 0)
 		{
 			texComp = std::make_shared<dae::Texture2DComponent>(visualChild, wallFile);
 		}
 		else if(vec[static_cast<int>(i)] == 1)
 		{
 			texComp = std::make_shared<dae::Texture2DComponent>(visualChild, voidFile);
+		}
+		else if(vec[static_cast<int>(i)] == 3)
+		{
+			texComp = std::make_shared<dae::Texture2DComponent>(visualChild, teleportFile);
+		}
+		else if (vec[static_cast<int>(i)] >= 2)
+		{
+			texComp = std::make_shared<dae::Texture2DComponent>(visualChild, pathFile);
 		}
 
 		texComp->SetRenderPositionOffset(glm::vec2(texComp->GetWidth() / 2.f, texComp->GetHeight() / 2.f));

@@ -62,16 +62,16 @@ void LevelManager::CreateMainMenu()
 	auto smallFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
 	auto& inputM = dae::ServiceLocator::GetInputManager();
 
-	std::string text = "A to start";
-	auto start_go = std::make_shared<dae::GameObject>(glm::vec3{240.f, 60.f, 0.f});
+	std::string text = "A/SPACE to start";
+	auto start_go = std::make_shared<dae::GameObject>(glm::vec3{170.f, 60.f, 0.f});
 	start_go->AddComponent(std::make_shared<dae::TextComponent>(start_go, text, font, glm::vec3(0.f, 255.f, 100.f)));
 
-	text = "B to quit";
-	auto quit_go = std::make_shared<dae::GameObject>(glm::vec3{ 250.f, 160.f, 0.f });
+	text = "B/ESC to quit";
+	auto quit_go = std::make_shared<dae::GameObject>(glm::vec3{ 200.f, 160.f, 0.f });
 	quit_go->AddComponent(std::make_shared<dae::TextComponent>(quit_go, text, font, glm::vec3(255.f, 50.f, 50.f)));
 
-	text = "Y to change";
-	auto cycle_go = std::make_shared<dae::GameObject>(glm::vec3{ 230.f, 260.f, 0.f });
+	text = "Y/TAB to change";
+	auto cycle_go = std::make_shared<dae::GameObject>(glm::vec3{ 180.f, 260.f, 0.f });
 	cycle_go->AddComponent(std::make_shared<dae::TextComponent>(cycle_go, text, font, glm::vec3(255.f, 255.f, 50.f)));
 
 	text = "Gamemode: ";
@@ -109,7 +109,7 @@ void LevelManager::LoadLevel()
 	// LEVEL
 	auto level_go = std::make_shared<dae::GameObject>(100.f, 20.f, 0.f);
 	std::shared_ptr<LevelLayoutComponent> level_layout = std::make_shared<LevelLayoutComponent>(level_go, m_LevelPahts[m_CurrentLevel], 16, 8);
-	auto level_visuals = std::make_shared<LevelVisualComponent>(level_go, level_layout, "Level/wall.png", "Level/void.png", "Level/path.png");
+	auto level_visuals = std::make_shared<LevelVisualComponent>(level_go, level_layout, "Level/wall.png", "Level/void.png", "Level/path.png", "Level/teleport.png");
 	auto level_movement = std::make_shared<LevelMovementComponent>(level_go, level_layout);
 	auto level_pathfinding = std::make_shared<LevelPathfindingComponent>(level_go, level_layout);
 
@@ -135,7 +135,7 @@ void LevelManager::LoadLevel()
 	auto bulletPool_player_go = std::make_shared<dae::GameObject>();
 	auto bulletPool_enemy_go = std::make_shared<dae::GameObject>();
 
-	auto bulletPool_player_comp = std::make_shared<BulletPoolComponent>(bulletPool_go, level_layout, collisionHandler, sceneName, "Sprites/BulletPlayer2.png", BulletComponent::Type::Player, CollisionHandlerComponent::Layer::PlayerBullet, 50);
+	auto bulletPool_player_comp = std::make_shared<BulletPoolComponent>(bulletPool_go, level_layout, collisionHandler, sceneName, "Sprites/BulletPlayer.png", BulletComponent::Type::Player, CollisionHandlerComponent::Layer::PlayerBullet, 50);
 	auto bulletPool_enemy_comp = std::make_shared<BulletPoolComponent>(bulletPool_go, level_layout, collisionHandler, sceneName, "Sprites/BulletNPC.png", BulletComponent::Type::Enemy, CollisionHandlerComponent::Layer::EnemyBullet, 50);
 
 	bulletPool_player_go->AddComponent(bulletPool_player_comp);
@@ -160,12 +160,12 @@ void LevelManager::LoadLevel()
 		break;
 	case LevelManager::GameMode::Coop:
 	{
-		auto player = LoadPlayer(level_go, hud_go, bulletPool_player_comp, collisionHandler, "Sprites/GreenTank.png", "Sprites/GreenTankGun.png", 1);
+		auto player = LoadPlayer(level_go, hud_go, bulletPool_player_comp, collisionHandler, "Sprites/PinkTank.png", "Sprites/GreenTankGun.png", 1);
 		players.emplace_back(player);
 		break;
 	}
 	case LevelManager::GameMode::Versus:
-		LoadPlayerVersus(level_go, hud_go, bulletPool_enemy_comp, collisionHandler, "Sprites/BlueTank.png", "Sprites/GreenTankGun.png", 1);
+		LoadPlayerVersus(level_go, hud_go, bulletPool_enemy_comp, collisionHandler, "Sprites/BlueTank.png", "Sprites/BlueTankGun.png", 1);
 		break;
 	default:
 		break;
@@ -415,7 +415,6 @@ std::shared_ptr<EnemyControllerComponent> LevelManager::LoadEnemies(dae::Scene* 
 	// BLUE TANKS
 	const auto& enemyTank_startPosVec = level_layout->GetEnemyTankStartPositions();
 	for (size_t i = 0; i < enemyTank_startPosVec.size(); ++i)
-	//for (size_t i = 0; i < 1; ++i)
 	{
 		auto enemy = CreateEnemy(level_go, player_go, "Sprites/BlueTank.png", enemyTank_startPosVec[i], 30.f);
 

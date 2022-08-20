@@ -20,6 +20,7 @@ public:
 
 private:
 	void GetPathToClosestTarget();
+	bool IsStillOnPath();
 
 	std::vector<std::weak_ptr<dae::GameObject>> m_TargetObjects;
 	std::weak_ptr<dae::GameObject> m_TargetObject;

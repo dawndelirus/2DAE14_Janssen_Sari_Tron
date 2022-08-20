@@ -14,6 +14,9 @@ public:
 	int GetGridWidth();
 	int GetLevelTileWidth();
 
+	int GetRandomWalkableGridIdx();
+	int GetTeleportIdx() const;
+
 	const std::vector<int>& GetVisualsVector();
 	bool IsOnVisualPath(int index);
 	int GetVisualsGridSize();
@@ -36,9 +39,9 @@ public:
 private:
 	enum class Objects
 	{
-		Player = 3,
 		TankEnemy = 4,
-		RecognizerEnemy = 5
+		RecognizerEnemy = 5,
+		Player = 6
 	};
 
 	void LoadLevel(std::string filePath);
@@ -53,5 +56,6 @@ private:
 	int m_LevelTileWidth;
 	int m_VisualTileWidth;
 	int m_GridWidth;
+	int m_Teleporter;
 };
 
