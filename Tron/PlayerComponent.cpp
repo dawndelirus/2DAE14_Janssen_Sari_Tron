@@ -2,10 +2,12 @@
 #include "ObserverHelpers.h"
 #include "HealthComponent.h"
 #include "GameInfo.h"
+#include "LevelManager.h"
 
 PlayerComponent::PlayerComponent(std::shared_ptr<dae::GameObject> gameObject, int playerIndex)
 	: BaseComponent(gameObject)
 	, m_PlayerIndex(playerIndex)
+	, m_IsDead{false}
 {
 }
 
@@ -21,7 +23,10 @@ void PlayerComponent::Notify(std::shared_ptr<dae::GameObject> gameObject, std::s
 	}
 	if (auto observerEvent = std::dynamic_pointer_cast<DiedObserverEvent>(event); observerEvent != nullptr)
 	{
-		//m_IsDead = true;
-		//Subject::Notify(gameObject, std::make_shared<EnemyKilledObserverEvent>(m_Points));
+		if (!m_IsDead)
+		{
+			LevelManager::GetInstance().PlayerDied(m_PlayerIndex);
+			m_IsDead = true;
+		}
 	}
 }

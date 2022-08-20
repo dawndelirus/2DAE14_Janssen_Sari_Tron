@@ -43,13 +43,37 @@
 
 #include "HighScoreComponent.h"
 
+#include <sstream>
+
+
+void LevelManager::PlayerDied(int idx)
+{
+	switch (m_CurrentGamemode)
+	{
+	case LevelManager::GameMode::Single:
+		LevelFail();
+		break;
+	case LevelManager::GameMode::Coop:
+		++m_PlayerDiedAmount;
+		if (m_PlayerDiedAmount == 2)
+		{
+			LevelFail();
+			m_PlayerDiedAmount = 0;
+		}
+		break;
+	case LevelManager::GameMode::Versus:
+		if (idx == 0)
+		{
+			LevelFail();
+		}
+		break;
+	}
+}
 
 void LevelManager::Initialize()
 {
-	LevelFail();
-
-	//CreateMainMenu();
-	//dae::ServiceLocator::GetSceneManager().SetActiveScene("MainMenu");
+	CreateMainMenu();
+	dae::ServiceLocator::GetSceneManager().SetActiveScene("MainMenu");
 }
 
 void LevelManager::CreateMainMenu()
@@ -103,23 +127,51 @@ std::shared_ptr<dae::GameObject> LevelManager::CreateEnterName(const std::string
 	std::string text = "SCORE: " + std::to_string(GameInfo::GetInstance().GetPlayerScore());
 	auto score_go = std::make_shared<dae::GameObject>(glm::vec3{ 200.f, 60.f, 0.f });
 	score_go->AddComponent(std::make_shared<dae::TextComponent>(score_go, text, bigFont, glm::vec3(0.f, 255.f, 100.f)));
+	
+	if (m_CurrentGamemode == LevelManager::GameMode::Single)
+	{
+		text = "PLAYER: ";
+	}
+	else
+	{
+		text = "PLAYER 1: ";
+	}
 
-	text = "PLAYER 1: ";
 	auto player1_go = std::make_shared<dae::GameObject>(glm::vec3{ 100.f, 160.f, 0.f });
 	player1_go->AddComponent(std::make_shared<dae::TextComponent>(player1_go, text, mediumFont, glm::vec3(255.f, 10.f, 10.f)));
 
 	auto player1_text_go = std::make_shared<dae::GameObject>(glm::vec3{ 260.f, 160.f, 0.f });
 	player1_text_go->AddComponent(std::make_shared<dae::TextComponent>(player1_text_go, "", mediumFont, glm::vec3(255.f, 255.f, 255.f)));
 
-	text = "PLAYER 2: ";
-	auto player2_go = std::make_shared<dae::GameObject>(glm::vec3{ 100.f, 260.f, 0.f });
-	player2_go->AddComponent(std::make_shared<dae::TextComponent>(player2_go, text, mediumFont, glm::vec3(255.f, 50.f, 200.f)));
+	std::shared_ptr<dae::TextComponent> player2Text{};
+	if (m_CurrentGamemode != LevelManager::GameMode::Single)
+	{
+		text = "PLAYER 2: ";
 
-	auto player2_text_go = std::make_shared<dae::GameObject>(glm::vec3{ 260.f, 260.f, 0.f });
-	player2_text_go->AddComponent(std::make_shared<dae::TextComponent>(player2_text_go, "", mediumFont, glm::vec3(255.f, 255.f, 255.f)));
+		glm::vec3 color{};
+		switch (m_CurrentGamemode)
+		{
+		case LevelManager::GameMode::Coop:
+			color = glm::vec3(255.f, 50.f, 200.f);
+			break;
+		case LevelManager::GameMode::Versus:
+			color = glm::vec3(0.f, 50.f, 200.f);
+			break;
+		}
+
+		auto player2_go = std::make_shared<dae::GameObject>(glm::vec3{ 100.f, 260.f, 0.f });
+		player2_go->AddComponent(std::make_shared<dae::TextComponent>(player2_go, text, mediumFont, color));
+
+		auto player2_text_go = std::make_shared<dae::GameObject>(glm::vec3{ 260.f, 260.f, 0.f });
+		player2Text = std::make_shared<dae::TextComponent>(player2_text_go, "", mediumFont, glm::vec3(255.f, 255.f, 255.f));
+		player2_text_go->AddComponent(player2Text);
+	
+		scene->Add(player2_go);
+		scene->Add(player2_text_go);
+	}
 
 	auto highscore_go = std::make_shared<dae::GameObject>();
-	auto highscore = std::make_shared<HighScoreComponent>(highscore_go, player1_text_go->GetComponent<dae::TextComponent>(), player2_text_go->GetComponent<dae::TextComponent>());
+	auto highscore = std::make_shared<HighScoreComponent>(highscore_go, player1_text_go->GetComponent<dae::TextComponent>(), player2Text);
 
 	highscore_go->AddComponent(highscore);
 
@@ -134,9 +186,6 @@ std::shared_ptr<dae::GameObject> LevelManager::CreateEnterName(const std::string
 	scene->Add(player1_go);
 	scene->Add(player1_text_go);
 
-	scene->Add(player2_go);
-	scene->Add(player2_text_go);
-
 	scene->Add(highscore_go);
 	scene->Add(info_go);
 
@@ -150,11 +199,121 @@ void LevelManager::CreateDisplayHighscore(std::shared_ptr<dae::GameObject> highs
 {
 	dae::Scene* scene = dae::ServiceLocator::GetSceneManager().CreateScene(sceneName);
 
+	auto bigFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 40);
+	auto mediumFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 30);
+	auto smallFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
+
+	std::string text{};
+	glm::vec3 textOffset{};
+	switch (m_CurrentGamemode)
+	{
+	case LevelManager::GameMode::Single:
+		text = "SINGLEPLAYER HIGHSCORES";
+		textOffset = { 60.f, 30.f, 0.f };
+		break;
+	case LevelManager::GameMode::Coop:
+		text = "CO-OP HIGHSCORES";
+		textOffset = { 130.f, 40.f, 0.f };
+		break;
+	case LevelManager::GameMode::Versus:
+		text = "VERSUS HIGHSCORES";
+		textOffset = { 130.f, 30.f, 0.f };
+		break;
+	default:
+		break;
+	}
+
+	auto gamemode_go = std::make_shared<dae::GameObject>(textOffset);
+	gamemode_go->AddComponent(std::make_shared<dae::TextComponent>(gamemode_go, text, bigFont, glm::vec3(255.f, 255.f, 10.f)));
+
+	const auto& highscores = highscore->GetComponent<HighScoreComponent>()->GetHighscores();
+
+	int i{};
+	for (auto it = highscores.begin(); it != highscores.end(); ++it)
+	{
+		text = it->second;
+
+		std::string line{};
+		std::stringstream stream{text};
+		text.clear();
+
+		// Score
+		std::string score{};
+		std::getline(stream, score, ',');
+		std::getline(stream, score, ',');
+		
+		// Names
+		std::getline(stream, line, ',');
+		text += line;
+
+		switch (m_CurrentGamemode)
+		{
+		case LevelManager::GameMode::Single:
+			break;
+		case LevelManager::GameMode::Coop:
+			std::getline(stream, line, ',');
+			text += " & " + line;
+			break;
+		case LevelManager::GameMode::Versus:
+			std::getline(stream, line, ',');
+			text += " vs " + line;
+			break;
+		}
+
+		text += ": " + score;
+
+		auto score_go = std::make_shared<dae::GameObject>(glm::vec3{ 200.f, 90.f + (i * 30.f), 0.f});
+		score_go->AddComponent(std::make_shared<dae::TextComponent>(score_go, text, smallFont, glm::vec3(255.f, 255.f, 255.f)));
+
+		scene->Add(score_go);
+		++i;
+	}
+
+	text = "YOUR HIGHSCORE: " + std::to_string(GameInfo::GetInstance().GetPlayerScore());
+	auto score_go = std::make_shared<dae::GameObject>(glm::vec3{ 200.f, 400, 0.f });
+	score_go->AddComponent(std::make_shared<dae::TextComponent>(score_go, text, smallFont, glm::vec3(255.f, 255.f, 10.f)));
+
+	text = "A/SPACE to restart";
+	auto start_go = std::make_shared<dae::GameObject>(glm::vec3{ 100.f, 440.f, 0.f });
+	start_go->AddComponent(std::make_shared<dae::TextComponent>(start_go, text, smallFont, glm::vec3(0.f, 255.f, 100.f)));
+
+	text = "B/ESC to quit";
+	auto quit_go = std::make_shared<dae::GameObject>(glm::vec3{ 350.f, 440.f, 0.f });
+	quit_go->AddComponent(std::make_shared<dae::TextComponent>(quit_go, text, smallFont, glm::vec3(255.f, 50.f, 50.f)));
+
 	scene->Add(highscore);
+	scene->Add(gamemode_go);
+	scene->Add(score_go);
+	scene->Add(start_go);
+	scene->Add(quit_go);
+
+	auto quitInput = dae::InputAction(0, dae::ButtonState::releasedThisFrame, std::make_shared<QuitGameCommand>(nullptr), dae::ControllerButton::ButtonB, dae::KeyboardKey::K_Esc);
+	dae::ServiceLocator::GetInputManager().AddInput(quitInput);
+	auto startInput = dae::InputAction(0, dae::ButtonState::releasedThisFrame, std::make_shared<StartGameCommand>(nullptr), dae::ControllerButton::ButtonA, dae::KeyboardKey::K_SPACE);
+	dae::ServiceLocator::GetInputManager().AddInput(startInput);
 }
 
 void LevelManager::LoadLevel()
 {
+	switch (m_CurrentGamemode)
+	{
+	case LevelManager::GameMode::Versus:
+	case LevelManager::GameMode::Single:
+		if (GameInfo::GetInstance().GetPlayerHealth(0) <= 0)
+		{
+			LevelFail();
+		}
+	break;
+	case LevelManager::GameMode::Coop:
+		if (GameInfo::GetInstance().GetPlayerHealth(0) <= 0 && GameInfo::GetInstance().GetPlayerHealth(1) <= 0)
+		{
+			LevelFail();
+		}
+		break;
+	default:
+		break;
+	}
+
 	const std::string& sceneName{ "Level" + std::to_string(m_CurrentLevel) };
 
 	dae::Scene* scene = dae::ServiceLocator::GetSceneManager().CreateScene(sceneName);
@@ -208,28 +367,35 @@ void LevelManager::LoadLevel()
 
 	// PLAYER
 	std::vector<std::shared_ptr<dae::GameObject>> players{};
-	auto player_go = LoadPlayer(level_go, hud_go, bulletPool_player_comp, collisionHandler, "Sprites/RedTank.png", "Sprites/RedTankGun.png", 0);
-	players.emplace_back(player_go);
+
+	if (GameInfo::GetInstance().GetPlayerHealth(0) > 0)
+	{
+		auto player_go = LoadPlayer(level_go, hud_go, bulletPool_player_comp, collisionHandler, "Sprites/RedTank.png", "Sprites/RedTankGun.png", 0);
+		players.emplace_back(player_go);
+	}
 	
 	std::shared_ptr<dae::GameObject> playerVersus{};
 
-	switch (m_CurrentGamemode)
+	if (GameInfo::GetInstance().GetPlayerHealth(1) > 0)
 	{
-	case LevelManager::GameMode::Single:
-		break;
-	case LevelManager::GameMode::Coop:
-	{
-		auto player = LoadPlayer(level_go, hud_go, bulletPool_player_comp, collisionHandler, "Sprites/PinkTank.png", "Sprites/GreenTankGun.png", 1);
-		players.emplace_back(player);
-		break;
-	}
-	case LevelManager::GameMode::Versus:
-	{
-		playerVersus = LoadPlayerVersus(level_go, hud_go, bulletPool_enemy_comp, collisionHandler, "Sprites/BlueTank.png", "Sprites/BlueTankGun.png", 1);
-		break;
-	}
-	default:
-		break;
+		switch (m_CurrentGamemode)
+		{
+		case LevelManager::GameMode::Single:
+			break;
+		case LevelManager::GameMode::Coop:
+		{
+			auto player = LoadPlayer(level_go, hud_go, bulletPool_player_comp, collisionHandler, "Sprites/PinkTank.png", "Sprites/GreenTankGun.png", 1);
+			players.emplace_back(player);
+			break;
+		}
+		case LevelManager::GameMode::Versus:
+		{
+			playerVersus = LoadPlayerVersus(level_go, hud_go, bulletPool_enemy_comp, collisionHandler, "Sprites/BlueTank.png", "Sprites/BlueTankGun.png", 1);
+			break;
+		}
+		default:
+			break;
+		}
 	}
 
 	// SCORE
@@ -269,6 +435,11 @@ void LevelManager::LoadLevel()
 
 void LevelManager::StartGame()
 {
+	m_CurrentLevel = 0;
+	GameInfo::GetInstance().SetPlayerScore(0);
+	GameInfo::GetInstance().SetPlayerHealth(0, 3);
+	GameInfo::GetInstance().SetPlayerHealth(1, 3);
+
 	dae::ServiceLocator::GetInputManager().ClearInput();
 	LoadLevel();
 	dae::ServiceLocator::GetSceneManager().SetActiveScene("Level" + std::to_string(m_CurrentLevel));
@@ -299,9 +470,9 @@ void LevelManager::LevelFail()
 
 void LevelManager::NamesEntered()
 {
+	dae::ServiceLocator::GetInputManager().ClearInput();
 	CreateDisplayHighscore(m_HighScore, "DisplayHighscore");
 
-	dae::ServiceLocator::GetInputManager().ClearInput();
 	dae::ServiceLocator::GetSceneManager().RemoveScene("EnterName");
 
 	dae::ServiceLocator::GetSceneManager().SetActiveScene("DisplayHighscore");
@@ -385,6 +556,7 @@ std::shared_ptr<dae::GameObject> LevelManager::LoadPlayer(std::shared_ptr<dae::G
 
 	player_go->GetComponent<CollisionComponent>()->AddObserver(player_comp);
 	player_comp->AddObserver(player_go->GetComponent<HealthComponent>());
+	player_go->GetComponent<HealthComponent>()->AddObserver(player_comp);
 
 	scene->Add(player_go);
 
@@ -457,6 +629,7 @@ std::shared_ptr<dae::GameObject> LevelManager::LoadPlayerVersus(std::shared_ptr<
 
 	player_go->GetComponent<CollisionComponent>()->AddObserver(player_comp);
 	player_comp->AddObserver(player_go->GetComponent<HealthComponent>());
+	player_go->GetComponent<HealthComponent>()->AddObserver(player_comp);
 
 	scene->Add(player_go);
 

@@ -1,7 +1,6 @@
 #include "HighScoreComponent.h"
 #include <iostream>
 #include <fstream>
-#include <iostream>
 #include <filesystem>
 #include <sstream>
 
@@ -13,6 +12,7 @@ HighScoreComponent::HighScoreComponent(std::shared_ptr<dae::GameObject> gameObje
 	: BaseComponent(gameObject)
 	, m_PlayerNames{}
 	, m_PlayerTextComp{}
+	, m_FilePath{}
 	, m_ScoreCount{}
 	, m_PlayerIdxName{0}
 {
@@ -28,6 +28,8 @@ HighScoreComponent::HighScoreComponent(std::shared_ptr<dae::GameObject> gameObje
 
 void HighScoreComponent::ReadFile(const std::string& filePath)
 {
+	m_FilePath = filePath;
+
 	if (std::ifstream input{ filePath }; input.is_open())
 	{
 		std::string fullLine{};
@@ -61,6 +63,11 @@ void HighScoreComponent::ReadFile(const std::string& filePath)
 		}
 
 		input.close();
+	}
+	else
+	{
+		assert(false && "Could not open file");
+
 	}
 }
 
@@ -118,6 +125,8 @@ void HighScoreComponent::AddScore()
 	default:
 		break;
 	}
+
+	SaveScore();
 }
 
 void HighScoreComponent::FinishName()
@@ -139,6 +148,7 @@ void HighScoreComponent::FinishName()
 		m_PlayerIdxName = -1;
 		m_PlayerTextComp.clear();
 		AddScore();
+		LevelManager::GetInstance().NamesEntered();
 		return;
 	}
 }
@@ -164,6 +174,11 @@ const std::multimap<int, std::string, std::greater<int>>& HighScoreComponent::Ge
 	}
 
 	return m_SingleplayerScores;
+}
+
+const std::vector<std::string>& HighScoreComponent::GetPlayerNames()
+{
+	return m_PlayerNames;
 }
 
 void HighScoreComponent::ProcessKeyboardInput()
@@ -199,4 +214,32 @@ void HighScoreComponent::ProcessKeyboardInput()
 		auto text = textComp->GetText();
 		textComp->SetText(text + " ");
 	}
+}
+
+void HighScoreComponent::SaveScore()
+{
+	if (std::ofstream output{ m_FilePath }; output.is_open())
+	{
+		for (const auto& scores : m_SingleplayerScores)
+		{
+			output.write(scores.second.c_str(), scores.second.size());
+			output.put('\n');
+		}
+		for (const auto& scores : m_CoopScores)
+		{
+			output.write(scores.second.c_str(), scores.second.size());
+			output.put('\n');
+		}
+		for (const auto& scores : m_VersusScores)
+		{
+			output.write(scores.second.c_str(), scores.second.size());
+			output.put('\n');
+		}
+		output.close();
+	}
+	else
+	{
+		assert(false && "Could not open file");
+	}
+
 }

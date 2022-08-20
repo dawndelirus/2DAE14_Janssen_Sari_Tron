@@ -15,8 +15,6 @@
 void LoadGame()
 {
 	GameInfo::GetInstance().Initialize(2);
-	GameInfo::GetInstance().SetPlayerHealth(0, 3);
-	GameInfo::GetInstance().SetPlayerHealth(1, 3);
 
 	auto& levelManager = LevelManager::GetInstance();
 

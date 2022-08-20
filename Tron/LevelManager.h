@@ -22,6 +22,8 @@ public:
 		Versus
 	};
 	
+	void PlayerDied(int idx);
+
 	void Initialize();
 
 	void StartGame();
@@ -71,5 +73,7 @@ private:
 	GameState m_CurrentGamestate{};
 	size_t m_CurrentLevel{};
 	std::vector<std::string> m_LevelPahts{};
+
+	int m_PlayerDiedAmount{};
 };
 

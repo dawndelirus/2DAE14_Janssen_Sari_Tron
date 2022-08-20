@@ -20,9 +20,12 @@ public:
 
 	const std::multimap<int, std::string, std::greater<int>>& GetHighscores() const;
 
+	const std::vector<std::string>& GetPlayerNames();
+
 private:
 	void AddScore();
 	void ProcessKeyboardInput();
+	void SaveScore();
 
 	std::multimap<int, std::string, std::greater<int>> m_SingleplayerScores{};
 	std::multimap<int, std::string, std::greater<int>> m_CoopScores{};
@@ -30,6 +33,8 @@ private:
 
 	std::vector<std::string> m_PlayerNames;
 	std::vector<std::weak_ptr<dae::TextComponent>> m_PlayerTextComp;
+
+	std::string m_FilePath;
 
 	int m_ScoreCount;
 	int m_PlayerIdxName;

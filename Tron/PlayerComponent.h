@@ -15,5 +15,6 @@ public:
 
 private:
 	int m_PlayerIndex;
+	bool m_IsDead;
 };
 
