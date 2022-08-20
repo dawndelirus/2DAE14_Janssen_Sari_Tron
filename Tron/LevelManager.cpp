@@ -295,6 +295,7 @@ void LevelManager::CreateDisplayHighscore(std::shared_ptr<dae::GameObject> highs
 
 void LevelManager::LoadLevel()
 {
+	// failsafe incease player dies while scene resets
 	switch (m_CurrentGamemode)
 	{
 	case LevelManager::GameMode::Versus:
@@ -430,6 +431,14 @@ void LevelManager::LoadLevel()
 	{
 		enemyController->AddEnemies(playerVersus);
 		playerVersus->GetComponent<HealthComponent>()->AddObserver(enemyController);
+	}
+
+	for (size_t i{}; i < players.size(); ++i)
+	{
+		if (auto playerComp = players[i]->GetComponent<PlayerComponent>(); playerComp)
+		{
+			playerComp->ControllerToRemoveEnemies(enemyController);
+		}
 	}
 }
 
@@ -663,7 +672,7 @@ std::shared_ptr<EnemyControllerComponent> LevelManager::LoadEnemies(dae::Scene* 
 
 	// ENEMY
 	auto enemyController_go = std::make_shared<dae::GameObject>();
-	auto enemyController = std::make_shared<EnemyControllerComponent>(enemyController_go, collisionHandler);
+	auto enemyController = std::make_shared<EnemyControllerComponent>(enemyController_go, collisionHandler, player_go);
 	enemyController_go->AddComponent(enemyController);
 
 	scene->Add(enemyController_go);
@@ -672,7 +681,7 @@ std::shared_ptr<EnemyControllerComponent> LevelManager::LoadEnemies(dae::Scene* 
 	const auto& enemyTank_startPosVec = level_layout->GetEnemyTankStartPositions();
 	for (size_t i = 0; i < enemyTank_startPosVec.size(); ++i)
 	{
-		auto enemy = CreateEnemy(level_go, player_go, "Sprites/BlueTank.png", enemyTank_startPosVec[i], 30.f);
+		auto enemy = CreateEnemy(level_go, enemyController, "Sprites/BlueTank.png", enemyTank_startPosVec[i], 30.f);
 
 		std::shared_ptr<GunComponent> gunComp = std::make_shared<GunComponent>(enemy, bulletPool, BulletComponent::Type::Enemy, 0, 1.f, 200.f);
 		std::shared_ptr<EnemyTankComponent> enemyComponent = std::make_shared<EnemyTankComponent>(enemy, enemy->GetComponent<MovementControllerComponent>(), gunComp, level_layout, 100);
@@ -697,7 +706,7 @@ std::shared_ptr<EnemyControllerComponent> LevelManager::LoadEnemies(dae::Scene* 
 	for (size_t i = 0; i < enemyRecognizer_startPosVec.size(); ++i)
 	{
 		// NEW
-		auto enemy = CreateEnemy(level_go, player_go, "Sprites/Recognizer.png", enemyRecognizer_startPosVec[i], 60.f);
+		auto enemy = CreateEnemy(level_go, enemyController, "Sprites/Recognizer.png", enemyRecognizer_startPosVec[i], 60.f);
 		auto enemyComp = std::make_shared<EnemyRecognizerComponent>(enemy, 250);
 
 		enemy->AddComponent(enemyComp);
@@ -718,12 +727,11 @@ std::shared_ptr<EnemyControllerComponent> LevelManager::LoadEnemies(dae::Scene* 
 	return enemyController;
 }
 
-std::shared_ptr<dae::GameObject> LevelManager::CreateEnemy(std::shared_ptr<dae::GameObject> level_go, std::vector<std::shared_ptr<dae::GameObject>> targets, const std::string& image, int startIdx, float movementSpeed)
+std::shared_ptr<dae::GameObject> LevelManager::CreateEnemy(std::shared_ptr<dae::GameObject> level_go, std::shared_ptr<EnemyControllerComponent> controller, const std::string& image, int startIdx, float movementSpeed)
 {
 	std::shared_ptr<LevelLayoutComponent> level_layout = level_go->GetComponent<LevelLayoutComponent>();
 	std::shared_ptr<LevelMovementComponent> level_movement = level_go->GetComponent<LevelMovementComponent>();
 	std::shared_ptr<LevelPathfindingComponent> level_pathfinding = level_go->GetComponent<LevelPathfindingComponent>();
-
 	
 	const glm::vec2& enemy_startPos = level_layout->GetGridCenter(startIdx);
 	std::shared_ptr<dae::GameObject> enemy_go = std::make_shared<dae::GameObject>(enemy_startPos.x, enemy_startPos.y, 0.f);
@@ -736,7 +744,7 @@ std::shared_ptr<dae::GameObject> LevelManager::CreateEnemy(std::shared_ptr<dae::
 
 	// MOVEMENT
 	std::shared_ptr<MoveComponent> enemy_moveComponent = std::make_shared<MoveComponent>(enemy_go, enemy_go, level_movement, movementSpeed);
-	std::shared_ptr<MovementControllerComponent> enemy_moveController = std::make_shared<MovementControllerComponent>(enemy_go, targets, enemy_moveComponent, level_pathfinding, level_layout);
+	std::shared_ptr<MovementControllerComponent> enemy_moveController = std::make_shared<MovementControllerComponent>(enemy_go, controller, enemy_moveComponent, level_pathfinding, level_layout);
 
 	// HEALTH + COLLISION
 	std::shared_ptr<HealthComponent> enemy_healthComponent = std::make_shared<HealthComponent>(enemy_go, 3, 0.5f);

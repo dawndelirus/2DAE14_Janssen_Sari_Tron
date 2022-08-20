@@ -38,6 +38,11 @@ void EnemyTankComponent::Update()
 
 	auto target = m_MovementController.lock()->GetTarget();
 
+	if (!target)
+	{
+		return;
+	}
+
 	int idxCurrent = m_LevelLayout.lock()->GetGridIndex(GetGameObject()->GetWorldPosition());
 	int idxTarget = m_LevelLayout.lock()->GetGridIndex(target->GetWorldPosition());
 	int gridWidth = m_LevelLayout.lock()->GetGridWidth();

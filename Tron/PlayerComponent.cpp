@@ -3,11 +3,15 @@
 #include "HealthComponent.h"
 #include "GameInfo.h"
 #include "LevelManager.h"
+#include "GunComponent.h"
+#include "Texture2DComponent.h"
+#include "EnemyControllerComponent.h"
 
-PlayerComponent::PlayerComponent(std::shared_ptr<dae::GameObject> gameObject, int playerIndex)
+PlayerComponent::PlayerComponent(std::shared_ptr<dae::GameObject> gameObject,int playerIndex)
 	: BaseComponent(gameObject)
+	, m_EnemyMovement()
 	, m_PlayerIndex(playerIndex)
-	, m_IsDead{false}
+	, m_IsNotified{false}
 {
 }
 
@@ -23,10 +27,26 @@ void PlayerComponent::Notify(std::shared_ptr<dae::GameObject> gameObject, std::s
 	}
 	if (auto observerEvent = std::dynamic_pointer_cast<DiedObserverEvent>(event); observerEvent != nullptr)
 	{
-		if (!m_IsDead)
+		for (size_t i = 0; i < gameObject->GetChildCount(); ++i)
 		{
-			LevelManager::GetInstance().PlayerDied(m_PlayerIndex);
-			m_IsDead = true;
+			gameObject->GetChildAt(i)->RemoveComponent<GunComponent>();
+			gameObject->GetChildAt(i)->RemoveComponent<dae::Texture2DComponent>();
 		}
+		m_EnemyMovement.lock()->RemoveTarget(GetGameObject());
+		m_IsNotified = true;
+	}
+}
+
+void PlayerComponent::ControllerToRemoveEnemies(std::shared_ptr<EnemyControllerComponent> enemyMovement)
+{
+	m_EnemyMovement = enemyMovement;
+}
+
+void PlayerComponent::Update()
+{
+	if (m_IsNotified)
+	{
+		LevelManager::GetInstance().PlayerDied(m_PlayerIndex);
+		m_IsNotified = false;
 	}
 }

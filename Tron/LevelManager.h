@@ -65,7 +65,7 @@ private:
 		, std::shared_ptr<BulletPoolComponent> bulletPool, std::shared_ptr<CollisionHandlerComponent> collisionHandler
 		, std::shared_ptr<ScoreComponent> score_comp);
 
-	std::shared_ptr<dae::GameObject> CreateEnemy(std::shared_ptr<dae::GameObject> level_go, std::vector<std::shared_ptr<dae::GameObject>> targets, const std::string& image, int startIdx, float movementSpeed);
+	std::shared_ptr<dae::GameObject> CreateEnemy(std::shared_ptr<dae::GameObject> level_go, std::shared_ptr<EnemyControllerComponent> controller, const std::string& image, int startIdx, float movementSpeed);
 
 	std::shared_ptr<dae::GameObject> m_HighScore;
 

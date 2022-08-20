@@ -11,11 +11,12 @@ public:
 	int GetScore() const;
 	void SetScore(int score);
 
-	void Update() override {}
+	void Update() override;
 	void Render() const override {}
 	void Notify(std::shared_ptr<dae::GameObject> gameObject, std::shared_ptr<dae::BaseObserverEvent> event) override;
 
 private:
 	int m_Points;
+	bool m_AssignPoints;
 };
 

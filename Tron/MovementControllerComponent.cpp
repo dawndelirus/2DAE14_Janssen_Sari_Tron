@@ -1,23 +1,19 @@
 #include "MovementControllerComponent.h"
 #include "LevelLayoutComponent.h"
+#include "EnemyControllerComponent.h"
 
-MovementControllerComponent::MovementControllerComponent(std::shared_ptr<dae::GameObject> gameObject, std::vector<std::shared_ptr<dae::GameObject>> targetObjects
+MovementControllerComponent::MovementControllerComponent(std::shared_ptr<dae::GameObject> gameObject, std::shared_ptr<EnemyControllerComponent> controller
 	, std::shared_ptr<MoveComponent> moveComponent, std::shared_ptr<LevelPathfindingComponent> pathfinding
 	, std::shared_ptr<LevelLayoutComponent> levelLayout)
 	: BaseComponent(gameObject)
-	, m_TargetObjects()
 	, m_TargetObject()
 	, m_MoveComponent(moveComponent)
 	, m_Pathfinding(pathfinding)
 	, m_Layout(levelLayout)
+	, m_Controller(controller)
 	, m_Path()
 	, m_Target()
 {
-	for (size_t i = 0; i < targetObjects.size(); ++i)
-	{
-		m_TargetObjects.emplace_back(targetObjects[i]);
-	}
-
 	GetPathToClosestTarget();
 
 	if (m_Path.size() < 1)
@@ -32,6 +28,7 @@ void MovementControllerComponent::Update()
 {
 	MoveToTarget();
 }
+
 
 void MovementControllerComponent::MoveToTarget()
 {
@@ -50,7 +47,7 @@ void MovementControllerComponent::MoveToTarget()
 	auto& position = GetGameObject()->GetWorldPosition();
 
 	// Recalculate target
-	if (m_Layout.lock()->GetGridIndex(position) == m_Layout.lock()->GetGridIndex(m_Target) || m_Path.size() <= 1 || !IsStillOnPath())
+	if (m_Layout.lock()->GetGridIndex(position) == m_Layout.lock()->GetGridIndex(m_Target) || m_Path.size() <= 1 || !IsStillOnPath() || m_TargetObject.lock() == nullptr)
 	{
 		GetPathToClosestTarget();
 
@@ -75,15 +72,22 @@ void MovementControllerComponent::GetPathToClosestTarget()
 	
 	// get closest target using manhattan distance from pathfinding
 	float lowestCost{FLT_MAX};
-	for (size_t i = 0; i < m_TargetObjects.size(); ++i)
+	auto& targets = m_Controller.lock()->GetTargets();
+	for (size_t i = 0; i < targets.size(); ++i)
 	{
-		auto& targetPos = m_TargetObjects[i].lock()->GetWorldPosition();
+		auto& targetPos = targets[i].lock()->GetWorldPosition();
 		float cost = m_Pathfinding.lock()->GetHeuristicCost(index, m_Layout.lock()->GetGridIndex(targetPos));
 		if (cost < lowestCost)
 		{
 			lowestCost = cost;
-			m_TargetObject = m_TargetObjects[i];
+			m_TargetObject = targets[i];
 		}
+	}
+
+	if (targets.size() == 0)
+	{
+		m_TargetObject.reset();
+		return;
 	}
 
 	// get path to closest target
