@@ -16,7 +16,7 @@ bool dae::Scene::IsDeleted()
 	return m_IsDeleted;
 }
 
-Scene::Scene(const std::string& name) : m_Name(name) {}
+Scene::Scene(const std::string& name) : m_Name(name), m_IsDeleted{} {}
 
 Scene::~Scene() = default;
 

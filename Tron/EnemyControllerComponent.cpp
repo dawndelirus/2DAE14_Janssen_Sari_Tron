@@ -27,8 +27,21 @@ void EnemyControllerComponent::Notify(std::shared_ptr<dae::GameObject> gameObjec
 	if (std::dynamic_pointer_cast<DiedObserverEvent>(event) != nullptr)
 	{
 		auto texture = gameObject->GetComponent<dae::Texture2DComponent>();
-		assert(texture != nullptr && "Enemy does not have texture component");
-		texture->SetIsVisible(false);
+		if (texture)
+		{
+			texture->SetIsVisible(false);
+		}
+		else
+		{
+			for (size_t i{}; i < gameObject->GetChildCount(); ++i)
+			{
+				texture = gameObject->GetChildAt(i)->GetComponent<dae::Texture2DComponent>();
+				if (texture)
+				{
+					texture->SetIsVisible(false);
+				}
+			}
+		}
 
 		auto collider = gameObject->GetComponent<CollisionComponent>();
 		assert(collider != nullptr && "Enemy does not have collider component");
