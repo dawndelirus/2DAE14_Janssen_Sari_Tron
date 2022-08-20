@@ -22,6 +22,7 @@ namespace dae
 
 		void Notify(std::shared_ptr<GameObject> gameObject, std::shared_ptr<BaseObserverEvent> event);
 		void SetText(const std::string& text);
+		const std::string& GetText() const;
 
 	private:
 		

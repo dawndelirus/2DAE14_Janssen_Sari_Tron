@@ -28,9 +28,12 @@ public:
 	void LevelClear();
 	void LevelFail();
 
+	void NamesEntered();
+
 	void AddLevelPath(const std::string& levelPath);
 
 	GameMode CycleGameMode();
+	GameMode GetGameMode() const;
 
 private:
 	enum class GameState
@@ -42,6 +45,9 @@ private:
 	};
 
 	void CreateMainMenu();
+
+	std::shared_ptr<dae::GameObject> CreateEnterName(const std::string& sceneName);
+	void CreateDisplayHighscore(std::shared_ptr<dae::GameObject> highscore, const std::string& sceneName);
 
 	void LoadLevel();
 
@@ -58,6 +64,8 @@ private:
 		, std::shared_ptr<ScoreComponent> score_comp);
 
 	std::shared_ptr<dae::GameObject> CreateEnemy(std::shared_ptr<dae::GameObject> level_go, std::vector<std::shared_ptr<dae::GameObject>> targets, const std::string& image, int startIdx, float movementSpeed);
+
+	std::shared_ptr<dae::GameObject> m_HighScore;
 
 	GameMode m_CurrentGamemode{};
 	GameState m_CurrentGamestate{};

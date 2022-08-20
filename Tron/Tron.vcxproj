@@ -181,6 +181,7 @@
     <ClCompile Include="GunComponent.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="HealthDisplayComponent.cpp" />
+    <ClCompile Include="HighScoreComponent.cpp" />
     <ClCompile Include="LevelLayoutComponent.cpp" />
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="LevelMovementComponent.cpp" />
@@ -189,6 +190,7 @@
     <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="MoveComponent.cpp" />
     <ClCompile Include="MovementControllerComponent.cpp" />
+    <ClCompile Include="NameEnteredCommand.cpp" />
     <ClCompile Include="PlayerComponent.cpp" />
     <ClCompile Include="QuitGameCommand.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
@@ -210,6 +212,7 @@
     <ClInclude Include="GunComponent.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="HealthDisplayComponent.h" />
+    <ClInclude Include="HighScoreComponent.h" />
     <ClInclude Include="LevelLayoutComponent.h" />
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="LevelMovementComponent.h" />
@@ -218,6 +221,7 @@
     <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="MoveComponent.h" />
     <ClInclude Include="MovementControllerComponent.h" />
+    <ClInclude Include="NameEnteredCommand.h" />
     <ClInclude Include="ObserverHelpers.h" />
     <ClInclude Include="PlayerComponent.h" />
     <ClInclude Include="QuitGameCommand.h" />
