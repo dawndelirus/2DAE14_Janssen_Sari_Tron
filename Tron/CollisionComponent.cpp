@@ -5,6 +5,7 @@ CollisionComponent::CollisionComponent(std::shared_ptr<dae::GameObject> gameObje
 	: BaseComponent(gameObject)
 	, m_Width{width}
 	, m_Height{height}
+	, m_HasToRemoveFromHandler{false}
 {
 }
 
@@ -26,4 +27,14 @@ float CollisionComponent::GetWidth()
 float CollisionComponent::GetHeight()
 {
 	return m_Height;
+}
+
+bool CollisionComponent::GetRemoveFromHandler() const
+{
+	return m_HasToRemoveFromHandler;
+}
+
+void CollisionComponent::SetRemoveFromHandler(bool remove)
+{
+	m_HasToRemoveFromHandler = remove;
 }

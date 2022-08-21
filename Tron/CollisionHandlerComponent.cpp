@@ -24,6 +24,21 @@ CollisionHandlerComponent::CollisionHandlerComponent(std::shared_ptr<dae::GameOb
 
 void CollisionHandlerComponent::Update()
 {
+	// remove what needs to be deleted
+	for (size_t i = m_CollidersPerLayer.size(); i > 1; --i)
+	{
+		size_t indexI = i - 1;
+		for (size_t j = m_CollidersPerLayer[indexI].size(); j > 1; --j)
+		{
+			size_t indexJ = j - 1;
+			if (m_CollidersPerLayer[indexI][indexJ]->GetRemoveFromHandler())
+			{
+				m_CollidersPerLayer[indexI][indexJ] = m_CollidersPerLayer[indexI].back();
+				m_CollidersPerLayer[indexI].pop_back();
+			}
+		}
+	}
+
 	for (size_t i{}; i < m_CollidersPerLayer.size(); ++i)
 	{
 		for (size_t j{}; j < m_CollisionWithLayers[i].size(); ++j)
@@ -39,20 +54,42 @@ void CollisionHandlerComponent::Update()
 			auto collisionVector1 = m_CollidersPerLayer[collisionIndexToCheck];
 
 			// Loop over all the colliders in the collision layers
-			for (auto layer0 : collisionVector0)
+			for (size_t k = 0; k < collisionVector0.size(); ++k)
 			{
-				for (auto layer1 : collisionVector1)
+				auto layer0 = collisionVector0[k];
+				for (size_t l = 0; l < collisionVector1.size(); ++l)
 				{
+					auto layer1 = collisionVector1[l];
+
 					if (IsOverlapping({ layer0->GetPosition().x - layer0->GetWidth() / 2.f, layer0->GetPosition().y + layer0->GetHeight() / 2.f }
 						, { layer0->GetPosition().x + layer0->GetWidth() / 2.f, layer0->GetPosition().y - layer0->GetHeight() / 2.f }
 						, { layer1->GetPosition().x - layer1->GetWidth() / 2.f, layer1->GetPosition().y + layer1->GetHeight() / 2.f }
 						, { layer1->GetPosition().x + layer1->GetWidth() / 2.f, layer1->GetPosition().y - layer1->GetHeight() / 2.f }))
 					{
 						layer0->GetHit(static_cast<CollisionHandlerComponent::Layer>(collisionIndexToCheck));
+						auto pos = layer1->GetPosition();
+						pos;
 						layer1->GetHit(static_cast<CollisionHandlerComponent::Layer>(i));
 					}
+
 				}
 			}
+			//for (auto layer0 : collisionVector0)
+			//{
+			//	for (auto layer1 : collisionVector1)
+			//	{
+			//		if (IsOverlapping({ layer0->GetPosition().x - layer0->GetWidth() / 2.f, layer0->GetPosition().y + layer0->GetHeight() / 2.f }
+			//			, { layer0->GetPosition().x + layer0->GetWidth() / 2.f, layer0->GetPosition().y - layer0->GetHeight() / 2.f }
+			//			, { layer1->GetPosition().x - layer1->GetWidth() / 2.f, layer1->GetPosition().y + layer1->GetHeight() / 2.f }
+			//			, { layer1->GetPosition().x + layer1->GetWidth() / 2.f, layer1->GetPosition().y - layer1->GetHeight() / 2.f }))
+			//		{
+			//			layer0->GetHit(static_cast<CollisionHandlerComponent::Layer>(collisionIndexToCheck));
+			//			layer1->GetHit(static_cast<CollisionHandlerComponent::Layer>(i));
+			//			auto pos = layer1->GetPosition();
+			//			pos;
+			//		}
+			//	}
+			//}
 		}
 	}
 }
@@ -67,7 +104,7 @@ void CollisionHandlerComponent::RemoveCollider(std::shared_ptr<CollisionComponen
 	auto it = std::find(m_CollidersPerLayer[static_cast<int>(layer)].begin(), m_CollidersPerLayer[static_cast<int>(layer)].end(), collider.get());
 	if (it != m_CollidersPerLayer[static_cast<int>(layer)].end())
 	{
-		m_CollidersPerLayer[static_cast<int>(layer)].erase(it);
+		m_CollidersPerLayer[static_cast<int>(layer)].at(it - m_CollidersPerLayer[static_cast<int>(layer)].begin())->SetRemoveFromHandler(true);
 	}
 }
 

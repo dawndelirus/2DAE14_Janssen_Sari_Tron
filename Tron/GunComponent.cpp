@@ -32,10 +32,9 @@ void GunComponent::Update()
 		m_BulletPool->CreateBullet(GetGameObject()->GetWorldPosition(), m_ShootDirection, m_Bounces, m_BulletSpeed);
 		m_CurrentFireCooldown = m_FireCooldown;
 		dae::ServiceLocator::GetSoundSystem().PlaySound(0, 1);
-
-		m_ShotBullet = false;
 	}
 
+	m_ShotBullet = false;
 	m_ShootDirection = glm::vec2{};
 }
 

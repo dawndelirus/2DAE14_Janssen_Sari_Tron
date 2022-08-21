@@ -18,8 +18,13 @@ public:
 	float GetWidth();
 	float GetHeight();
 
+	bool GetRemoveFromHandler() const;
+	void SetRemoveFromHandler(bool remove);
+
 private:
 	float m_Width;
 	float m_Height;
+
+	bool m_HasToRemoveFromHandler;
 };
 
