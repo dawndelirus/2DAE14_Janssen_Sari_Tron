@@ -2,14 +2,14 @@
 #include "Singleton.h"
 #include "GameObject.h"
 #include "Scene.h"
+#include "BaseInputManager.h"
+#include "CollisionHandlerComponent.h"
 
 #include <vector>
 #include <string>
 #include <memory>
 #include <map>
-#include "BaseInputManager.h"
 
-class CollisionHandlerComponent;
 class BulletPoolComponent;
 class EnemyControllerComponent;
 class ScoreComponent;
@@ -60,6 +60,9 @@ private:
 
 	void CreateMainMenu();
 	void CreatePauseMenu();
+	void CreatePlayerInputJoystickKeyboard(std::shared_ptr<dae::GameObject> player_go, int playerIdx);
+	void CreatePlayerInputKeyboard(std::shared_ptr<dae::GameObject> player_go, int playerIdx);
+	void CreatePlayerInputJoystick(std::shared_ptr<dae::GameObject> player_go, int playerIdx);
 
 	std::shared_ptr<dae::GameObject> CreateEnterName(const std::string& sceneName);
 	void CreateDisplayHighscore(const std::string& sceneName);
@@ -67,18 +70,15 @@ private:
 	void LoadLevel();
 
 	std::shared_ptr<dae::GameObject> LoadPlayer(std::shared_ptr<dae::GameObject> level_go, std::shared_ptr<dae::GameObject> hud_go
-		, std::shared_ptr<BulletPoolComponent> bulletPool, std::shared_ptr<CollisionHandlerComponent> collisionHandler
-		, const std::string& playerPath, const std::string& gunPath, int playerIdx);
+		, std::shared_ptr<CollisionHandlerComponent> collisionHandler, CollisionHandlerComponent::Layer layer, const std::string& playerPath
+		, int playerIdx, float movementSpeed);
 
-	std::shared_ptr<dae::GameObject> LoadPlayerVersus(std::shared_ptr<dae::GameObject> level_go, std::shared_ptr<dae::GameObject> hud_go
-		, std::shared_ptr<BulletPoolComponent> bulletPool, std::shared_ptr<CollisionHandlerComponent> collisionHandler
-		, const std::string& playerPath, const std::string& gunPath, int playerIdx);
+	std::shared_ptr<EnemyControllerComponent> LoadEnemies(dae::Scene* scene, std::shared_ptr<dae::GameObject> level_go
+		, std::vector<std::shared_ptr<dae::GameObject>> player_go, std::shared_ptr<BulletPoolComponent> bulletPool
+		, std::shared_ptr<CollisionHandlerComponent> collisionHandler, std::shared_ptr<ScoreComponent> score_comp);
 
-	std::shared_ptr<EnemyControllerComponent> LoadEnemies(dae::Scene* scene, std::shared_ptr<dae::GameObject> level_go, std::vector<std::shared_ptr<dae::GameObject>> player_go
-		, std::shared_ptr<BulletPoolComponent> bulletPool, std::shared_ptr<CollisionHandlerComponent> collisionHandler
-		, std::shared_ptr<ScoreComponent> score_comp);
-
-	std::shared_ptr<dae::GameObject> CreateEnemy(std::shared_ptr<dae::GameObject> level_go, std::shared_ptr<EnemyControllerComponent> controller, const std::string& image, int startIdx, float movementSpeed);
+	std::shared_ptr<dae::GameObject> CreateEnemy(std::shared_ptr<dae::GameObject> level_go
+		, std::shared_ptr<EnemyControllerComponent> controller, const std::string& image, int startIdx, float movementSpeed);
 
 	std::shared_ptr<dae::GameObject> m_HighScore;
 

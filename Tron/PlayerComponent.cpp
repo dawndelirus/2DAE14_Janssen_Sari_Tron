@@ -7,8 +7,9 @@
 #include "Texture2DComponent.h"
 #include "EnemyControllerComponent.h"
 
-PlayerComponent::PlayerComponent(std::shared_ptr<dae::GameObject> gameObject,int playerIndex)
+PlayerComponent::PlayerComponent(std::shared_ptr<dae::GameObject> gameObject, CollisionHandlerComponent::Layer collisionLayer, int playerIndex)
 	: BaseComponent(gameObject)
+	, m_CollisionLayer{collisionLayer}
 	, m_EnemyMovement()
 	, m_PlayerIndex(playerIndex)
 	, m_IsNotified{false}
@@ -32,7 +33,14 @@ void PlayerComponent::Notify(std::shared_ptr<dae::GameObject> gameObject, std::s
 			gameObject->GetChildAt(i)->RemoveComponent<GunComponent>();
 			gameObject->GetChildAt(i)->RemoveComponent<dae::Texture2DComponent>();
 		}
-		m_EnemyMovement.lock()->RemoveTarget(GetGameObject());
+		if (m_CollisionLayer == CollisionHandlerComponent::Layer::Player)
+		{
+			m_EnemyMovement.lock()->RemoveTarget(GetGameObject());
+		}
+		else
+		{
+			Subject::Notify(GetGameObject(), std::make_shared<EnemyKilledObserverEvent>(100));
+		}
 		m_IsNotified = true;
 	}
 }

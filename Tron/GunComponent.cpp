@@ -24,7 +24,6 @@ void GunComponent::Update()
 
 	if (m_CurrentFireCooldown <= 0.f && m_ShotBullet)
 	{
-		m_ShootDirection.y *= -1.f;
 		m_BulletPool->CreateBullet(GetGameObject()->GetWorldPosition(), m_ShootDirection, m_Bounces, m_BulletSpeed);
 		m_CurrentFireCooldown = m_FireCooldown;
 		dae::ServiceLocator::GetSoundSystem().PlaySound(0, 1);
@@ -41,7 +40,7 @@ void GunComponent::ShootBullet(const glm::vec2& direction)
 
 	m_ShootDirection = glm::normalize(m_ShootDirection);
 
-	float angle = glm::orientedAngle(glm::vec2(m_ShootDirection.x, m_ShootDirection.y), glm::vec2(1.f, 0.f));
+	float angle = glm::orientedAngle(glm::vec2(m_ShootDirection.x, -m_ShootDirection.y), glm::vec2(1.f, 0.f));
 	GetGameObject()->SetLocalRotation(glm::degrees(angle));
 
 	m_ShotBullet = true;
