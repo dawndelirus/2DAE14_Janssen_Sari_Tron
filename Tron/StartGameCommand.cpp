@@ -8,5 +8,5 @@ StartGameCommand::StartGameCommand(std::shared_ptr<dae::BaseComponent> component
 
 void StartGameCommand::Execute()
 {
-	LevelManager::GetInstance().StartGame();
+	LevelManager::GetInstance().HandleInput(LevelManager::InputStates::Start);
 }

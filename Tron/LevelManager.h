@@ -21,10 +21,20 @@ public:
 		Coop,
 		Versus
 	};
+
+	enum class InputStates
+	{
+		Start,
+		Pause,
+		Defeat,
+		Resume
+	};
 	
 	void PlayerDied(int idx);
 
 	void Initialize();
+
+	void HandleInput(InputStates input);
 
 	void StartGame();
 	void LevelClear();
@@ -49,7 +59,7 @@ private:
 	void CreateMainMenu();
 
 	std::shared_ptr<dae::GameObject> CreateEnterName(const std::string& sceneName);
-	void CreateDisplayHighscore(std::shared_ptr<dae::GameObject> highscore, const std::string& sceneName);
+	void CreateDisplayHighscore(const std::string& sceneName);
 
 	void LoadLevel();
 

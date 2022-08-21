@@ -34,8 +34,13 @@ void ScoreComponent::Notify(std::shared_ptr<dae::GameObject> gameObject, std::sh
 	{
 		m_Points += observerEvent->points;
 		Subject::Notify(nullptr, std::make_shared<ScoreChangedObserverEvent>(m_Points));
+		GameInfo::GetInstance().SetPlayerScore(m_Points);
 	}
 	if (auto observerEvent = std::dynamic_pointer_cast<EnemiesDeadObserverEvent>(event); observerEvent != nullptr)
+	{
+		m_AssignPoints = true;
+	}
+	if (auto observerEvent = std::dynamic_pointer_cast<DiedObserverEvent>(event); observerEvent != nullptr)
 	{
 		m_AssignPoints = true;
 	}
