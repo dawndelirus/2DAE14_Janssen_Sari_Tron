@@ -74,22 +74,6 @@ void CollisionHandlerComponent::Update()
 
 				}
 			}
-			//for (auto layer0 : collisionVector0)
-			//{
-			//	for (auto layer1 : collisionVector1)
-			//	{
-			//		if (IsOverlapping({ layer0->GetPosition().x - layer0->GetWidth() / 2.f, layer0->GetPosition().y + layer0->GetHeight() / 2.f }
-			//			, { layer0->GetPosition().x + layer0->GetWidth() / 2.f, layer0->GetPosition().y - layer0->GetHeight() / 2.f }
-			//			, { layer1->GetPosition().x - layer1->GetWidth() / 2.f, layer1->GetPosition().y + layer1->GetHeight() / 2.f }
-			//			, { layer1->GetPosition().x + layer1->GetWidth() / 2.f, layer1->GetPosition().y - layer1->GetHeight() / 2.f }))
-			//		{
-			//			layer0->GetHit(static_cast<CollisionHandlerComponent::Layer>(collisionIndexToCheck));
-			//			layer1->GetHit(static_cast<CollisionHandlerComponent::Layer>(i));
-			//			auto pos = layer1->GetPosition();
-			//			pos;
-			//		}
-			//	}
-			//}
 		}
 	}
 }

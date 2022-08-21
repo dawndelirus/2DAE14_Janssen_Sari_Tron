@@ -139,7 +139,7 @@ void HighScoreComponent::FinishName()
 
 	m_PlayerNames.emplace_back(textComp->GetText());
 
-	if (m_PlayerIdxName < m_PlayerTextComp.size() - 1)
+	if (static_cast<size_t>(m_PlayerIdxName) < m_PlayerTextComp.size() - 1)
 	{
 		++m_PlayerIdxName;
 	}

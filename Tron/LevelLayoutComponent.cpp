@@ -105,7 +105,7 @@ int LevelLayoutComponent::GetLevelTileWidth()
 
 int LevelLayoutComponent::GetRandomWalkableGridIdx()
 {
-    int teleportAttempts{ 20 };
+    size_t teleportAttempts{ 20 };
     for (size_t i{}; i < teleportAttempts; ++i)
     {
         int randomIdx = rand() % static_cast<int>(m_LevelPath.size());

@@ -117,8 +117,8 @@ void LevelManager::HandleInput(InputStates input)
 		if (input == LevelManager::InputStates::Resume)
 		{
 			m_CurrentGamestate = LevelManager::GameState::Game;
-			dae::ServiceLocator::RegisterInputManager(m_InputManagers[m_CurrentLevelName].get());
-			dae::ServiceLocator::GetSceneManager().SetActiveScene("Level_" + std::to_string(m_CurrentActiveLevelInput));
+			dae::ServiceLocator::RegisterInputManager(m_InputManagers["Level_" + std::to_string(m_CurrentActiveLevelInput)].get());
+			dae::ServiceLocator::GetSceneManager().SetActiveScene(m_CurrentLevelName);
 		}
 		break;
 	case LevelManager::GameState::HighScore:
