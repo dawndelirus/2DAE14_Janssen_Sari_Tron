@@ -13,7 +13,12 @@ MoveComponent::MoveComponent(std::shared_ptr<dae::GameObject> gameObject, std::w
 
 void MoveComponent::Move(float x, float y, float magnitude)
 {
-	glm::vec3 position = GetGameObject()->GetLocalPosition();
+	auto go = GetGameObject();
+	if (!go)
+	{
+		return;
+	}
+	glm::vec3 position = go->GetLocalPosition();
 
 	glm::vec2 displacement{};
 

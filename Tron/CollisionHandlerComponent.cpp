@@ -55,24 +55,6 @@ void CollisionHandlerComponent::Update()
 			}
 		}
 	}
-
-	//for (size_t i{}; i < m_CollisionLayers.size() - 1; ++i)
-	//{
-	//	for (auto layer0 : m_CollisionLayers[i])
-	//	{
-	//		for (auto layer1 : m_CollisionLayers[i + 1])
-	//		{
-	//			if (IsOverlapping({layer0->GetPosition().x - layer0->GetWidth() / 2.f, layer0->GetPosition().y + layer0->GetHeight() / 2.f}
-	//					, { layer0->GetPosition().x + layer0->GetWidth() / 2.f, layer0->GetPosition().y - layer0->GetHeight() / 2.f }
-	//					, { layer1->GetPosition().x - layer1->GetWidth() / 2.f, layer1->GetPosition().y + layer1->GetHeight() / 2.f }
-	//					, { layer1->GetPosition().x + layer1->GetWidth() / 2.f, layer1->GetPosition().y - layer1->GetHeight() / 2.f }))
-	//			{
-	//				layer0->GetHit();
-	//				layer1->GetHit();
-	//			}
-	//		}
-	//	}
-	//}
 }
 
 void CollisionHandlerComponent::AddCollider(std::shared_ptr<CollisionComponent> collider, Layer layer)

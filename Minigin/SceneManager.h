@@ -12,6 +12,7 @@ namespace dae
 		Scene* CreateScene(const std::string& name) override;
 		Scene* GetScene(const std::string& name) override;
 		void SetActiveScene(const std::string& name) override;
+		void SetActiveScene(Scene* scene) override;
 		void RemoveScene(const std::string& name) override;
 
 		void Update() override;

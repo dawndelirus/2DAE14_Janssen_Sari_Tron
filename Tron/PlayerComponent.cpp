@@ -21,10 +21,16 @@ void PlayerComponent::Notify(std::shared_ptr<dae::GameObject> gameObject, std::s
 	if (auto observerEvent = std::dynamic_pointer_cast<GetHitObserverEvent>(event); observerEvent != nullptr && observerEvent->layer != CollisionHandlerComponent::Layer::Player)
 	{
 		Subject::Notify(gameObject, std::make_shared<TakeDamageObserverEvent>(1));
+		GameInfo::GetInstance().SetPlayerHealth(GetGameObject()->GetComponent<HealthComponent>()->GetCurrentHealth());
+		
+		if (m_CollisionLayer == CollisionHandlerComponent::Layer::Player)
+		{
+			LevelManager::GetInstance().ResetLevel();
+		}
 	}
 	if (auto observerEvent = std::dynamic_pointer_cast<EnemiesDeadObserverEvent>(event); observerEvent != nullptr)
 	{
-		GameInfo::GetInstance().SetPlayerHealth(m_PlayerIndex, GetGameObject()->GetComponent<HealthComponent>()->GetCurrentHealth());
+		GameInfo::GetInstance().SetPlayerHealth(GetGameObject()->GetComponent<HealthComponent>()->GetCurrentHealth());
 	}
 	if (auto observerEvent = std::dynamic_pointer_cast<DiedObserverEvent>(event); observerEvent != nullptr)
 	{

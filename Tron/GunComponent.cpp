@@ -17,12 +17,17 @@ GunComponent::GunComponent(std::shared_ptr<dae::GameObject> gameObject, std::sha
 
 void GunComponent::Update()
 {
+	m_ShootDirection = glm::normalize(m_ShootDirection);
+
+	float angle = glm::orientedAngle(glm::vec2(m_ShootDirection.x, -m_ShootDirection.y), glm::vec2(1.f, 0.f));
+	GetGameObject()->SetLocalRotation(glm::degrees(angle));
+	
 	if (m_CurrentFireCooldown > 0.f)
 	{
 		m_CurrentFireCooldown -= dae::Clock::GetDeltaTime();
 	}
 
-	if (m_CurrentFireCooldown <= 0.f && m_ShotBullet)
+	if (m_CurrentFireCooldown <= 0.f && m_ShotBullet && m_ShootDirection != glm::vec2{})
 	{
 		m_BulletPool->CreateBullet(GetGameObject()->GetWorldPosition(), m_ShootDirection, m_Bounces, m_BulletSpeed);
 		m_CurrentFireCooldown = m_FireCooldown;
@@ -37,11 +42,6 @@ void GunComponent::Update()
 void GunComponent::ShootBullet(const glm::vec2& direction)
 {
 	m_ShootDirection += direction;
-
-	m_ShootDirection = glm::normalize(m_ShootDirection);
-
-	float angle = glm::orientedAngle(glm::vec2(m_ShootDirection.x, -m_ShootDirection.y), glm::vec2(1.f, 0.f));
-	GetGameObject()->SetLocalRotation(glm::degrees(angle));
 
 	m_ShotBullet = true;
 }

@@ -1,16 +1,8 @@
 #include "GameInfo.h"
 
-void GameInfo::Initialize(int playerAmount)
+void GameInfo::SetPlayerHealth(int playerHealth)
 {
-	m_PlayerHealth.resize(playerAmount);
-}
-
-void GameInfo::SetPlayerHealth(int playerIdx, int playerHealth)
-{
-	if (playerIdx < m_PlayerHealth.size())
-	{
-		m_PlayerHealth[playerIdx] = playerHealth;
-	}
+	m_PlayerHealth = playerHealth;
 }
 
 void GameInfo::SetPlayerScore(int playerScore)
@@ -18,13 +10,9 @@ void GameInfo::SetPlayerScore(int playerScore)
 	m_PlayerScore = playerScore;
 }
 
-int GameInfo::GetPlayerHealth(int playerIdx)
+int GameInfo::GetPlayerHealth()
 {
-	if (playerIdx < m_PlayerHealth.size())
-	{
-		return m_PlayerHealth[playerIdx];
-	}
-	return -1;
+	return m_PlayerHealth;
 }
 
 int GameInfo::GetPlayerScore()

@@ -17,6 +17,7 @@ namespace dae
 		virtual Scene* CreateScene(const std::string&) = 0;
 		virtual Scene* GetScene(const std::string&) = 0;
 		virtual void SetActiveScene(const std::string& name) = 0;
+		virtual void SetActiveScene(Scene* scene) = 0;
 		virtual void RemoveScene(const std::string& name) = 0;
 
 		virtual void Update() = 0;

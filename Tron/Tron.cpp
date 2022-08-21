@@ -14,8 +14,6 @@
 
 void LoadGame()
 {
-	GameInfo::GetInstance().Initialize(2);
-
 	auto& levelManager = LevelManager::GetInstance();
 
 	levelManager.AddLevelPath("../Data/LevelLayout0.csv");

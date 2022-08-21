@@ -5,16 +5,14 @@
 class GameInfo final : public dae::Singleton<GameInfo>
 {
 public:
-	void Initialize(int playerAmount);
-
-	void SetPlayerHealth(int playerIdx, int playerHealth);
+	void SetPlayerHealth(int playerHealth);
 	void SetPlayerScore(int playerScore);
 
-	int GetPlayerHealth(int playerIdx);
+	int GetPlayerHealth();
 	int GetPlayerScore();
 
 private:
-	std::vector<int> m_PlayerHealth{};
+	int m_PlayerHealth{};
 	int m_PlayerScore{};
 };
 

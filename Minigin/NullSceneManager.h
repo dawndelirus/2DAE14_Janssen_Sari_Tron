@@ -12,6 +12,7 @@ namespace dae
 		void Update() override {};
 		void Render() override {};
 		void SetActiveScene(const std::string&) override {};
+		void SetActiveScene(Scene*) override {};
 		void RemoveScene(const std::string&) override {};
 	};
 }

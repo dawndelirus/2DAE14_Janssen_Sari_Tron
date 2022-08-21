@@ -54,6 +54,7 @@ void BulletComponent::Update()
     newPos.x += (m_BulletState.velocity.x * m_BulletSpeed * dae::Clock::GetDeltaTime());
     newPos.y += (m_BulletState.velocity.y * m_BulletSpeed * dae::Clock::GetDeltaTime());
     Bounce(pos, newPos);
+
     GetGameObject()->SetWorldPosition(newPos);
 }
 

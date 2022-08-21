@@ -32,19 +32,16 @@ public:
 		Resume
 	};
 
-	void PlayerDied(int idx);
-
 	void Initialize();
 
+	void AddLevelPath(const std::string& levelPath);
 	void HandleInput(InputStates input);
 
-	void StartGame();
+	void ResetLevel();
+
 	void LevelClear();
-	void LevelFail();
-
 	void NamesEntered();
-
-	void AddLevelPath(const std::string& levelPath);
+	void PlayerDied(int idx);
 
 	GameMode CycleGameMode();
 	GameMode GetGameMode() const;
@@ -58,14 +55,17 @@ private:
 		HighScore
 	};
 
+	void StartGame();
+	void LevelFail();
+
 	void CreateMainMenu();
 	void CreatePauseMenu();
+	void CreateDisplayHighscore(const std::string& sceneName);
+	std::shared_ptr<dae::GameObject> CreateEnterName(const std::string& sceneName);
+
 	void CreatePlayerInputJoystickKeyboard(std::shared_ptr<dae::GameObject> player_go, int playerIdx);
 	void CreatePlayerInputKeyboard(std::shared_ptr<dae::GameObject> player_go, int playerIdx);
 	void CreatePlayerInputJoystick(std::shared_ptr<dae::GameObject> player_go, int playerIdx);
-
-	std::shared_ptr<dae::GameObject> CreateEnterName(const std::string& sceneName);
-	void CreateDisplayHighscore(const std::string& sceneName);
 
 	void LoadLevel();
 
@@ -80,15 +80,17 @@ private:
 	std::shared_ptr<dae::GameObject> CreateEnemy(std::shared_ptr<dae::GameObject> level_go
 		, std::shared_ptr<EnemyControllerComponent> controller, const std::string& image, int startIdx, float movementSpeed);
 
-	std::shared_ptr<dae::GameObject> m_HighScore;
-
-	GameMode m_CurrentGamemode{};
+	// VARIABLES
+	std::shared_ptr<dae::GameObject> m_HighScore{};
+	GameMode m_CurrentGamemode{GameMode::Single};
 	GameState m_CurrentGamestate{GameState::MainMenu};
 	size_t m_CurrentLevel{};
 	std::vector<std::string> m_LevelPahts{};
 
-	int m_PlayerDiedAmount{};
-
 	std::map<std::string, std::shared_ptr<dae::BaseInputManager>> m_InputManagers{};
+	int m_CurrentActiveLevelInput{};
+
+	std::string m_CurrentLevelName{};
+	int m_PlayerDiedAmount{};
 };
 
