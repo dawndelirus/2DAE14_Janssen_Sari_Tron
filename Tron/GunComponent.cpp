@@ -1,5 +1,6 @@
 #include "GunComponent.h"
 #include "Clock.h"
+#include "ServiceLocator.h"
 
 GunComponent::GunComponent(std::shared_ptr<dae::GameObject> gameObject, std::shared_ptr<BulletPoolComponent> bulletPool, BulletComponent::Type bulletType, int bounces, float fireCooldown, float bulletSpeed)
 	: BaseComponent(gameObject)
@@ -29,5 +30,6 @@ void GunComponent::ShootBullet(const glm::vec2& direction)
 	{
 		m_BulletPool->CreateBullet(GetGameObject()->GetWorldPosition(), direction, m_Bounces, m_BulletSpeed);
 		m_CurrentFireCooldown = m_FireCooldown;
+		dae::ServiceLocator::GetSoundSystem().PlaySound(0, 1);
 	}
 }

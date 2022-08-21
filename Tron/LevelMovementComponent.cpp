@@ -1,5 +1,6 @@
 #include "LevelMovementComponent.h"
 #include "LevelLayoutComponent.h"
+#include "ServiceLocator.h"
 
 LevelMovementComponent::LevelMovementComponent(std::shared_ptr<dae::GameObject> gameObject, std::shared_ptr<LevelLayoutComponent> levelLayout)
 	: BaseComponent(gameObject)
@@ -137,6 +138,7 @@ void LevelMovementComponent::MoveOnGrid(glm::vec3& position, const glm::vec2& di
 		glm::vec2 gridPos = levelLayout->GetGridCenter(newIdx);
 		position.x = gridPos.x;
 		position.y = gridPos.y;
+		dae::ServiceLocator::GetSoundSystem().PlaySound(1, 1);
 	}
 }
 

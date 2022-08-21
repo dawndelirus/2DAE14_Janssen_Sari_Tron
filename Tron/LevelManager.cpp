@@ -66,6 +66,13 @@ void LevelManager::Initialize()
 
 	CreateMainMenu();
 	dae::ServiceLocator::GetSceneManager().SetActiveScene("MainMenu");	
+
+	dae::ServiceLocator::GetSoundSystem().RegisterMusic(0, "../Data/Sounds/Background.mp3");
+	dae::ServiceLocator::GetSoundSystem().RegisterMusic(1, "../Data/Sounds/FailMusic.mp3");
+	dae::ServiceLocator::GetSoundSystem().RegisterMusic(2, "../Data/Sounds/MainMenuMusic.mp3");
+	dae::ServiceLocator::GetSoundSystem().RegisterSound(0, "../Data/Sounds/Shoot.mp3");
+	dae::ServiceLocator::GetSoundSystem().RegisterSound(1, "../Data/Sounds/Teleport.mp3");
+	dae::ServiceLocator::GetSoundSystem().PlayMusic(2, 1, 0);
 }
 
 void LevelManager::HandleInput(InputStates input)
@@ -77,6 +84,7 @@ void LevelManager::HandleInput(InputStates input)
 		{
 			m_CurrentGamestate = LevelManager::GameState::Game;
 			StartGame();
+			dae::ServiceLocator::GetSoundSystem().PlayMusic(0, 1, -1);
 		}
 		break;
 	case LevelManager::GameState::Game:
@@ -90,6 +98,8 @@ void LevelManager::HandleInput(InputStates input)
 		{
 			m_CurrentGamestate = LevelManager::GameState::HighScore;
 			LevelFail();
+			dae::ServiceLocator::GetSoundSystem().StopMusic();
+			dae::ServiceLocator::GetSoundSystem().PlayMusic(1, 1, 0);
 		}
 		break;
 	case LevelManager::GameState::PauseMenu:
@@ -106,6 +116,9 @@ void LevelManager::HandleInput(InputStates input)
 			m_CurrentGamestate = LevelManager::GameState::Game;
 			StartGame();
 			dae::ServiceLocator::GetSceneManager().RemoveScene("DisplayHighscore");
+
+			dae::ServiceLocator::GetSoundSystem().StopMusic();
+			dae::ServiceLocator::GetSoundSystem().PlayMusic(0, 1, -1);
 		}
 		break;
 	default:
@@ -429,9 +442,6 @@ void LevelManager::LoadLevel()
 	// SCENE
 	dae::Scene* scene = dae::ServiceLocator::GetSceneManager().CreateScene(sceneName);
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
-
-	//dae::ServiceLocator::GetSoundSystem().RegisterMusic(0, "../Data/01_BGM#01.mp3");
-	//dae::ServiceLocator::GetSoundSystem().PlayMusic(0, 1, 0);
 
 	// INFO
 	auto text = "START/ESC to pause.";
