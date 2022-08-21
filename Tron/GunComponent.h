@@ -17,9 +17,14 @@ public:
 private:
 	std::shared_ptr<BulletPoolComponent> m_BulletPool;
 	BulletComponent::Type m_BulletType;
+
+	glm::vec2 m_ShootDirection;
+
 	float m_FireCooldown;
 	float m_CurrentFireCooldown;
 	float m_BulletSpeed;
 	int m_Bounces;
+
+	bool m_ShotBullet;
 };
 

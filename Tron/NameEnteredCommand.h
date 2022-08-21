@@ -9,6 +9,6 @@ public:
 	NameEnteredCommand(std::shared_ptr<HighScoreComponent> component);
 	~NameEnteredCommand() = default;
 
-	void Execute() override;
+	void Execute(float amount) override;
 };
 

@@ -36,7 +36,7 @@ void dae::InputManager::AddInput(InputAction action)
 	}
 	if (action.joystickCode != Joystick::Empty)
 	{
-		m_Controller->AddInput(action.joystickCode, action.command, action.playerIndex);
+		m_Controller->AddInput(action.joystickCode, action.joystickState, action.command, action.playerIndex);
 	}
 }
 
@@ -52,7 +52,7 @@ void dae::InputManager::RemoveInput(InputAction action)
 	}
 	if (action.joystickCode != Joystick::Empty)
 	{
-		m_Controller->RemoveInput(action.joystickCode, action.playerIndex);
+		m_Controller->RemoveInput(action.joystickCode, action.joystickState, action.playerIndex);
 	}
 }
 

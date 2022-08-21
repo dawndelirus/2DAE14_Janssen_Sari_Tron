@@ -76,6 +76,9 @@ void dae::Minigin::Run(std::function<void()> loadGame)
 	ServiceLocator::RegisterSceneManager(uniqueSceneManager.get());
 	ServiceLocator::RegisterSoundSystem(uniqueSoundManager.get());
 
+	auto& renderer = Renderer::GetInstance();
+	auto& time = dae::Clock::GetInstance();
+
 	loadGame();
 	
 	{
@@ -83,10 +86,8 @@ void dae::Minigin::Run(std::function<void()> loadGame)
 		auto lastTime = std::chrono::high_resolution_clock::now();
 		while (doContinue)
 		{
-			auto& renderer = Renderer::GetInstance();
 			auto& sceneManager = ServiceLocator::GetSceneManager();
 			auto& input = ServiceLocator::GetInputManager();
-			auto& time = dae::Clock::GetInstance();
 
 			auto currentTime = std::chrono::high_resolution_clock::now();
 			float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();

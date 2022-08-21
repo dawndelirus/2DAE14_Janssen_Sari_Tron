@@ -43,7 +43,7 @@ void dae::KeyboardControls::Update()
 	{
 		if (IsPressed(command.first))
 		{
-			command.second->Execute();
+			command.second->Execute(1.f);
 		}
 	}
 
@@ -51,7 +51,7 @@ void dae::KeyboardControls::Update()
 	{
 		if (IsDownThisFrame(command.first))
 		{
-			command.second->Execute();
+			command.second->Execute(1.f);
 		}
 	}
 
@@ -59,7 +59,7 @@ void dae::KeyboardControls::Update()
 	{
 		if (IsReleasedThisFrame(command.first))
 		{
-			command.second->Execute();
+			command.second->Execute(1.f);
 		}
 	}
 }

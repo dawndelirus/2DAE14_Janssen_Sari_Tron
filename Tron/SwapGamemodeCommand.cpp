@@ -7,7 +7,7 @@ SwapGamemodeCommand::SwapGamemodeCommand(std::shared_ptr<dae::BaseComponent> com
 {
 }
 
-void SwapGamemodeCommand::Execute()
+void SwapGamemodeCommand::Execute(float )
 {
 	if (auto component = std::dynamic_pointer_cast<dae::TextComponent>(GetComponent()); component != nullptr)
 	{

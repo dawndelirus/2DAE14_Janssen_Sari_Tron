@@ -6,7 +6,7 @@ PauseCommand::PauseCommand(std::shared_ptr<dae::BaseComponent> component)
 {
 }
 
-void PauseCommand::Execute()
+void PauseCommand::Execute(float )
 {
 	LevelManager::GetInstance().HandleInput(LevelManager::InputStates::Pause);
 }

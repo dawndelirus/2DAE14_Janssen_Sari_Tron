@@ -6,7 +6,7 @@ ResumeCommand::ResumeCommand(std::shared_ptr<dae::BaseComponent> component)
 {
 }
 
-void ResumeCommand::Execute()
+void ResumeCommand::Execute(float )
 {
 	LevelManager::GetInstance().HandleInput(LevelManager::InputStates::Resume);
 }

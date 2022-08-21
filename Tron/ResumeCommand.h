@@ -6,7 +6,7 @@ class ResumeCommand final : public dae::Command
 public:
 	ResumeCommand(std::shared_ptr<dae::BaseComponent> component);
 	~ResumeCommand() = default;
-	void Execute() override;
+	void Execute(float amount) override;
 
 };
 

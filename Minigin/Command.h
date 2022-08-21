@@ -18,7 +18,7 @@ namespace dae
 		Command& operator=(const Command& other) = delete;
 		Command& operator=(Command&& other) = delete;
 
-		virtual void Execute() = 0;
+		virtual void Execute(float amount) = 0;
 
 	protected:
 		std::shared_ptr<BaseComponent> GetComponent() const

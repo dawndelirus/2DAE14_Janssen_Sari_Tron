@@ -6,6 +6,6 @@ class StartGameCommand final : public dae::Command
 public: 
 	StartGameCommand(std::shared_ptr<dae::BaseComponent> component);
 	~StartGameCommand() = default;
-	void Execute() override;
+	void Execute(float amount) override;
 };
 

@@ -78,7 +78,7 @@ void XBox360Controller::Update()
 		const PlayerButton& playerButton = command.first;
 		if (IsPressed(playerButton.second, playerButton.first))
 		{
-			command.second->Execute();
+			command.second->Execute(1.f);
 		}
 	}
 
@@ -87,7 +87,7 @@ void XBox360Controller::Update()
 		const PlayerButton& playerButton = command.first;
 		if (IsDownThisFrame(playerButton.second, playerButton.first))
 		{
-			command.second->Execute();
+			command.second->Execute(1.f);
 		}
 	}
 
@@ -96,16 +96,39 @@ void XBox360Controller::Update()
 		const PlayerButton& playerButton = command.first;
 		if (IsReleasedThisFrame(playerButton.second, playerButton.first))
 		{
-			command.second->Execute();
+			command.second->Execute(1.f);
 		}
 	}
 
-	for (auto& command : m_CommandsJoystick)
+	for (auto& command : m_CommandsJoystickPositive)
 	{
 		auto joystickPos = GetJoystickPosition(command.first.second, command.first.first);
 		if (abs(joystickPos.z) > 0.f)
 		{
-			command.second->Execute();
+			if (joystickPos.x > 0.f )
+			{
+				command.second->Execute(joystickPos.z);
+			}
+			if (joystickPos.y > 0.f)
+			{
+				command.second->Execute(joystickPos.z);
+			}
+		}
+	}
+
+	for (auto& command : m_CommandsJoystickNegative)
+	{
+		auto joystickPos = GetJoystickPosition(command.first.second, command.first.first);
+		if (abs(joystickPos.z) > 0.f)
+		{
+			if (joystickPos.x < 0.f)
+			{
+				command.second->Execute(joystickPos.z);
+			}
+			if (joystickPos.y < 0.f)
+			{
+				command.second->Execute(joystickPos.z);
+			}
 		}
 	}
 }
@@ -126,9 +149,19 @@ void XBox360Controller::AddInput(ControllerButton button, std::shared_ptr<Comman
 	}
 }
 
-void dae::XBox360Controller::AddInput(Joystick stick, std::shared_ptr<Command> command, int playerIndex)
+void dae::XBox360Controller::AddInput(Joystick stick, JoystickState state, std::shared_ptr<Command> command, int playerIndex)
 {
-	m_CommandsJoystick.emplace(std::make_pair(playerIndex, stick), command);
+	switch (state)
+	{
+	case dae::JoystickState::none:
+		break;
+	case dae::JoystickState::positive:
+		m_CommandsJoystickPositive.emplace(std::make_pair(playerIndex, stick), command);
+		break;
+	case dae::JoystickState::negative:
+		m_CommandsJoystickNegative.emplace(std::make_pair(playerIndex, stick), command);
+		break;
+	}
 }
 
 void dae::XBox360Controller::RemoveInput(ControllerButton button, ButtonState state, int playerIndex)
@@ -147,9 +180,19 @@ void dae::XBox360Controller::RemoveInput(ControllerButton button, ButtonState st
 	}
 }
 
-void dae::XBox360Controller::RemoveInput(Joystick stick, int playerIndex)
+void dae::XBox360Controller::RemoveInput(Joystick stick, JoystickState state, int playerIndex)
 {
-	m_CommandsJoystick.erase(std::make_pair(playerIndex, stick));
+	switch (state)
+	{
+	case dae::JoystickState::none:
+		break;
+	case dae::JoystickState::positive:
+		m_CommandsJoystickPositive.erase(std::make_pair(playerIndex, stick));
+		break;
+	case dae::JoystickState::negative:
+		m_CommandsJoystickNegative.erase(std::make_pair(playerIndex, stick));
+		break;
+	}
 }
 
 XBox360Controller::XBox360ControllerImpl::XBox360ControllerImpl()
@@ -222,9 +265,19 @@ glm::vec3 XBox360Controller::XBox360ControllerImpl::GetJoystickPosition(Joystick
 
 	switch (stick)
 	{
-	case Joystick::LeftStick:
+	case Joystick::LeftStickX:
 	{
 		float x = m_CurrentState[playerIndex].Gamepad.sThumbLX;
+		float y{};
+
+		float magnitude = CalculateMagnitude(XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE, x, y);
+		position = glm::vec3(x, y, magnitude);
+
+		break;
+	}
+	case Joystick::LeftStickY:
+	{
+		float x{};
 		float y = m_CurrentState[playerIndex].Gamepad.sThumbLY;
 
 		float magnitude = CalculateMagnitude(XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE, x, y);
@@ -232,9 +285,19 @@ glm::vec3 XBox360Controller::XBox360ControllerImpl::GetJoystickPosition(Joystick
 
 		break;
 	}
-	case Joystick::RightStick:
+	case Joystick::RightStickX:
 	{
 		float x = m_CurrentState[playerIndex].Gamepad.sThumbRX;
+		float y{};
+
+		float magnitude = CalculateMagnitude(XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE, x, y);
+
+		position = glm::vec3(x, y, magnitude);
+		break;
+	}
+	case Joystick::RightStickY:
+	{
+		float x{};
 		float y = m_CurrentState[playerIndex].Gamepad.sThumbRY;
 
 		float magnitude = CalculateMagnitude(XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE, x, y);

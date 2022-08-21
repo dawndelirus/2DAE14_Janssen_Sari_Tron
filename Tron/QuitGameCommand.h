@@ -6,6 +6,6 @@ public:
 	QuitGameCommand(std::shared_ptr<dae::BaseComponent> component);
 	~QuitGameCommand() = default;
 
-	void Execute() override;
+	void Execute(float amount) override;
 };
 

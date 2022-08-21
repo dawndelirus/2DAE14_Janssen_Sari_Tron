@@ -6,7 +6,7 @@ NameEnteredCommand::NameEnteredCommand(std::shared_ptr<HighScoreComponent> compo
 {
 }
 
-void NameEnteredCommand::Execute()
+void NameEnteredCommand::Execute(float)
 {
 	if (auto component = std::dynamic_pointer_cast<HighScoreComponent>(GetComponent()); component)
 	{

@@ -6,7 +6,7 @@ StartGameCommand::StartGameCommand(std::shared_ptr<dae::BaseComponent> component
 {
 }
 
-void StartGameCommand::Execute()
+void StartGameCommand::Execute(float )
 {
 	LevelManager::GetInstance().HandleInput(LevelManager::InputStates::Start);
 }

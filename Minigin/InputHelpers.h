@@ -83,8 +83,10 @@ namespace dae
 	enum class Joystick
 	{
 		Empty,
-		LeftStick,
-		RightStick
+		LeftStickX,
+		LeftStickY,
+		RightStickX,
+		RightStickY,
 	};
 
 	enum class ButtonState
@@ -95,22 +97,33 @@ namespace dae
 		releasedThisFrame
 	};
 
+	enum class JoystickState
+	{
+		none,
+		positive,
+		negative
+	};
+
 	struct InputAction
 	{
 		InputAction(int idx, ButtonState state, std::shared_ptr<Command> command, ControllerButton button)
-			: InputAction(idx, state, command, button, KeyboardKey::Empty, Joystick::Empty)
+			: InputAction(idx, state, JoystickState::none, command, button, KeyboardKey::Empty, Joystick::Empty)
 		{}
 
 		InputAction(int idx, ButtonState state, std::shared_ptr<Command> command, KeyboardKey key)
-			: InputAction(idx, state, command, ControllerButton::Empty, key, Joystick::Empty)
+			: InputAction(idx, state, JoystickState::none, command, ControllerButton::Empty, key, Joystick::Empty)
 		{}
 
-		InputAction(int idx, std::shared_ptr<Command> command, Joystick stick)
-			: InputAction(idx, ButtonState::none, command, ControllerButton::Empty, KeyboardKey::Empty, stick)
+		InputAction(int idx, JoystickState jState, std::shared_ptr<Command> command, Joystick stick)
+			: InputAction(idx, ButtonState::none, jState, command, ControllerButton::Empty, KeyboardKey::Empty, stick)
 		{}
 
 		InputAction(int idx, ButtonState state, std::shared_ptr<Command> command, ControllerButton button, KeyboardKey key)
-			: InputAction(idx, state, command, button, key, Joystick::Empty)
+			: InputAction(idx, state, JoystickState::none, command, button, key, Joystick::Empty)
+		{}
+
+		InputAction(int idx, ButtonState state, JoystickState jState, std::shared_ptr<Command> command, KeyboardKey key, Joystick stick)
+			: InputAction(idx, state, jState, command, ControllerButton::Empty, key, stick)
 		{}
 
 		int playerIndex{ 0 };
@@ -120,23 +133,17 @@ namespace dae
 		ControllerButton controllerButtonCode{ControllerButton::Empty};
 		KeyboardKey keyboardKeyCode{ KeyboardKey::Empty };
 		Joystick joystickCode{ Joystick::Empty };
-		
-		struct KeyboardDir
-		{
-			KeyboardKey up;
-			KeyboardKey down;
-			KeyboardKey left;
-			KeyboardKey right;
-		};
+		JoystickState joystickState{ JoystickState::none };
 
 	private:
-		InputAction(int idx, ButtonState state, std::shared_ptr<Command> command, ControllerButton button, KeyboardKey key, Joystick stick)
+		InputAction(int idx, ButtonState state, JoystickState jState, std::shared_ptr<Command> command, ControllerButton button, KeyboardKey key, Joystick stick)
 			: playerIndex{ idx }
 			, buttonState{ state }
 			, command{ command }
 			, controllerButtonCode{ button }
 			, keyboardKeyCode{ key }
 			, joystickCode{ stick }
+			, joystickState{jState}
 		{}
 	};
 }

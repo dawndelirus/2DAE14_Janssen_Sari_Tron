@@ -6,6 +6,6 @@ class PauseCommand final : public dae::Command
 public:
 	PauseCommand(std::shared_ptr<dae::BaseComponent> component);
 	~PauseCommand() = default;
-	void Execute() override;
+	void Execute(float amount) override;
 };
 

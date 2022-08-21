@@ -6,7 +6,7 @@ QuitGameCommand::QuitGameCommand(std::shared_ptr<dae::BaseComponent> component)
 {
 }
 
-void QuitGameCommand::Execute()
+void QuitGameCommand::Execute(float )
 {
 	dae::ServiceLocator::GetInputManager().Quit();
 }
