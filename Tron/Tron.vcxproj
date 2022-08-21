@@ -191,8 +191,10 @@
     <ClCompile Include="MoveComponent.cpp" />
     <ClCompile Include="MovementControllerComponent.cpp" />
     <ClCompile Include="NameEnteredCommand.cpp" />
+    <ClCompile Include="PauseCommand.cpp" />
     <ClCompile Include="PlayerComponent.cpp" />
     <ClCompile Include="QuitGameCommand.cpp" />
+    <ClCompile Include="ResumeCommand.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
     <ClCompile Include="ScoreDisplayComponent.cpp" />
     <ClCompile Include="StartGameCommand.cpp" />
@@ -223,8 +225,10 @@
     <ClInclude Include="MovementControllerComponent.h" />
     <ClInclude Include="NameEnteredCommand.h" />
     <ClInclude Include="ObserverHelpers.h" />
+    <ClInclude Include="PauseCommand.h" />
     <ClInclude Include="PlayerComponent.h" />
     <ClInclude Include="QuitGameCommand.h" />
+    <ClInclude Include="ResumeCommand.h" />
     <ClInclude Include="ScoreComponent.h" />
     <ClInclude Include="ScoreDisplayComponent.h" />
     <ClInclude Include="StartGameCommand.h" />

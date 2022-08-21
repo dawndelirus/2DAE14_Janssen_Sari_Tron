@@ -68,22 +68,26 @@ void dae::Minigin::Run(std::function<void()> loadGame)
 	// tell the resource manager where he can find the game data
 	ResourceManager::GetInstance().Init("../Data/");
 
-	ServiceLocator::RegisterInputManager(new InputManager());
-	ServiceLocator::RegisterSceneManager(new SceneManager());
-	ServiceLocator::RegisterSoundSystem(new LoggingSoundSystem(new SDLSoundSystem()));
+	std::unique_ptr<InputManager> uniqueInputManager = std::make_unique<InputManager>();
+	std::unique_ptr<SceneManager> uniqueSceneManager = std::make_unique<SceneManager>();
+	std::unique_ptr<SDLSoundSystem> uniqueSoundManager = std::make_unique<SDLSoundSystem>();
+
+	ServiceLocator::RegisterInputManager(uniqueInputManager.get());
+	ServiceLocator::RegisterSceneManager(uniqueSceneManager.get());
+	ServiceLocator::RegisterSoundSystem(uniqueSoundManager.get());
 
 	loadGame();
 	
 	{
-		auto& renderer = Renderer::GetInstance();
-		auto& sceneManager = ServiceLocator::GetSceneManager();
-		auto& input = ServiceLocator::GetInputManager();
-		auto& time = dae::Clock::GetInstance();
-
 		bool doContinue = true;
 		auto lastTime = std::chrono::high_resolution_clock::now();
 		while (doContinue)
 		{
+			auto& renderer = Renderer::GetInstance();
+			auto& sceneManager = ServiceLocator::GetSceneManager();
+			auto& input = ServiceLocator::GetInputManager();
+			auto& time = dae::Clock::GetInstance();
+
 			auto currentTime = std::chrono::high_resolution_clock::now();
 			float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
 			time.SetDeltaTime(deltaTime);
@@ -100,7 +104,4 @@ void dae::Minigin::Run(std::function<void()> loadGame)
 	}
 
 	Cleanup();
-	delete &ServiceLocator::GetSoundSystem();
-	delete &ServiceLocator::GetInputManager();
-	delete &ServiceLocator::GetSceneManager();
 }

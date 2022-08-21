@@ -56,12 +56,6 @@ void dae::InputManager::RemoveInput(InputAction action)
 	}
 }
 
-void dae::InputManager::ClearInput()
-{
-	m_Controller->ClearInput();
-	m_Keyboard->ClearInput();
-}
-
 glm::vec3 dae::InputManager::GetJoystickPosition(Joystick stick, int playerIndex) const
 {
 	return m_Controller->GetJoystickPosition(stick, playerIndex);

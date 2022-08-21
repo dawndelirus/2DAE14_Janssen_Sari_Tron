@@ -25,17 +25,13 @@ namespace dae
 
 	private:
 		template <typename T>
-		static T* SetService(T* service, T* newService, T& defaultService)
+		static T* SetService(T* newService, T& defaultService)
 		{
 			if (newService == nullptr)
 			{
 				return &defaultService;
 			}
 
-			if (service != &defaultService)
-			{
-				delete service;
-			}
 			return newService;
 		}
 		

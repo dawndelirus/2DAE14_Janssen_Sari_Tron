@@ -19,6 +19,8 @@
 #include "QuitGameCommand.h"
 #include "SwapGamemodeCommand.h"
 #include "NameEnteredCommand.h"
+#include "PauseCommand.h"
+#include "ResumeCommand.h"
 
 #include "LevelLayoutComponent.h"
 #include "LevelVisualComponent.h"
@@ -41,9 +43,75 @@
 
 #include "PlayerComponent.h"
 
+#include "InputManager.h"
 #include "HighScoreComponent.h"
 #include <sstream>
 
+void LevelManager::Initialize()
+{
+	m_InputManagers.emplace(std::make_pair("MainMenu", nullptr));
+	m_InputManagers.emplace(std::make_pair("PauseMenu", nullptr));
+	m_InputManagers.emplace(std::make_pair("NameMenu", nullptr));
+	m_InputManagers.emplace(std::make_pair("ScoreMenu", nullptr));
+
+	// Create Pause menu
+	m_InputManagers["PauseMenu"] = std::make_shared<dae::InputManager>();
+	dae::ServiceLocator::RegisterInputManager(m_InputManagers["PauseMenu"].get());
+	CreatePauseMenu();
+
+	// New Inputmanager
+	m_InputManagers["MainMenu"].reset();
+	m_InputManagers["MainMenu"] = std::make_shared<dae::InputManager>();
+	dae::ServiceLocator::RegisterInputManager(m_InputManagers["MainMenu"].get());
+
+	CreateMainMenu();
+	dae::ServiceLocator::GetSceneManager().SetActiveScene("MainMenu");	
+}
+
+void LevelManager::HandleInput(InputStates input)
+{
+	switch (m_CurrentGamestate)
+	{
+	case LevelManager::GameState::MainMenu:
+		if (input == LevelManager::InputStates::Start)
+		{
+			m_CurrentGamestate = LevelManager::GameState::Game;
+			StartGame();
+		}
+		break;
+	case LevelManager::GameState::Game:
+		if (input == LevelManager::InputStates::Pause)
+		{
+			m_CurrentGamestate = LevelManager::GameState::PauseMenu;
+			dae::ServiceLocator::RegisterInputManager(m_InputManagers["PauseMenu"].get());
+			dae::ServiceLocator::GetSceneManager().SetActiveScene("PauseMenu");
+		}
+		else if (input == LevelManager::InputStates::Defeat)
+		{
+			m_CurrentGamestate = LevelManager::GameState::HighScore;
+			LevelFail();
+		}
+		break;
+	case LevelManager::GameState::PauseMenu:
+		if (input == LevelManager::InputStates::Resume)
+		{
+			m_CurrentGamestate = LevelManager::GameState::Game;
+			dae::ServiceLocator::RegisterInputManager(m_InputManagers["Level" + std::to_string(m_CurrentLevel)].get());
+			dae::ServiceLocator::GetSceneManager().SetActiveScene("Level" + std::to_string(m_CurrentLevel));
+		}
+		break;
+	case LevelManager::GameState::HighScore:
+		if (input == LevelManager::InputStates::Start)
+		{
+			m_CurrentGamestate = LevelManager::GameState::Game;
+			StartGame();
+			dae::ServiceLocator::GetSceneManager().RemoveScene("DisplayHighscore");
+		}
+		break;
+	default:
+		break;
+	}
+}
 
 void LevelManager::PlayerDied(int idx)
 {
@@ -69,60 +137,18 @@ void LevelManager::PlayerDied(int idx)
 	}
 }
 
-void LevelManager::Initialize()
-{
-	CreateMainMenu();
-	dae::ServiceLocator::GetSceneManager().SetActiveScene("MainMenu");
-}
-
-void LevelManager::HandleInput(InputStates input)
-{
-	switch (m_CurrentGamestate)
-	{
-	case LevelManager::GameState::MainMenu:
-		if (input == LevelManager::InputStates::Start)
-		{
-			m_CurrentGamestate = LevelManager::GameState::Game;
-			StartGame();
-		}
-		break;
-	case LevelManager::GameState::Game:
-		if (input == LevelManager::InputStates::Pause)
-		{
-			m_CurrentGamestate = LevelManager::GameState::PauseMenu;
-		}
-		else if (input == LevelManager::InputStates::Defeat)
-		{
-			m_CurrentGamestate = LevelManager::GameState::HighScore;
-			LevelFail();
-		}
-		break;
-	case LevelManager::GameState::PauseMenu:
-		if (input == LevelManager::InputStates::Resume)
-		{
-			m_CurrentGamestate = LevelManager::GameState::Game;
-		}
-		break;
-	case LevelManager::GameState::HighScore:
-		if (input == LevelManager::InputStates::Start)
-		{
-			m_CurrentGamestate = LevelManager::GameState::Game;
-			StartGame();
-			dae::ServiceLocator::GetSceneManager().RemoveScene("DisplayHighscore");
-		}
-		break;
-	default:
-		break;
-	}
-}
-
 void LevelManager::CreateMainMenu()
 {
 	dae::Scene* scene = dae::ServiceLocator::GetSceneManager().CreateScene("MainMenu");
+
+	// FONT
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 40);
 	auto smallFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
+	
+	// INPUT MANAGER
 	auto& inputM = dae::ServiceLocator::GetInputManager();
 
+	// GAME OBJECTS
 	std::string text = "A/SPACE to start";
 	auto start_go = std::make_shared<dae::GameObject>(glm::vec3{170.f, 60.f, 0.f});
 	start_go->AddComponent(std::make_shared<dae::TextComponent>(start_go, text, font, glm::vec3(0.f, 255.f, 100.f)));
@@ -157,8 +183,42 @@ void LevelManager::CreateMainMenu()
 	inputM.AddInput(swapInput);
 }
 
+void LevelManager::CreatePauseMenu()
+{
+	dae::Scene* scene = dae::ServiceLocator::GetSceneManager().CreateScene("PauseMenu");
+
+	// FONT
+	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 40);
+	auto smallFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
+
+	// INPUT MANAGER
+	auto& inputM = dae::ServiceLocator::GetInputManager();
+
+	// GAME OBJECTS
+	std::string text = "A/SPACE to resume";
+	auto start_go = std::make_shared<dae::GameObject>(glm::vec3{ 170.f, 60.f, 0.f });
+	start_go->AddComponent(std::make_shared<dae::TextComponent>(start_go, text, font, glm::vec3(0.f, 255.f, 100.f)));
+
+	text = "B/ESC to quit";
+	auto quit_go = std::make_shared<dae::GameObject>(glm::vec3{ 200.f, 160.f, 0.f });
+	quit_go->AddComponent(std::make_shared<dae::TextComponent>(quit_go, text, font, glm::vec3(255.f, 50.f, 50.f)));
+
+	scene->Add(start_go);
+	scene->Add(quit_go);
+
+	auto resumeInput = dae::InputAction(0, dae::ButtonState::downThisFrame, std::make_shared<ResumeCommand>(nullptr), dae::ControllerButton::ButtonA, dae::KeyboardKey::K_SPACE);
+	inputM.AddInput(resumeInput);
+	auto quitInput = dae::InputAction(0, dae::ButtonState::releasedThisFrame, std::make_shared<QuitGameCommand>(nullptr), dae::ControllerButton::ButtonB, dae::KeyboardKey::K_Esc);
+	inputM.AddInput(quitInput);
+}
+
 std::shared_ptr<dae::GameObject> LevelManager::CreateEnterName(const std::string& sceneName)
 {
+	// New Inputmanager
+	m_InputManagers["NameMenu"].reset();
+	m_InputManagers["NameMenu"] = std::make_shared<dae::InputManager>();
+	dae::ServiceLocator::RegisterInputManager(m_InputManagers["NameMenu"].get());
+
 	dae::Scene* scene = dae::ServiceLocator::GetSceneManager().CreateScene(sceneName);
 	auto bigFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 40);
 	auto mediumFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 30);
@@ -357,11 +417,27 @@ void LevelManager::LoadLevel()
 
 	const std::string& sceneName{ "Level" + std::to_string(m_CurrentLevel) };
 
+	// INPUT 
+	m_InputManagers[sceneName].reset();
+	m_InputManagers[sceneName] = std::make_shared<dae::InputManager>();
+	dae::ServiceLocator::RegisterInputManager(m_InputManagers[sceneName].get());
+
+	auto pauseInput = dae::InputAction(0, dae::ButtonState::downThisFrame, std::make_shared<PauseCommand>(nullptr), dae::ControllerButton::Start, dae::KeyboardKey::K_Esc);
+	dae::ServiceLocator::GetInputManager().AddInput(pauseInput);
+
+
+	// SCENE
 	dae::Scene* scene = dae::ServiceLocator::GetSceneManager().CreateScene(sceneName);
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
 
 	//dae::ServiceLocator::GetSoundSystem().RegisterMusic(0, "../Data/01_BGM#01.mp3");
 	//dae::ServiceLocator::GetSoundSystem().PlayMusic(0, 1, 0);
+
+	// INFO
+	auto text = "START/ESC to pause.";
+	auto info_go = std::make_shared<dae::GameObject>(glm::vec3{ 240.f, 455.f, 0.f });
+	info_go->AddComponent(std::make_shared<dae::TextComponent>(info_go, text, font, glm::vec3(255.f, 255.f, 255.f)));
+	scene->Add(info_go);
 
 	// LEVEL
 	auto level_go = std::make_shared<dae::GameObject>(100.f, 20.f, 0.f);
@@ -494,14 +570,12 @@ void LevelManager::StartGame()
 	GameInfo::GetInstance().SetPlayerHealth(0, 3);
 	GameInfo::GetInstance().SetPlayerHealth(1, 3);
 
-	dae::ServiceLocator::GetInputManager().ClearInput();
 	LoadLevel();
 	dae::ServiceLocator::GetSceneManager().SetActiveScene("Level" + std::to_string(m_CurrentLevel));
 }
 
 void LevelManager::LevelClear()
 {
-	dae::ServiceLocator::GetInputManager().ClearInput();
 	dae::ServiceLocator::GetSceneManager().RemoveScene("Level" + std::to_string(m_CurrentLevel));
 	
 	++m_CurrentLevel;
@@ -515,7 +589,6 @@ void LevelManager::LevelFail()
 {
 	m_HighScore.reset();
 
-	dae::ServiceLocator::GetInputManager().ClearInput();
 	dae::ServiceLocator::GetSceneManager().RemoveScene("Level" + std::to_string(m_CurrentLevel));
 	
 	std::string name{ "EnterName" };
@@ -526,8 +599,11 @@ void LevelManager::LevelFail()
 
 void LevelManager::NamesEntered()
 {
-	dae::ServiceLocator::GetInputManager().ClearInput();
-
+	// New Inputmanager
+	m_InputManagers["ScoreMenu"].reset();
+	m_InputManagers["ScoreMenu"] = std::make_shared<dae::InputManager>();
+	dae::ServiceLocator::RegisterInputManager(m_InputManagers["ScoreMenu"].get());
+	
 	std::string name{ "DisplayHighscore"};
 	CreateDisplayHighscore(name);
 
@@ -537,6 +613,8 @@ void LevelManager::NamesEntered()
 
 void LevelManager::AddLevelPath(const std::string& levelPath)
 {
+	std::string sceneName{ "Level" + std::to_string(m_LevelPahts.size()) };
+	m_InputManagers.emplace(std::make_pair(sceneName, nullptr));
 	m_LevelPahts.emplace_back(levelPath);
 }
 
@@ -570,7 +648,7 @@ LevelManager::GameMode LevelManager::GetGameMode() const
 
 std::shared_ptr<dae::GameObject> LevelManager::LoadPlayer(std::shared_ptr<dae::GameObject> level_go, std::shared_ptr<dae::GameObject> hud_go, std::shared_ptr<BulletPoolComponent> bulletPool, std::shared_ptr<CollisionHandlerComponent> collisionHandler, const std::string& playerPath, const std::string& gunPath, int playerIdx)
 {
-	dae::BaseInputManager& inputM = dae::ServiceLocator::GetInputManager();
+	auto& inputM = dae::ServiceLocator::GetInputManager();
 
 	std::shared_ptr<LevelLayoutComponent> level_layout = level_go->GetComponent<LevelLayoutComponent>();
 	std::shared_ptr<LevelMovementComponent> level_movement = level_go->GetComponent<LevelMovementComponent>();
@@ -622,6 +700,8 @@ std::shared_ptr<dae::GameObject> LevelManager::LoadPlayer(std::shared_ptr<dae::G
 	inputM.AddInput(movementInput);
 	auto fireInput = dae::InputAction(playerIdx, std::make_shared<FireCommand>(gun_go->GetComponent<GunComponent>(), dae::Joystick::RightStick, playerIdx), dae::Joystick::RightStick);
 	inputM.AddInput(fireInput);
+	auto quitInput = dae::InputAction(0, dae::ButtonState::releasedThisFrame, std::make_shared<QuitGameCommand>(nullptr), dae::ControllerButton::ButtonB, dae::KeyboardKey::K_Esc);
+	inputM.AddInput(quitInput);
 
 	// HEALTH DISPLAY
 	auto healthDisplay_go = std::make_shared<dae::GameObject>(5.f, 10.f + (playerIdx * 20.f), 0.f);

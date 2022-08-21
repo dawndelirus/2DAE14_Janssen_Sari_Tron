@@ -22,7 +22,7 @@ BaseSoundSystem& ServiceLocator::GetSoundSystem()
 
 void ServiceLocator::RegisterSoundSystem(BaseSoundSystem* soundSystem)
 {
-	m_pSoundSystemInst = SetService<BaseSoundSystem>(m_pSoundSystemInst, soundSystem, m_DefaultSoundSystem);
+	m_pSoundSystemInst = SetService<BaseSoundSystem>(soundSystem, m_DefaultSoundSystem);
 }
 
 BaseInputManager& ServiceLocator::GetInputManager()
@@ -32,7 +32,7 @@ BaseInputManager& ServiceLocator::GetInputManager()
 
 void ServiceLocator::RegisterInputManager(BaseInputManager* inputManager)
 {
-	m_pInputManagerInst = SetService<BaseInputManager>(m_pInputManagerInst, inputManager, m_DefaultInputManager);
+	m_pInputManagerInst = SetService<BaseInputManager>(inputManager, m_DefaultInputManager);
 }
 
 BaseSceneManager& dae::ServiceLocator::GetSceneManager()
@@ -42,5 +42,5 @@ BaseSceneManager& dae::ServiceLocator::GetSceneManager()
 
 void dae::ServiceLocator::RegisterSceneManager(BaseSceneManager* sceneManager)
 {
-	m_pSceneManagerInst = SetService<BaseSceneManager>(m_pSceneManagerInst, sceneManager, m_DefaultSceneManager);
+	m_pSceneManagerInst = SetService<BaseSceneManager>(sceneManager, m_DefaultSceneManager);
 }

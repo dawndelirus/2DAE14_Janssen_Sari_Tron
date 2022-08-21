@@ -73,62 +73,41 @@ void XBox360Controller::Update()
 {
 	m_pImpl->Update();
 
-	for (auto size = m_CommandsPressed.size(); auto& command : m_CommandsPressed)
+	for (auto& command : m_CommandsPressed)
 	{
 		const PlayerButton& playerButton = command.first;
 		if (IsPressed(playerButton.second, playerButton.first))
 		{
 			command.second->Execute();
 		}
-
-		if (m_CommandsPressed.size() != size) // incase input gets deleted through a command
-		{
-			break;
-		}
 	}
 
-	for (auto size = m_CommandsDown.size(); auto& command : m_CommandsDown)
+	for (auto& command : m_CommandsDown)
 	{
 		const PlayerButton& playerButton = command.first;
 		if (IsDownThisFrame(playerButton.second, playerButton.first))
 		{
 			command.second->Execute();
 		}
-
-		if (m_CommandsDown.size() != size) // incase input gets deleted through a command
-		{
-			break;
-		}
 	}
 
-	for (auto size = m_CommandsReleased.size(); auto& command : m_CommandsReleased)
+	for (auto& command : m_CommandsReleased)
 	{
 		const PlayerButton& playerButton = command.first;
 		if (IsReleasedThisFrame(playerButton.second, playerButton.first))
 		{
 			command.second->Execute();
 		}
-
-		if (m_CommandsReleased.size() != size) // incase input gets deleted through a command
-		{
-			break;
-		}
 	}
 
-	for (auto size = m_CommandsJoystick.size(); auto& command : m_CommandsJoystick)
+	for (auto& command : m_CommandsJoystick)
 	{
 		auto joystickPos = GetJoystickPosition(command.first.second, command.first.first);
 		if (abs(joystickPos.z) > 0.f)
 		{
 			command.second->Execute();
 		}
-
-		if (m_CommandsJoystick.size() != size) // incase input gets deleted through a command
-		{
-			break;
-		}
 	}
-
 }
 
 void XBox360Controller::AddInput(ControllerButton button, std::shared_ptr<Command> command, ButtonState state, int playerIndex)
@@ -171,14 +150,6 @@ void dae::XBox360Controller::RemoveInput(ControllerButton button, ButtonState st
 void dae::XBox360Controller::RemoveInput(Joystick stick, int playerIndex)
 {
 	m_CommandsJoystick.erase(std::make_pair(playerIndex, stick));
-}
-
-void dae::XBox360Controller::ClearInput()
-{
-	m_CommandsJoystick.clear();
-	m_CommandsPressed.clear();
-	m_CommandsDown.clear();
-	m_CommandsReleased.clear();
 }
 
 XBox360Controller::XBox360ControllerImpl::XBox360ControllerImpl()
@@ -244,15 +215,10 @@ glm::vec3 XBox360Controller::XBox360ControllerImpl::GetJoystickPosition(Joystick
 {
 	glm::vec3 position{};
 
-	if (playerIndex >= XUSER_MAX_COUNT)
+	if (playerIndex >= XUSER_MAX_COUNT || !m_IsConnected[playerIndex])
 	{
 		return position;
 	}
-	else if (!m_IsConnected[playerIndex])
-	{
-		return position;
-	}
-	
 
 	switch (stick)
 	{

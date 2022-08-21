@@ -6,6 +6,8 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <map>
+#include "BaseInputManager.h"
 
 class CollisionHandlerComponent;
 class BulletPoolComponent;
@@ -29,7 +31,7 @@ public:
 		Defeat,
 		Resume
 	};
-	
+
 	void PlayerDied(int idx);
 
 	void Initialize();
@@ -57,6 +59,7 @@ private:
 	};
 
 	void CreateMainMenu();
+	void CreatePauseMenu();
 
 	std::shared_ptr<dae::GameObject> CreateEnterName(const std::string& sceneName);
 	void CreateDisplayHighscore(const std::string& sceneName);
@@ -80,10 +83,12 @@ private:
 	std::shared_ptr<dae::GameObject> m_HighScore;
 
 	GameMode m_CurrentGamemode{};
-	GameState m_CurrentGamestate{};
+	GameState m_CurrentGamestate{GameState::MainMenu};
 	size_t m_CurrentLevel{};
 	std::vector<std::string> m_LevelPahts{};
 
 	int m_PlayerDiedAmount{};
+
+	std::map<std::string, std::shared_ptr<dae::BaseInputManager>> m_InputManagers{};
 };
 
