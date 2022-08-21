@@ -17,19 +17,19 @@
 *.pch
 
 # Compiled Dynamic libraries
-Project/PepEngine/Build/*.so
-Project/PepEngine/Build/*.dylib
-Project/PepEngine/Build/*.dll
+2DAE14_Janssen_Sari_Tron/Build/*.so
+2DAE14_Janssen_Sari_Tron/Build/*.dylib
+2DAE14_Janssen_Sari_Tron/Build/*.dll
 
 # Fortran module files
 *.mod
 *.smod
 
 # Compiled Static libraries
-Project/PepEngine/Build/*.lai
-Project/PepEngine/Build/*.la
-Project/PepEngine/Build/*.a
-Project/PepEngine/Build/*.lib
+2DAE14_Janssen_Sari_Tron/Build/*.lai
+2DAE14_Janssen_Sari_Tron/Build/*.la
+2DAE14_Janssen_Sari_Tron/Build/*.a
+2DAE14_Janssen_Sari_Tron/Build/*.lib
 
 # Executables
 *.exe
@@ -60,8 +60,8 @@ mono_crash.*
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-Project/PepEngine/Build/x64/
-Project/PepEngine/Build/x86/
+2DAE14_Janssen_Sari_Tron/Build/x64/*
+2DAE14_Janssen_Sari_Tron/Build/Win32/*
 [Ww][Ii][Nn]32/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/

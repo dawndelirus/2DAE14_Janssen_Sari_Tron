@@ -60,8 +60,9 @@ mono_crash.*
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-2DAE14_Janssen_Sari_Tron/Build/x64/*
-2DAE14_Janssen_Sari_Tron/Build/Win32/*
+2DAE14_Janssen_Sari_Tron/Build/x64/
+2DAE14_Janssen_Sari_Tron/Build/x64/Data
+2DAE14_Janssen_Sari_Tron/Build/Win32/
 [Ww][Ii][Nn]32/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
